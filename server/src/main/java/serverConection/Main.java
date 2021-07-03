@@ -25,21 +25,28 @@ public class Main {
                 Socket socket = serverSocket.accept();
                 createNewClient(serverSocket, socket);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private static void createNewClient(ServerSocket serverSocket, Socket socket) {
         new Thread(() -> {
+            DataInputStream dataInputStream = null;
             try {
-                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+                while (true) {
+                    dataInputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 ServerController.getInputFromClient(dataInputStream,dataOutputStream);
-                dataInputStream.close();
-                socket.close();
-                serverSocket.close();
+                }
             } catch (IOException e) {
+                try {
+                    dataInputStream.close();
+                    socket.close();
+                    serverSocket.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
                 Database.getInstance().updatingDatabase();
                 System.out.println("a client disconnected!");
             }

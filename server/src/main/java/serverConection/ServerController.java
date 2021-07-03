@@ -23,7 +23,9 @@ public class ServerController {
     public static void getInputFromClient(DataInputStream dataInputStream, DataOutputStream dataOutputStream) throws IOException, IOException {
         while (true) {
             String command = dataInputStream.readUTF();
-            String result = processCommand(command);
+            System.out.println("message from " + command);
+            String message = command.split(":")[1];
+            String result = processCommand(message);
             if (result.equals("")) return;
             dataOutputStream.writeUTF(result);
             dataOutputStream.flush();

@@ -61,7 +61,7 @@ public class MainMenuView {
             animationTimeLine.setOnFinished(actionEvent -> {
                 stackPane.getChildren().remove(0);
                 stackPane.getChildren().remove(0);
-                stackPane.getChildren().remove(0);
+             //   stackPane.getChildren().remove(0);
                 scene.setRoot(root);
             });
         }
