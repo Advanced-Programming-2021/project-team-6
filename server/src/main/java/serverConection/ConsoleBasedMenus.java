@@ -231,7 +231,7 @@ public class ConsoleBasedMenus {
 
     private void executeDeckMenuCommands(Matcher commandMatcher, int whichCommand) {
         DeckMenuController controller = DeckMenuController.getInstance();
-        Player loggedInPlayer = MainMenu.getInstance().getPlayerLoggedIn();
+        Player loggedInPlayer = MainMenuController.getInstance().getPlayerLoggedIn();
         switch (whichCommand) {
             case 0:
                 controller.createDeck(commandMatcher.group("name"), loggedInPlayer);
@@ -331,7 +331,7 @@ public class ConsoleBasedMenus {
     }
 
     private void executeProfileMenuCommands(Matcher commandMatcher, int whichCommand) {
-        Player playerLoggedIn = MainMenu.getInstance().getPlayerLoggedIn();
+        Player playerLoggedIn = MainMenuController.getInstance().getPlayerLoggedIn();
         switch (whichCommand) {
             case 0:
                 ProfileMenuController.getInstance().changeNickname(playerLoggedIn, commandMatcher.group("nickname"));
@@ -371,7 +371,7 @@ public class ConsoleBasedMenus {
     }
 
     private void executeShoppingMenuCommands(Matcher commandMatcher, int whichCommand) {
-        Player playerLoggedIn = MainMenu.getInstance().getPlayerLoggedIn();
+        Player playerLoggedIn = MainMenuController.getInstance().getPlayerLoggedIn();
         switch (whichCommand) {
             case 0:
                 String cardName = commandMatcher.group("cardName");
@@ -416,7 +416,7 @@ public class ConsoleBasedMenus {
     }
 
     private void executeDuelMenuCommands(Matcher commandMatcher, int whichCommand) throws CloneNotSupportedException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        Player playerLoggedIn = MainMenu.getInstance().getPlayerLoggedIn();
+        Player playerLoggedIn = MainMenuController.getInstance().getPlayerLoggedIn();
         String secondUsername, round;
         switch (whichCommand) {
             case 0:

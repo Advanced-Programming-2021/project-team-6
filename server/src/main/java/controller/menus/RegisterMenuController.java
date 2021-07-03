@@ -3,6 +3,9 @@ package controller.menus;
 import models.Database;
 import controller.ErrorChecker;
 import models.Player;
+import serverConection.ServerController;
+
+import java.util.UUID;
 
 
 public class RegisterMenuController {
@@ -39,6 +42,8 @@ public class RegisterMenuController {
             return "username and password didn't match!";
 
         MainMenuController.getInstance().setPlayerLoggedIn(player);
-        return "Success: user loggedIn successfully!";
+        String token = UUID.randomUUID().toString();
+        MainMenuController.getInstance().loggedInUsers.put(token, player);
+        return "Success: " + token;
     }
 }

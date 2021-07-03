@@ -57,8 +57,10 @@ public class LoginMenuView {
             Prompt.showMessage(result.substring(6), PromptType.Error);
             return;
         }
-        if (result.startsWith("Success"))
-            Prompt.showMessage(result.substring(9), PromptType.Success);
+        if (result.startsWith("Success")) {
+            ClientController.token = result.split(" ")[1];
+            Prompt.showMessage("user loggedIn successfully!", PromptType.Success);
+        }
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
         Scene scene = backButton.getScene();
         stackPane = (StackPane) scene.getRoot();

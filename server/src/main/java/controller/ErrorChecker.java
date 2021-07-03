@@ -1,6 +1,6 @@
 package controller;
 
-import controller.menus.MainMenu;
+import controller.menus.MainMenuController;
 import models.Board;
 import models.Database;
 import models.Deck;
@@ -31,7 +31,7 @@ public class ErrorChecker {
     }
 
     public static boolean isUserLoggedIn() {
-        return MainMenu.getInstance().getPlayerLoggedIn() != null;
+        return MainMenuController.getInstance().getPlayerLoggedIn() != null;
     }
 
     public static boolean doseNotHaveEnoughMoney(Player player, int price) {

@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class ClientController {
 
-
+    public static String token;
     private static Socket socket;
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
@@ -23,8 +23,9 @@ public class ClientController {
         }
     }
 
-    public static String createUser(String username, String passWord, String nickName) throws Exception {
-        dataOutputStream.writeUTF("user create -u " + username + " -p " + passWord + " -n " + nickName);
+    public static String createUser(String username, String password, String nickname) throws Exception {
+        dataOutputStream.writeUTF("user create -u " + username + " -p " + password + " -n " + nickname);
+        System.out.println(username + " "+  nickname+ " " + password);
         dataOutputStream.flush();
         return dataInputStream.readUTF();
     }
@@ -33,6 +34,14 @@ public class ClientController {
         dataOutputStream.writeUTF("user login -u " + username + " -p " + password);
         dataOutputStream.flush();
         return dataInputStream.readUTF();
+    }
+
+    public static String logout() throws IOException {
+        dataOutputStream.writeUTF("logout " + ClientController.token);
+        dataOutputStream.flush();
+
+        String r = dataInputStream.readUTF();
+        return r;
     }
 
 

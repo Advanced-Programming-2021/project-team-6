@@ -1,10 +1,13 @@
 package serverConection;
 
+import controller.menus.MainMenuController;
 import controller.menus.RegisterMenuController;
+import models.Player;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +16,7 @@ public class ServerController {
     private static final String[] regexes = {
             "^user create (--username|-u) (?<username>\\w+) (--password|-p) (?<password>\\w+) (--nickname|-n) (?<nickname>\\w+)$",
             "^user login (--username|-u) (?<username>\\w+) (--password|-p) (?<password>\\w+)$",
+            "^logout (<?token> \\S+)$"
 
     };
 
@@ -46,7 +50,8 @@ public class ServerController {
                         commandMatcher.group("nickname"), commandMatcher.group("password"));
             case 1:
                 return RegisterMenuController.getInstance().login(commandMatcher.group("username"), commandMatcher.group("password"));
-
+            case 2:
+                return MainMenuController.getInstance().logout(commandMatcher.group("token"));
         }
         return "";
     }
