@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Text?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.MainMenuView">
-    <AnchorPane prefHeight="680.0" prefWidth="1200.0">
+    <AnchorPane prefHeight="1030.0" prefWidth="1950.0">
         <children>
-          <ImageView fitHeight="680.0" fitWidth="1200.0">
+          <ImageView fitHeight="1030.0" fitWidth="1950.0">
               <image>
                   <Image url="@../image/menuBackground.jpg" />
               </image>

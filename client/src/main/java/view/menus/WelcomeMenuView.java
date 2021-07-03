@@ -42,11 +42,11 @@ public class WelcomeMenuView extends Application {
     public void openRegisterPage() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/RegisterMenu.fxml"));
         Scene scene = registerButton.getScene();
-        root.translateXProperty().set(-1200);
+        root.translateXProperty().set(-1950);
         stackPane.getChildren().add(root);
         Timeline animationTimeLine = new Timeline();
         Timeline currentPageAnimationTimeLine = new Timeline();
-        KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateXProperty(), 1200, Interpolator.EASE_IN);
+        KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateXProperty(), 1950, Interpolator.EASE_IN);
         KeyFrame currentPageKeyFrame = new KeyFrame(Duration.seconds(1), currentPageKeyValue);
         KeyValue nextPageKeyValue = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
         KeyFrame nextPageKeyFrame = new KeyFrame(Duration.seconds(1), nextPageKeyValue);
@@ -60,11 +60,11 @@ public class WelcomeMenuView extends Application {
     public void openLoginPage() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/LoginMenu.fxml"));
         Scene scene = registerButton.getScene();
-        root.translateXProperty().set(+1200);
+        root.translateXProperty().set(+1950);
         stackPane.getChildren().add(root);
         Timeline animationTimeLine = new Timeline();
         Timeline currentPageAnimationTimeLine = new Timeline();
-        KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateXProperty(), -1200, Interpolator.EASE_IN);
+        KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateXProperty(), -1950, Interpolator.EASE_IN);
         KeyValue nextPageKeyValue = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
         KeyFrame nextPageKeyFrame = new KeyFrame(Duration.seconds(1), nextPageKeyValue);
         animationTimeLine.getKeyFrames().add(nextPageKeyFrame);

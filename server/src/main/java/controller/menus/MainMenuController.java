@@ -3,6 +3,7 @@ package controller.menus;
 import models.Player;
 
 import java.util.HashMap;
+import java.util.SplittableRandom;
 
 public class MainMenuController {
 
@@ -10,6 +11,7 @@ public class MainMenuController {
     private static MainMenuController instance;
     private Player playerLoggedIn;
     public HashMap<String, Player> loggedInUsers = new HashMap<>();
+    HashMap<String , Boolean> waitingLobby = new HashMap<>();
 
     private MainMenuController() {
     }
@@ -36,4 +38,13 @@ public class MainMenuController {
     }
 
 
+    public String registerOnGame(boolean isThreeRounded , String token) {
+        for (String waitingClientToken : waitingLobby.keySet()) {
+            if (waitingLobby.get(waitingClientToken) == isThreeRounded) {
+
+            }
+        }
+        waitingLobby.put(token , isThreeRounded);
+        return "waiting for opponent";
+    }
 }

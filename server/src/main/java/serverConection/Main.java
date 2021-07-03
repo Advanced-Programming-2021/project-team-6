@@ -37,7 +37,7 @@ public class Main {
                 while (true) {
                     dataInputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                ServerController.getInputFromClient(dataInputStream,dataOutputStream);
+                ServerController.getInputFromClient(dataInputStream,dataOutputStream , socket);
                 }
             } catch (IOException e) {
                 try {

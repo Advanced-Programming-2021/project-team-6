@@ -28,13 +28,13 @@ public class RegisterMenuView {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/WelcomeMenu.fxml"));
         Scene scene = backButton.getScene();
         stackPane = (StackPane) scene.getRoot();
-        root.translateXProperty().set(+1200);
+        root.translateXProperty().set(+1950);
         stackPane.getChildren().add(root);
         Timeline animationTimeLine = new Timeline();
         Timeline currentPageAnimationTimeLine = new Timeline();
         KeyValue nextPageKeyValue = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
         KeyFrame nextPageKeyFrame = new KeyFrame(Duration.seconds(1), nextPageKeyValue);
-        KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateXProperty(), -1200, Interpolator.EASE_IN);
+        KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateXProperty(), -1950, Interpolator.EASE_IN);
         KeyFrame currentPageKeyFrame = new KeyFrame(Duration.seconds(1), currentPageKeyValue);
         animationTimeLine.getKeyFrames().add(nextPageKeyFrame);
         currentPageAnimationTimeLine.getKeyFrames().add(currentPageKeyFrame);
