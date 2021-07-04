@@ -23,7 +23,19 @@ public class MainMenuView {
     public StackPane stackPane;
     public ImageView backButton;
 
-    public void openNewGame() {
+    public void openNewGame() throws IOException {
+         String result = ClientController.waitForNewGame();
+         switch (result) {
+             case "Success" :
+                 System.out.println("waiting for opponent");
+                 break;
+             case "GameOn" :
+                 System.out.println("game on");
+                 break;
+             case "Error":
+                 System.out.println("Error");
+                 break;
+         }
     }
 
     public void openDeckMenu() {

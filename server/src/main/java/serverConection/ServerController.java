@@ -23,32 +23,33 @@ public class ServerController {
             "^logout (?<token>\\S+)$",
             "^new three-rounded (?<token>\\S+)$",
             "^new one-rounded (?<token>\\S+)$",
-            "^scoreboard (?<token>\\S+)$"
+            "^scoreboard (?<token>\\S+)$",
 
     };
 
     public static void registerSocket(Socket socket, String token) {
-    socketHashMap.put(token , socket);
+        socketHashMap.put(token, socket);
     }
 
-    public static void getInputFromClient(DataInputStream dataInputStream, DataOutputStream dataOutputStream , Socket socket) throws IOException, IOException {
+    public static void getInputFromClient(DataInputStream dataInputStream, DataOutputStream dataOutputStream, Socket socket) throws IOException {
         while (true) {
             String command = dataInputStream.readUTF();
             System.out.println("message from " + command);
             String result = processCommand(command, socket);
+            System.out.println("response set :" + result);
             if (result.equals("")) return;
             dataOutputStream.writeUTF(result);
             dataOutputStream.flush();
         }
     }
 
-    private static String processCommand(String command , Socket socket) {
+    private static String processCommand(String command, Socket socket) throws IOException {
         Matcher commandMatcher;
         int whichCommand;
         for (whichCommand = 0; whichCommand < regexes.length; whichCommand++) {
             commandMatcher = findMatcher(command, regexes[whichCommand]);
             if (commandMatcher.find())
-                return executeCommands(commandMatcher, whichCommand , socket);
+                return executeCommands(commandMatcher, whichCommand, socket);
 
         }
         System.out.println(1);
@@ -56,19 +57,21 @@ public class ServerController {
 
     }
 
-    private String sendMessageToSocket(String token, String message) {
+    public static String sendMessageToSocket(String token, String message, boolean isResponseNeeded) {
         Socket socket = socketHashMap.get(token);
         try {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataOutputStream.writeUTF(message);
-            return dataInputStream.readUTF();
+            if (isResponseNeeded)
+                return dataInputStream.readUTF();
+            return "";
         } catch (Exception ignored) {
             return "Error";
         }
     }
 
-    private static String executeCommands(Matcher commandMatcher, int witchCommand , Socket socket) {
+    private static String executeCommands(Matcher commandMatcher, int witchCommand, Socket socket) throws IOException {
         switch (witchCommand) {
             case 0:
                 return RegisterMenuController.getInstance().createUser(commandMatcher.group("username"),
@@ -76,8 +79,8 @@ public class ServerController {
             case 1:
                 String result = RegisterMenuController.getInstance().login(commandMatcher.group("username"), commandMatcher.group("password"));
                 String token = result.split(": ")[1];
-                ServerController.registerSocket(socket, token);
-                return result;
+                int port = RegisterMenuController.nextPort(token);
+                return result + ": " + port;
             case 2:
                 return MainMenuController.getInstance().logout(commandMatcher.group("token"));
             case 3:

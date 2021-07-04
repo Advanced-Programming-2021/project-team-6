@@ -3,7 +3,9 @@ package controller;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.PublicKey;
 
 
 public class ClientController {
@@ -37,16 +39,38 @@ public class ClientController {
     }
 
     public static String login(String username, String password) throws Exception {
-        return sendMessage("user login -u " + username + " -p " + password);
+        String result = sendMessage("user login -u " + username + " -p " + password);
+        String portString = result.split(": ")[2];
+        String realResult = result.split(": ")[0] + ": " + result.split(": ")[1];
+        new Thread(() -> {
+            try {
+                ServerSocket serverSocket = new ServerSocket(Integer.parseInt(portString));
+                Socket socket = serverSocket.accept();
+                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+                DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+                while (true) {
+                    System.out.println(dataInputStream.readUTF());
+                }
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+
+        }).start();
+        return realResult;
     }
 
     public static String logout() throws IOException {
-        return sendMessage("logout " + ClientController.token);
+        return sendMessage("logout " + token);
     }
 
 
      public static String scoreboard() throws IOException {
-        return sendMessage("scoreboard " + ClientController.token);
+        return sendMessage("scoreboard " + token);
+     }
+
+     public static String waitForNewGame() throws IOException {
+        return sendMessage("new three-rounded " + token);
      }
 
 

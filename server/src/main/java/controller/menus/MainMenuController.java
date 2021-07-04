@@ -1,6 +1,7 @@
 package controller.menus;
 
 import models.Player;
+import serverConection.ServerController;
 
 import java.util.HashMap;
 import java.util.SplittableRandom;
@@ -39,12 +40,14 @@ public class MainMenuController {
 
 
     public String registerOnGame(boolean isThreeRounded , String token) {
-        for (String waitingClientToken : waitingLobby.keySet()) {
-            if (waitingLobby.get(waitingClientToken) == isThreeRounded) {
-
+            for (String waitingClientToken : waitingLobby.keySet()) {
+                if (!token.equals(waitingClientToken)&& waitingLobby.get(waitingClientToken) == isThreeRounded) {
+                    ServerController.sendMessageToSocket(waitingClientToken, "GameOn", false);
+                    return "GameOn";
+                }
             }
-        }
-        waitingLobby.put(token , isThreeRounded);
-        return "waiting for opponent";
+            waitingLobby.put(token , isThreeRounded);
+            return "Successful";
+
     }
 }

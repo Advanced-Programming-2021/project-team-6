@@ -5,11 +5,14 @@ import controller.ErrorChecker;
 import models.Player;
 import serverConection.ServerController;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.UUID;
 
 
 public class RegisterMenuController {
 
+    public static int nextPort = 1025;
     private RegisterMenuController() {
     }
 
@@ -19,6 +22,24 @@ public class RegisterMenuController {
         if (instance == null)
             instance = new RegisterMenuController();
         return instance;
+    }
+
+    public static int nextPort(String token) {
+        new Thread(() -> {
+            boolean connected = false;
+            int port = nextPort - 1;
+                while (!connected) {
+                    Socket socket;
+                    try {
+                        socket = new Socket( "127.0.0.1", port);
+                    } catch (Exception ignored) {
+                        continue;
+                    }
+                    ServerController.registerSocket(socket , token);
+                    connected = true;
+                }
+        }).start();
+        return nextPort++;
     }
 
     public String createUser(String username, String nickname, String password) {
