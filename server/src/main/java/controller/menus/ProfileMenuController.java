@@ -1,8 +1,11 @@
 package controller.menus;
 
 import controller.ErrorChecker;
+import models.Database;
 import models.Player;
 import serverConection.Output;
+
+import java.util.jar.Manifest;
 
 public class ProfileMenuController {
 
@@ -17,26 +20,39 @@ public class ProfileMenuController {
         return instance;
     }
 
-    public void changeNickname(Player player, String nickName) {
-        if (ErrorChecker.doesNicknameExist(nickName)) {
-            Output.getInstance().showMessage("user with this nickname " + nickName + " is already exists");
-            return;
-        }
+    public String changeNickname(String token, String nickName) {
+        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (player == null)
+            return "Error";
+        if (ErrorChecker.doesNicknameExist(nickName))
+            return "Error: user with this nickname " + nickName + " is already exists";
+
+
         player.setNickname(nickName);
-        Output.getInstance().showMessage("nickname changed successfully!");
+        Database.getInstance().getPlayerByUsername(player.getUsername()).setNickname(nickName);
+        return "Success: nickname changed successfully!";
     }
 
-    public void changePassword(Player player, String oldPassword, String newPassword) {
-        if (!ErrorChecker.isPasswordCorrect(player, oldPassword)) {
-            Output.getInstance().showMessage("current password is invalid");
-            return;
-        }
-        if (ErrorChecker.doesOldPassEqualsNewPass(oldPassword, newPassword)) {
-            Output.getInstance().showMessage("please enter a new password");
-            return;
-        }
+    public String changePassword(String token, String oldPassword, String newPassword) {
+        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (player == null) return "Error";
+
+        if (!ErrorChecker.isPasswordCorrect(player, oldPassword))
+            return "Error: current password is invalid";
+
+
+        if (ErrorChecker.doesOldPassEqualsNewPass(oldPassword, newPassword))
+            return "Error: please enter a new password";
+
 
         player.setPassword(newPassword);
-        Output.getInstance().showMessage("password changed successfully!");
+        return "Success: password changed successfully!";
+    }
+
+    public String getProfile(String token) {
+        if (!MainMenuController.getInstance().loggedInUsers.containsKey(token))
+            return "Error";
+        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
+        return "Success " + player.getUsername() + " " + player.getNickname() + " " + player.getPicture();
     }
 }

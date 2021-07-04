@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 
 public class ScoreBoardView {
-    
+
     public StackPane stackPane;
     public ImageView backButton;
 
@@ -28,16 +28,24 @@ public class ScoreBoardView {
 
     public void showScoreboard() throws IOException {
         String result = ClientController.scoreboard();
-        Pane root = FXMLLoader.load(getClass().getResource("/fxml/ScoreBoard.fxml"));
-        
-        Text text = new Text();
-        text.setText(result);
-        text.setFont(new Font("NPIOuj", 24));
-        text.setLayoutY(406);
-        text.setLayoutX(577);
-        text.setFill(new Color(0.5,0.25,0.25,1));
+        String[] players = result.split("\n");
 
-        root.getChildren().add(text);
+        Pane root = FXMLLoader.load(getClass().getResource("/fxml/ScoreBoard.fxml"));
+
+        int y = 143;
+        for (int i = 0; i<5 ; i++) {
+
+            Text text = new Text();
+            text.setText(players[i]);
+            text.setFont(new Font("NPIOuj", 24));
+            text.setLayoutY(y + i*107 + 57/2);
+            text.setLayoutX(565);
+            text.setFill(new Color(0.75, 0.3, 0.3, 1));
+            if (players[i].split(" ")[1].equals(ClientController.username+":"))
+                text.setFill(new Color(0, 0.3, 0.6, 1));
+            root.getChildren().add(text);
+        }
+
 
         WelcomeMenuView.mainStage.setScene(new Scene(root));
     }

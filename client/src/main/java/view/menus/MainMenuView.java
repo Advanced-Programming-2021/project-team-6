@@ -17,6 +17,7 @@ import view.Prompt;
 import view.PromptType;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class MainMenuView {
 
@@ -49,7 +50,8 @@ public class MainMenuView {
 
     }
 
-    public void openProfileMenu() {
+    public void openProfileMenu() throws IOException, URISyntaxException {
+        new ProfileMenuView().showProfile();
     }
 
     public void logout() throws IOException {

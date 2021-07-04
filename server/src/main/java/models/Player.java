@@ -2,14 +2,17 @@ package models;
 
 import com.google.gson.*;
 import models.cards.Card;
+import org.junit.jupiter.api.MethodOrderer;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Player implements Comparable<Player> {
     private String username;
     private String password;
     private String nickname;
+    private int picture = 1;
     private int score;
     private int rank;
     private int health;
@@ -24,6 +27,7 @@ public class Player implements Comparable<Player> {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        this.picture = new Random().nextInt(10) + 1;
         this.score = 0;
         this.health = 8000;
         this.money = 32000000;
@@ -70,6 +74,10 @@ public class Player implements Comparable<Player> {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public int getPicture() {
+        return this.picture;
     }
 
     public int getScore() {

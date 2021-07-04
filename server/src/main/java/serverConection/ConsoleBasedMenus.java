@@ -334,13 +334,13 @@ public class ConsoleBasedMenus {
         Player playerLoggedIn = MainMenuController.getInstance().getPlayerLoggedIn();
         switch (whichCommand) {
             case 0:
-                ProfileMenuController.getInstance().changeNickname(playerLoggedIn, commandMatcher.group("nickname"));
+                ProfileMenuController.getInstance().changeNickname("", commandMatcher.group("nickname"));
                 break;
             case 1:
             case 2:
                 String oldPass = commandMatcher.group("oldPass");
                 String newPass = commandMatcher.group("newPass");
-                ProfileMenuController.getInstance().changePassword(playerLoggedIn, oldPass, newPass);
+                ProfileMenuController.getInstance().changePassword("playerLoggedIn", oldPass, newPass);
                 break;
 
             case 3:

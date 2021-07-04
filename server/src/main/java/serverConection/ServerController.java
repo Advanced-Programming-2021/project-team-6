@@ -1,6 +1,7 @@
 package serverConection;
 
 import controller.menus.MainMenuController;
+import controller.menus.ProfileMenuController;
 import controller.menus.RegisterMenuController;
 import models.Player;
 import models.Scoreboard;
@@ -24,7 +25,9 @@ public class ServerController {
             "^new three-rounded (?<token>\\S+)$",
             "^new one-rounded (?<token>\\S+)$",
             "^scoreboard (?<token>\\S+)$",
-
+            "^profile (?<token>\\S+)$",
+            "^change password (?<oldPassword>\\w+) (?<newPassword>\\w+) (?<token>\\S+)$",
+            "^change nickname (?<newNickname>\\w+) (?<token>\\S+)$",
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -89,6 +92,14 @@ public class ServerController {
                 return MainMenuController.getInstance().registerOnGame(false, commandMatcher.group("token"));
             case 5:
                 return Scoreboard.getInstance().showScoreboard(commandMatcher.group("token"));
+            case 6:
+                return ProfileMenuController.getInstance().getProfile(commandMatcher.group("token"));
+            case 7:
+                return ProfileMenuController.getInstance().changePassword(commandMatcher.group("token"),
+                        commandMatcher.group("oldPassword"), commandMatcher.group("newPassword"));
+            case 8:
+                return ProfileMenuController.getInstance().changeNickname(commandMatcher.group("token"),
+                        commandMatcher.group("newNickname"));
         }
         return "";
     }

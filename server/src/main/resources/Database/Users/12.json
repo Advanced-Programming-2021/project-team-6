@@ -1,1 +1,10 @@
-{"username":"12","password":"32","nickname":"22","score":0,"rank":0,"health":8000,"money":32000000}
+{
+  "username": "12",
+  "password": "32",
+  "nickname": "22",
+  "picture": 0,
+  "score": 0,
+  "rank": 0,
+  "health": 8000,
+  "money": 32000000
+}

@@ -10,6 +10,7 @@ import java.security.PublicKey;
 
 public class ClientController {
 
+    public static String username;
     public static String token;
     private static Socket socket;
     private static DataInputStream dataInputStream;
@@ -72,6 +73,18 @@ public class ClientController {
      public static String waitForNewGame() throws IOException {
         return sendMessage("new three-rounded " + token);
      }
+
+    public static String profile() throws IOException {
+        return sendMessage("profile " + ClientController.token);
+    }
+
+    public static String changePassword(String oldPassword, String newPassword) throws IOException {
+        return sendMessage("change password " + oldPassword + " " + newPassword + " " + ClientController.token);
+    }
+
+    public static String changeNickname(String newNickname) throws IOException {
+        return sendMessage("change nickname " + newNickname + " " + ClientController.token);
+    }
 
 
 }
