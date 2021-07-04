@@ -298,7 +298,7 @@ public class ConsoleBasedMenus {
             command = scanner.nextLine().replaceAll("\\s+", " ");
             switch (command) {
                 case "scoreboard show":
-                    Scoreboard.getInstance().showScoreboard();
+                    Scoreboard.getInstance().showScoreboard("ds");
                     break;
                 case "menu show-current":
                     Output.getInstance().showMessage("Scoreboard Menu");

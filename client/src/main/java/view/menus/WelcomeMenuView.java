@@ -21,6 +21,7 @@ public class WelcomeMenuView extends Application {
 
     public ImageView registerButton;
     public StackPane stackPane;
+    public static Stage mainStage;
 
     public static void main(String[] args) {
         ClientController.initializeNetwork();
@@ -32,6 +33,7 @@ public class WelcomeMenuView extends Application {
         Parent pane = FXMLLoader.load(getClass().getResource("/fxml/WelcomeMenu.fxml"));
         Scene scene = new Scene(pane);
         stage.setScene(scene);
+        mainStage = stage;
         stage.show();
     }
 

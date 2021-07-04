@@ -1,5 +1,6 @@
 package models;
 
+import controller.menus.MainMenuController;
 import serverConection.Output;
 
 import java.util.ArrayList;
@@ -18,7 +19,10 @@ public class Scoreboard {
         return instance;
     }
 
-    public void showScoreboard() {
+    public String showScoreboard(String token) {
+        if (!MainMenuController.getInstance().loggedInUsers.containsKey(token))
+            return "Error";
+
         int counter = 1, index = 0, previousScore = -1;
         StringBuilder output = new StringBuilder();
         ArrayList<Player> allUsers = Database.allPlayers;
@@ -34,7 +38,7 @@ public class Scoreboard {
             previousScore = player.getScore();
 
         }
-        Output.getInstance().showMessage(output.toString());
+        return output.toString();
     }
 
 }

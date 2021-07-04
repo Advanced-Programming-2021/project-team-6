@@ -7,48 +7,42 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity"
-           minHeight="-Infinity"
-           minWidth="-Infinity" prefHeight="1030" prefWidth="1950.0" xmlns="http://javafx.com/javafx/16"
-           fx:controller="view.menus.WelcomeMenuView">
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.WelcomeMenuView">
     <AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx">
-        <ImageView fitHeight="1030" fitWidth="1950.0">
+        <ImageView fitHeight="680" fitWidth="1200.0">
             <image>
-                <Image url="@../image/menuBackground.jpg"/>
+                <Image url="@../image/menuBackground.jpg" />
             </image>
         </ImageView>
-        <ImageView fx:id="registerButton" fitHeight="114.0" fitWidth="400.0" layoutX="790.0" layoutY="318.0">
+        <ImageView fx:id="registerButton" fitHeight="114.0" fitWidth="400.0" layoutX="400.0" layoutY="340.0">
             <image>
-                <Image url="@../image/button.jpg"/>
+                <Image url="@../image/button.jpg" />
             </image>
         </ImageView>
-        <ImageView fitHeight="114.0" fitWidth="400.0" layoutX="790.0" layoutY="218.0">
+        <ImageView fitHeight="114.0" fitWidth="400.0" layoutX="400.0" layoutY="210.0">
             <image>
-                <Image url="@../image/button.jpg"/>
+                <Image url="@../image/button.jpg" />
             </image>
         </ImageView>
-        <ImageView fitHeight="114.0" fitWidth="400.0" layoutX="790.0" layoutY="566.0" onMouseClicked="#exitClicked">
+        <ImageView fitHeight="114.0" fitWidth="400.0" layoutX="400.0" layoutY="524.0" onMouseClicked="#exitClicked">
             <image>
-                <Image url="@../image/button.jpg"/>
+                <Image url="@../image/button.jpg" />
             </image>
         </ImageView>
 
-        <Text fill="#daa3a3" layoutX="880.0" layoutY="300.0" onMouseClicked="#openRegisterPage" strokeType="OUTSIDE"
-              strokeWidth="0.0" text="Register" textAlignment="CENTER" wrappingWidth="200">
+        <Text fill="#daa3a3" layoutX="500.0" layoutY="276.0" onMouseClicked="#openRegisterPage" strokeType="OUTSIDE" strokeWidth="0.0" text="Register" textAlignment="CENTER" wrappingWidth="200">
             <font>
-                <Font name="NPIOuj" size="40.0"/>
+                <Font name="NPIOuj" size="40.0" />
             </font>
         </Text>
-        <Text fill="#daa3a3" layoutX="880.0" layoutY="400.0" onMouseClicked="#openLoginPage" strokeType="OUTSIDE"
-              strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="200">
+        <Text fill="#daa3a3" layoutX="500.0" layoutY="406.0" onMouseClicked="#openLoginPage" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="200">
             <font>
-                <Font name="NPIOuj" size="40.0"/>
+                <Font name="NPIOuj" size="40.0" />
             </font>
         </Text>
-        <Text fill="#daa3a3" layoutX="880.0" layoutY="650.0" onMouseClicked="#exitClicked" strokeType="OUTSIDE"
-              strokeWidth="0.0" text="Exit" textAlignment="CENTER" wrappingWidth="200">
+        <Text fill="#daa3a3" layoutX="500.0" layoutY="590.0" onMouseClicked="#exitClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit" textAlignment="CENTER" wrappingWidth="200">
             <font>
-                <Font name="NPIOuj" size="40.0"/>
+                <Font name="NPIOuj" size="40.0" />
             </font>
         </Text>
     </AnchorPane>

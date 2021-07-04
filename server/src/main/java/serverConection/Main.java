@@ -26,7 +26,7 @@ public class Main {
                 createNewClient(serverSocket, socket);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -34,11 +34,11 @@ public class Main {
         new Thread(() -> {
             DataInputStream dataInputStream = null;
             try {
-                while (true) {
-                    dataInputStream = new DataInputStream(socket.getInputStream());
+
+                dataInputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                ServerController.getInputFromClient(dataInputStream,dataOutputStream , socket);
-                }
+                ServerController.getInputFromClient(dataInputStream, dataOutputStream, socket);
+
             } catch (IOException e) {
                 try {
                     dataInputStream.close();

@@ -44,6 +44,7 @@ public class RegisterMenuController {
         MainMenuController.getInstance().setPlayerLoggedIn(player);
         String token = UUID.randomUUID().toString();
         MainMenuController.getInstance().loggedInUsers.put(token, player);
+
         return "Success: " + token;
     }
 }

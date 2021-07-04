@@ -3,6 +3,7 @@ package serverConection;
 import controller.menus.MainMenuController;
 import controller.menus.RegisterMenuController;
 import models.Player;
+import models.Scoreboard;
 import org.ietf.jgss.Oid;
 
 import java.io.DataInputStream;
@@ -21,7 +22,8 @@ public class ServerController {
             "^user login (--username|-u) (?<username>\\w+) (--password|-p) (?<password>\\w+)$",
             "^logout (?<token>\\S+)$",
             "^new three-rounded (?<token>\\S+)$",
-            "^new one-rounded (?<token> \\S+)$"
+            "^new one-rounded (?<token>\\S+)$",
+            "^scoreboard (?<token>\\S+)$"
 
     };
 
@@ -33,8 +35,7 @@ public class ServerController {
         while (true) {
             String command = dataInputStream.readUTF();
             System.out.println("message from " + command);
-            String message = command.split(":")[1];
-            String result = processCommand(message , socket);
+            String result = processCommand(command, socket);
             if (result.equals("")) return;
             dataOutputStream.writeUTF(result);
             dataOutputStream.flush();
@@ -50,6 +51,7 @@ public class ServerController {
                 return executeCommands(commandMatcher, whichCommand , socket);
 
         }
+        System.out.println(1);
         return "";
 
     }
@@ -72,9 +74,9 @@ public class ServerController {
                 return RegisterMenuController.getInstance().createUser(commandMatcher.group("username"),
                         commandMatcher.group("nickname"), commandMatcher.group("password"));
             case 1:
-                String result =  RegisterMenuController.getInstance().login(commandMatcher.group("username"), commandMatcher.group("password"));
+                String result = RegisterMenuController.getInstance().login(commandMatcher.group("username"), commandMatcher.group("password"));
                 String token = result.split(": ")[1];
-                ServerController.registerSocket(socket , token);
+                ServerController.registerSocket(socket, token);
                 return result;
             case 2:
                 return MainMenuController.getInstance().logout(commandMatcher.group("token"));
@@ -82,6 +84,8 @@ public class ServerController {
                 return MainMenuController.getInstance().registerOnGame(true, commandMatcher.group("token"));
             case 4:
                 return MainMenuController.getInstance().registerOnGame(false, commandMatcher.group("token"));
+            case 5:
+                return Scoreboard.getInstance().showScoreboard(commandMatcher.group("token"));
         }
         return "";
     }

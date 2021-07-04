@@ -23,24 +23,30 @@ public class ClientController {
         }
     }
 
+    private static String sendMessage(String message) throws IOException {
+        dataOutputStream.writeUTF(message);
+        System.out.println("message sent to server : " + message);
+        dataOutputStream .flush();
+        String response = dataInputStream.readUTF();
+        System.out.println("response from server : " + response);
+        return response;
+    }
+
     public static String createUser(String username, String password, String nickname) throws Exception {
-        return sendMessage(token + ":" + "user create -u " + username + " -p " + password + " -n " + nickname);
+        return sendMessage("user create -u " + username + " -p " + password + " -n " + nickname);
     }
 
     public static String login(String username, String password) throws Exception {
-        return sendMessage(token + ":" +"user login -u " + username + " -p " + password);
+        return sendMessage("user login -u " + username + " -p " + password);
     }
 
     public static String logout() throws IOException {
-        return sendMessage(token + ":" +"logout " + ClientController.token);
+        return sendMessage("logout " + ClientController.token);
     }
-     private static String sendMessage(String message) throws IOException {
-         dataOutputStream.writeUTF(message);
-         System.out.println("message sent to server : " + message);
-         dataOutputStream .flush();
-         String response = dataInputStream.readUTF();
-         System.out.println("response from server : " + response);
-         return response;
+
+
+     public static String scoreboard() throws IOException {
+        return sendMessage("scoreboard " + ClientController.token);
      }
 
 

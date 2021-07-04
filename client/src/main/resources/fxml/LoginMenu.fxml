@@ -11,10 +11,10 @@
 <?import javafx.scene.text.Font?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
            minWidth="-Infinity"
-           prefHeight="1030.0" prefWidth="1950.0" xmlns="http://javafx.com/javafx/16"
+           prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16"
            fx:controller="view.menus.LoginMenuView">
-    <AnchorPane prefHeight="1030.0" prefWidth="1950.0">
-        <ImageView fitHeight="1030.0" fitWidth="1950.0">
+    <AnchorPane prefHeight="680.0" prefWidth="1200.0">
+        <ImageView fitHeight="680.0" fitWidth="1200.0">
             <Image url="@../image/menuBackground.jpg"/>
         </ImageView>
         <TextField fx:id="usernameInput" layoutX="499.0" layoutY="287.0" maxHeight="70" maxWidth="335"

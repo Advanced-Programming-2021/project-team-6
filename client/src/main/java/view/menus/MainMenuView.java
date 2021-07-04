@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import view.Prompt;
 import view.PromptType;
@@ -31,7 +32,9 @@ public class MainMenuView {
     public void openShopMenu() {
     }
 
-    public void openScoreboard() {
+    public void openScoreboard() throws IOException {
+        new ScoreBoardView().showScoreboard();
+
     }
 
     public void openProfileMenu() {
