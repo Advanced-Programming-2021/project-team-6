@@ -36,7 +36,8 @@ public class ServerController {
             "^import card (?<name>\\S+) (?<token>S++)$",
             "^export card (?<name>\\S+) (?<token>S++)$",
             "^get description (?<name>.+)$",
-            "^shop can buy (?<cardName>.+) (?<token>\\S+)$"
+            "^shop can buy (?<cardName>.+) (?<token>\\S+)$",
+            "^cancel game (?<token>\\S+)$"
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -129,6 +130,8 @@ public class ServerController {
             case 16:
                 cardName = commandMatcher.group("cardName");
                 return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName , true));
+            case 17:
+                return MainMenuController.getInstance().cancelGame(commandMatcher.group("token"));
         }
         return "";
     }

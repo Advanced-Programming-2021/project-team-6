@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.application.Platform;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -50,8 +52,19 @@ public class ClientController {
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 while (true) {
                     String message = dataInputStream.readUTF();
-                    if (message.endsWith("true"))
-                        dataOutputStream.writeUTF(ServerMessageHandler.getServerMessage(message));
+                    System.out.println("New Message From Central Server : " + message);
+                    Platform.runLater(() -> {
+                        if (message.endsWith("true")) {
+                            try {
+                                dataOutputStream.writeUTF(ServerMessageHandler.getServerMessage(message));
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                        }
+                        else
+                            ServerMessageHandler.getServerMessage(message);
+                    });
+
                 }
             } catch (IOException ioException) {
                 ioException.printStackTrace();

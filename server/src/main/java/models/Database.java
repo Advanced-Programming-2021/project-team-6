@@ -55,7 +55,10 @@ public class Database {
     }
     public Player getPlayerByToken(String token) {
         for (Player player : allPlayers) {
-            if (player.getToken().equals(token))
+            String playerToken = player.getToken();
+            if (playerToken == null)
+                continue;
+            if (playerToken.equals(token))
                 return player;
         }
         return null;
