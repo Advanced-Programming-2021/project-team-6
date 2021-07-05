@@ -1,9 +1,6 @@
 package serverConection;
 
-import controller.menus.MainMenuController;
-import controller.menus.ProfileMenuController;
-import controller.menus.RegisterMenuController;
-import controller.menus.ShoppingMenuController;
+import controller.menus.*;
 import models.Player;
 import models.Scoreboard;
 import org.ietf.jgss.Oid;
@@ -32,7 +29,9 @@ public class ServerController {
             "^shop buy (?<cardName>.+) (?<token>\\S+)$",
             "^shop show --all$",
             "shop show money (?<token>\\S+)$",
-            "^increase (--money|-m) (?<amount>\\d+) (?<token>\\S+)"
+            "^increase (--money|-m) (?<amount>\\d+) (?<token>\\S+)",
+            "^import card (?<name>\\S+) (?<token>S++)$",
+            "^export card (?<name>\\S+) (?<token>S++)$",
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -113,7 +112,11 @@ public class ServerController {
             case 11:
                 return (ShoppingMenuController.getInstance().showMoney("playerLoggedIn"));
             case 12:
-                ShoppingMenuController.getInstance().increaseMoney("playerLoggedIn", Integer.parseInt(commandMatcher.group("amount")));
+                return ShoppingMenuController.getInstance().increaseMoney("playerLoggedIn", Integer.parseInt(commandMatcher.group("amount")));
+            case 13:
+                return ImpExpMenuController.getInstance().importFromFile(commandMatcher.group("name"), commandMatcher.group("token"));
+            case 14:
+                return ImpExpMenuController.getInstance().exportToFile(commandMatcher.group("name"), commandMatcher.group("token"));
         }
         return "";
     }

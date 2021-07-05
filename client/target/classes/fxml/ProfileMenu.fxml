@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<<<<<<< HEAD
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -8,17 +7,6 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.ProfileMenuView">
-=======
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Reflection?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<AnchorPane prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.ProfileMenuView">
->>>>>>> 8f1ece69a5385adea384ddd3dde78ad75f7fee1b
    <children>
       <ImageView fitHeight="693.0" fitWidth="1209.0" layoutX="-4.0">
          <image>
@@ -42,11 +30,7 @@
       </ImageView>
       <Text fill="#daa3a3" layoutX="423.0" layoutY="477.0" onMouseClicked="#changePassword" strokeType="OUTSIDE" strokeWidth="0.0" text="Change Password" textAlignment="CENTER" wrappingWidth="114.0">
          <font>
-<<<<<<< HEAD
             <Font size="16.0" />
-=======
-            <Font name="NPIOuj" size="24.0" />
->>>>>>> 8f1ece69a5385adea384ddd3dde78ad75f7fee1b
          </font>
       </Text>
       <ImageView fx:id="backButton11" fitHeight="78.0" fitWidth="191.0" layoutX="393.0" layoutY="562.0">
@@ -56,11 +40,7 @@
       </ImageView>
       <Text fill="#daa3a3" layoutX="433.0" layoutY="593.0" onMouseClicked="#changeNickname" strokeType="OUTSIDE" strokeWidth="0.0" text="Change Nickname" textAlignment="CENTER" wrappingWidth="114.0">
          <font>
-<<<<<<< HEAD
             <Font size="16.0" />
-=======
-            <Font name="NPIOuj" size="24.0" />
->>>>>>> 8f1ece69a5385adea384ddd3dde78ad75f7fee1b
          </font>
       </Text>
       <ImageView fitHeight="57.0" fitWidth="283.0" layoutX="410.0" layoutY="71.0">
@@ -75,11 +55,7 @@
       </ImageView>
       <TextField fx:id="oldPassword" accessibleRole="BUTTON" layoutX="673.0" layoutY="466.0" prefHeight="36.0" prefWidth="168.0" text="Old Password">
          <font>
-<<<<<<< HEAD
             <Font size="18.0" />
-=======
-            <Font name="NPIOuj" size="24.0" />
->>>>>>> 8f1ece69a5385adea384ddd3dde78ad75f7fee1b
          </font>
          <effect>
             <Reflection />
@@ -87,11 +63,7 @@
       </TextField>
       <TextField fx:id="newNickname" accessibleRole="BUTTON" layoutX="673.0" layoutY="583.0" prefHeight="36.0" prefWidth="168.0" text="New Nickname">
          <font>
-<<<<<<< HEAD
             <Font size="17.0" />
-=======
-            <Font name="NPIOuj" size="24.0" />
->>>>>>> 8f1ece69a5385adea384ddd3dde78ad75f7fee1b
          </font>
          <effect>
             <Reflection />
@@ -99,11 +71,7 @@
       </TextField>
       <TextField fx:id="newPassword" accessibleRole="BUTTON" layoutX="889.0" layoutY="466.0" prefHeight="36.0" prefWidth="168.0" text="new Password">
          <font>
-<<<<<<< HEAD
             <Font size="18.0" />
-=======
-            <Font name="NPIOuj" size="24.0" />
->>>>>>> 8f1ece69a5385adea384ddd3dde78ad75f7fee1b
          </font>
          <effect>
             <Reflection />

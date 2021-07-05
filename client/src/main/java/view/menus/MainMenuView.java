@@ -54,6 +54,10 @@ public class MainMenuView {
         new ProfileMenuView().showProfile();
     }
 
+    public void openImpExpMenu(){
+
+    }
+
     public void logout() throws IOException {
         String result = ClientController.logout();
         if (result.startsWith("Error")) {

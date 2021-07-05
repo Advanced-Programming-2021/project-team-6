@@ -2,6 +2,7 @@ package controller.menus;
 
 import controller.FileWorker;
 import models.Database;
+import models.Player;
 import models.cards.Card;
 import models.cards.Monster;
 import models.cards.Spell;
@@ -25,14 +26,18 @@ public class ImpExpMenuController {
     }
 
 
-    public void importFromFile(String cardName) {
+    public String importFromFile(String cardName, String token) {
+        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (player == null) return "Error";
+
         String fileAddress = importDataBase + cardName + ".json";
+
         try {
             Monster monsterCard = FileWorker.getInstance().readMonsterJSON(fileAddress);
             if (monsterCard.getTypeCard().equals("Monster")) {
                 Database.allMonsters.add(monsterCard);
                 Database.allCards.add(monsterCard);
-                System.out.println(1);
+                return "Success: card imported!";
             }
         } catch (NullPointerException e) {
         }
@@ -42,7 +47,7 @@ public class ImpExpMenuController {
             if (spellCard.getTypeCard().equals("Spell")) {
                 Database.allSpells.add(spellCard);
                 Database.allCards.add(spellCard);
-                System.out.println(2);
+                return "Success: card imported!";
             }
         } catch (NullPointerException e) {
         }
@@ -52,44 +57,42 @@ public class ImpExpMenuController {
             if (trapCard.getTypeCard().equals("Trap")) {
                 Database.allTraps.add(trapCard);
                 Database.allCards.add(trapCard);
-                System.out.println(3);
+                return "Success: card imported!";
             }
         } catch (NullPointerException e) {
         }
 
-        Output.getInstance().showMessage("card imported!");
+        return "Error: card with this name dose not exist";
 
     }
 
-    public void exportToFile(String cardName) {
+    public String exportToFile(String cardName, String token) {
+        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (player == null) return "Error";
+
         String fileAddress = importDataBase + cardName + ".json";
         Card card = Database.getInstance().getCardByName(cardName);
 
-        if (card == null) {
-            Output.getInstance().showMessage("card is not exist!");
-            return;
-        }
+        if (card == null)
+            return "Error: card is not exist!";
 
 
         if (card.getTypeCard().equals("Monster")) {
-            System.out.println(1);
             Monster monster = (Monster) card;
             FileWorker.getInstance().writeFileTo(fileAddress, monster);
         }
         if (card.getTypeCard().equals("Spell")) {
-            System.out.println(2);
             Spell spell = (Spell) card;
 
             FileWorker.getInstance().writeFileTo(fileAddress, spell);
         }
         if (card.getTypeCard().equals("Trap")) {
-            System.out.println(3);
             Trap trap = (Trap) card;
 
             FileWorker.getInstance().writeFileTo(fileAddress, trap);
         }
 
-        Output.getInstance().showMessage("card exported!");
+        return "Success: card exported!";
 
     }
 }

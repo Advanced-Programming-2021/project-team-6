@@ -103,4 +103,12 @@ public class ClientController {
         return sendMessage("increase -m " + amount + " " + ClientController.token);
     }
 
+    public static String importCard(String cardName) throws IOException {
+        return sendMessage("import card " + cardName + " " + ClientController.token);
+    }
+
+    public static String exportCard(String cardName) throws IOException {
+        return sendMessage("import card " + cardName + " " + ClientController.token);
+    }
+
 }

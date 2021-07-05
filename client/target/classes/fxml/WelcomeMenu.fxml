@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<<<<<<< HEAD
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.WelcomeMenuView">
-=======
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.WelcomeMenuView">
->>>>>>> 8f1ece69a5385adea384ddd3dde78ad75f7fee1b
     <AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx">
         <ImageView fitHeight="680" fitWidth="1200.0">
             <image>
@@ -32,11 +21,7 @@
                 <Image url="@../image/button.jpg" />
             </image>
         </ImageView>
-<<<<<<< HEAD
         <ImageView fitHeight="114.0" fitWidth="400.0" layoutX="400.0" layoutY="475.0" onMouseClicked="#exitClicked">
-=======
-        <ImageView fitHeight="114.0" fitWidth="400.0" layoutX="400.0" layoutY="524.0" onMouseClicked="#exitClicked">
->>>>>>> 8f1ece69a5385adea384ddd3dde78ad75f7fee1b
             <image>
                 <Image url="@../image/button.jpg" />
             </image>
@@ -52,11 +37,7 @@
                 <Font name="NPIOuj" size="40.0" />
             </font>
         </Text>
-<<<<<<< HEAD
         <Text fill="#daa3a3" layoutX="500.0" layoutY="548.0" onMouseClicked="#exitClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit" textAlignment="CENTER" wrappingWidth="200">
-=======
-        <Text fill="#daa3a3" layoutX="500.0" layoutY="590.0" onMouseClicked="#exitClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit" textAlignment="CENTER" wrappingWidth="200">
->>>>>>> 8f1ece69a5385adea384ddd3dde78ad75f7fee1b
             <font>
                 <Font name="NPIOuj" size="40.0" />
             </font>

@@ -457,10 +457,10 @@ public class ConsoleBasedMenus {
     private void executeImpExpMenuCommands(Matcher commandMatcher, int whichCommand) {
         switch (whichCommand) {
             case 0:
-                ImpExpMenuController.getInstance().importFromFile(commandMatcher.group("name"));
+                ImpExpMenuController.getInstance().importFromFile(commandMatcher.group("name")," ");
                 break;
             case 1:
-                ImpExpMenuController.getInstance().exportToFile(commandMatcher.group("name"));
+                ImpExpMenuController.getInstance().exportToFile(commandMatcher.group("name")," ");
                 break;
             case 2:
                 Output.getInstance().showMessage("import/export Menu");
