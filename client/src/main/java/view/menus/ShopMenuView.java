@@ -1,15 +1,19 @@
 package view.menus;
 
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import model.Card;
 import view.Components.CardView;
 
@@ -19,40 +23,50 @@ import java.util.List;
 
 
 public class ShopMenuView {
-    public GridPane gameBoard;
+    @FXML
+    static ScrollPane scrollPane;
+    @FXML
+    Text cardDescription;
+    @FXML
+    Rectangle imageOfSelectedCard;
     public ImageView backButton;
-    public BorderPane borderPane;
-    public GridPane gameBoardInFxml;
+    @FXML
+    public Button buyButton;
     private Card[][] board;
     private CardView[][] cards;
-    public Button[][] buyButtons;
-    public Button exitGameButton;
+    private Card selectedCard;
+
+
     public void backToMainMenu() throws IOException {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
         WelcomeMenuView.mainStage.setScene(new Scene(root));
     }
+
     public void showShop() throws IOException {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/ShopMenu.fxml"));
         WelcomeMenuView.mainStage.setScene(new Scene(root));
-        gameBoard = ((GridPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(5));
+        scrollPane = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4);
         setGameBoardCards();
         showCards();
     }
 
     private void showCards() {
         cards = new CardView[board.length][board[0].length];
-        for (int i = 0 ; i < board.length ; i++) {
-            for (int j = 0 ; j < board[i].length ; j++) {
+        GridPane gameBoard = new GridPane();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
                 CardView rectangle = getCardRectangle(board[i][j]);
-                gameBoard.add(rectangle , i , j);
+                gameBoard.add(rectangle, i, j);
                 cards[i][j] = rectangle;
             }
         }
+        scrollPane.setContent(gameBoard);
+        scrollPane.pannableProperty().set(true);
+        scrollPane.vbarPolicyProperty().set(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     }
 
     public void setGameBoardCards() {
-        this.board = new Card[13][5];
-        this.buyButtons = new Button[13][5];
+        this.board = new Card[5][13];
         fillBoard();
     }
 
@@ -125,11 +139,11 @@ public class ShopMenuView {
                 "image/Cards/Traps/Torrential Tribute.jpg",
                 "image/Cards/Traps/Trap Hole.jpg",
         };
-        List<String> fronts =  Arrays.asList(labels);
+        List<String> fronts = Arrays.asList(labels);
         int cnt = 0;
-        for (int i = 0 ; i < board.length ; i++) {
-            for (int j = 0 ; j < board[0].length ; j++)
-                board[i][j] = new Card(getClass().getResource( "/" + fronts.get(cnt++)).toExternalForm(), i, j);
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++)
+                board[i][j] = new Card(getClass().getResource("/" + fronts.get(cnt++)).toExternalForm(), i, j);
         }
     }
 
@@ -140,16 +154,35 @@ public class ShopMenuView {
     private CardView getCardRectangle(Card card) {
         CardView rectangle = new CardView();
         rectangle.setFill(card.getImage());
-        rectangle.setHeight(105.6);
-        rectangle.setWidth(69.1);
+        rectangle.setHeight(200);
+        rectangle.setWidth(90);
         DropShadow dropShadow = new DropShadow();
-        dropShadow.setWidth(0);
-        dropShadow.setHeight(0);
+        dropShadow.setWidth(1);
+        dropShadow.setHeight(1);
         rectangle.setEffect(dropShadow);
         rectangle.setI(card.getI());
         rectangle.setJ(card.getJ());
+        rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                selectCard(card);
+            }
+        });
         return rectangle;
     }
+    private void selectCard(Card card) {
+        selectedCard = card;
+        showDetails();
+    }
 
+    private void showDetails() {
+        imageOfSelectedCard.setFill(getCardRectangle(selectedCard).getFill());
+        //inja biad check kone gheimato buttono visible kone baades
+
+    }
+
+    public void buy(MouseEvent mouseEvent) {
+        //inja biad request bede
+    }
 
 }
