@@ -9,6 +9,9 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.MainMenuView">
     <AnchorPane prefHeight="680.0" prefWidth="1200.0">
+        <ImageView>
+            <Image url="@../image/leftDoor.jpg">
+        </ImageView>
         <children>
           <ImageView fitHeight="680.0" fitWidth="1200.0">
               <image>
