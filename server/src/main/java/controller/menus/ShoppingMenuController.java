@@ -21,36 +21,45 @@ public class ShoppingMenuController {
         return instance;
     }
 
-    public void buyCard(Player player, String cardName) {
+    public String buyCard(String token, String cardName) {
+        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (player == null) return "Error";
+
         Card card = Database.getInstance().getCardByName(cardName);
         if (card == null) {
-            Output.getInstance().showMessage("there is no card with this name");
-            return;
+            return ("Error:there is no card with this name");
         }
         if (ErrorChecker.doseNotHaveEnoughMoney(player, card.getPrice())) {
-            Output.getInstance().showMessage("not enough money");
-            return;
+            return ("Error:not enough money");
         }
 
         player.addCardToAllPlayerCard(card);
         player.setMoney(player.getMoney() - card.getPrice());
-        Output.getInstance().showMessage("Card purchased");
+        return ("Success:Card purchased");
     }
 
-    public void showAllCard() {
+    public String showAllCard() {
         Card[] sortedCards = Database.allCards.toArray(new Card[0]);
         Arrays.sort(sortedCards, Comparator.comparing(Card::getName));
+        StringBuilder cards = new StringBuilder();
         for (Card card : sortedCards) {
-            System.out.println(card);
+            cards.append(card.getName());
+            cards.append(".jpg,");
         }
+        return String.valueOf(cards);
     }
 
-    public void showMoney(Player player) {
-        Output.getInstance().showMessage("money: " + player.getMoney());
+    public String showMoney(String token) {
+        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (player == null) return "Error";
+        return ("money: " + MainMenuController.getInstance().loggedInUsers.get(token).getMoney());
     }
 
-    public void increaseMoney(Player player, int amount) {
+    public String increaseMoney(String token, int amount) {
+        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (player == null) return "Error";
         player.setMoney(player.getMoney() + amount);
+        return "Success";
     }
 
 

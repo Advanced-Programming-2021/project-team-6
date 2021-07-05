@@ -375,13 +375,13 @@ public class ConsoleBasedMenus {
         switch (whichCommand) {
             case 0:
                 String cardName = commandMatcher.group("cardName");
-                ShoppingMenuController.getInstance().buyCard(playerLoggedIn, cardName);
+                Output.getInstance().showMessage(ShoppingMenuController.getInstance().buyCard("playerLoggedIn", cardName));
                 break;
             case 1:
-                ShoppingMenuController.getInstance().showAllCard();
+                Output.getInstance().showMessage(ShoppingMenuController.getInstance().showAllCard());
                 break;
             case 2:
-                ShoppingMenuController.getInstance().showMoney(playerLoggedIn);
+                Output.getInstance().showMessage(ShoppingMenuController.getInstance().showMoney("playerLoggedIn"));
                 break;
             case 3:
                 Output.getInstance().showMessage("shopping Menu");
@@ -390,7 +390,7 @@ public class ConsoleBasedMenus {
                 runningMenu = "main";
                 return;
             case 5:
-                ShoppingMenuController.getInstance().increaseMoney(playerLoggedIn,
+                ShoppingMenuController.getInstance().increaseMoney("playerLoggedIn",
                         Integer.parseInt(commandMatcher.group("amount")));
         }
     }

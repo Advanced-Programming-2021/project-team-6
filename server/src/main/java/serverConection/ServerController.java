@@ -3,6 +3,7 @@ package serverConection;
 import controller.menus.MainMenuController;
 import controller.menus.ProfileMenuController;
 import controller.menus.RegisterMenuController;
+import controller.menus.ShoppingMenuController;
 import models.Player;
 import models.Scoreboard;
 import org.ietf.jgss.Oid;
@@ -28,6 +29,10 @@ public class ServerController {
             "^profile (?<token>\\S+)$",
             "^change password (?<oldPassword>\\w+) (?<newPassword>\\w+) (?<token>\\S+)$",
             "^change nickname (?<newNickname>\\w+) (?<token>\\S+)$",
+            "^shop buy (?<cardName>.+) (?<token>\\S+)$",
+            "^shop show --all$",
+            "shop show money (?<token>\\S+)$",
+            "^increase (--money|-m) (?<amount>\\d+) (?<token>\\S+)"
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -100,6 +105,15 @@ public class ServerController {
             case 8:
                 return ProfileMenuController.getInstance().changeNickname(commandMatcher.group("token"),
                         commandMatcher.group("newNickname"));
+            case 9:
+                String cardName = commandMatcher.group("cardName");
+                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName));
+            case 10:
+                return (ShoppingMenuController.getInstance().showAllCard());
+            case 11:
+                return (ShoppingMenuController.getInstance().showMoney("playerLoggedIn"));
+            case 12:
+                ShoppingMenuController.getInstance().increaseMoney("playerLoggedIn", Integer.parseInt(commandMatcher.group("amount")));
         }
         return "";
     }

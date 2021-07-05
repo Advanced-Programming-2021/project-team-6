@@ -86,5 +86,21 @@ public class ClientController {
         return sendMessage("change nickname " + newNickname + " " + ClientController.token);
     }
 
+    public static String buyCard(String card) throws IOException {
+        String result = sendMessage("shop buy " + card + " " + ClientController.token);
+        return result.split(":")[0];
+    }
+
+    public static String loadAllCards() throws IOException {
+        return sendMessage("shop show --all");
+    }
+
+    public static String showMoney() throws IOException {
+        return sendMessage("shop show money "+ ClientController.token);
+    }
+
+    public static String increaseMoney(String amount) throws IOException {
+        return sendMessage("increase -m " + amount + " " + ClientController.token);
+    }
 
 }
