@@ -88,8 +88,7 @@ public class ClientController {
     }
 
     public static String buyCard(String card) throws IOException {
-        String result = sendMessage("shop buy " + card + " " + ClientController.token);
-        return result.split(":")[0];
+        return sendMessage("shop buy " + card + " " + ClientController.token);
     }
 
     public static String loadAllCards() throws IOException {
@@ -110,6 +109,9 @@ public class ClientController {
 
     public static String exportCard(String cardName) throws IOException {
         return sendMessage("export card " + cardName + " " + ClientController.token);
+    }
+    public static String getDescription(String cardname) throws IOException {
+        return sendMessage("get description "+ cardname);
     }
 
     public static String cancelGameRequest() throws IOException {

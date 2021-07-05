@@ -1,8 +1,10 @@
 package serverConection;
 
 import controller.menus.*;
+import models.Database;
 import models.Player;
 import models.Scoreboard;
+import models.cards.Card;
 import org.ietf.jgss.Oid;
 
 import java.io.DataInputStream;
@@ -120,7 +122,7 @@ public class ServerController {
             case 14:
                 return ImpExpMenuController.getInstance().exportToFile(commandMatcher.group("name"), commandMatcher.group("token"));
             case 15:
-                return MainMenuController.getInstance().cancelGame(commandMatcher.group("token"));
+                return Database.getInstance().getCardByName(commandMatcher.group("name")).getDescription();
         }
         return "";
     }
