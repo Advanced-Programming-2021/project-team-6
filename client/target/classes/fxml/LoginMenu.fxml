@@ -6,16 +6,16 @@
 <?import javafx.scene.text.*?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.LoginMenuView">
-    <AnchorPane prefHeight="680.0" prefWidth="1200.0">
-        <ImageView fitHeight="680.0" fitWidth="1200.0">
+    <AnchorPane prefHeight="1200.0" prefWidth="1950.0">
+        <ImageView fitHeight="1200.0" fitWidth="1950.0">
             <Image url="@../image/menuBackground.jpg" />
         </ImageView>
         <TextField fx:id="usernameInput" layoutX="499.0" layoutY="287.0" maxHeight="70" maxWidth="335" prefHeight="25.0" prefWidth="239.0" />
         <TextField fx:id="passwordInput" layoutX="544.0" layoutY="341.0" maxHeight="70" maxWidth="335" />
-        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="548.0" layoutY="371.0">
+        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="878.0" layoutY="671.0">
             <Image url="@../image/button.jpg" />
         </ImageView>
-        <Text fill="#daa3a3" layoutX="577.0" layoutY="406.0" onMouseClicked="#openMainMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="login" textAlignment="CENTER" wrappingWidth="83.13671875">
+        <Text fill="#daa3a3" layoutX="900.0" layoutY="705.0" onMouseClicked="#openMainMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="login" textAlignment="CENTER" wrappingWidth="83.13671875">
             <font>
                 <Font name="NPIOuj" size="24.0" />
             </font>

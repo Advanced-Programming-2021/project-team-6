@@ -7,30 +7,30 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.RegisterMenuView">
 
-    <AnchorPane prefHeight="680.0" prefWidth="1200.0">
-        <ImageView fitHeight="680.0" fitWidth="1200.0">
+    <AnchorPane prefHeight="1200.0" prefWidth="1950.0">
+        <ImageView fitHeight="1200.0" fitWidth="1950.0">
             <Image url="@../image/menuBackground.jpg" />
         </ImageView>
-        <TextField fx:id="registerUsernameInput" layoutX="500.0" layoutY="216.0" maxHeight="70" maxWidth="335" prefHeight="25.0" prefWidth="239.0" />
-        <TextField fx:id="registerNicknameInput" layoutX="500.0" layoutY="265.0" maxHeight="70" maxWidth="335" prefHeight="25.0" prefWidth="239.0" />
-        <TextField fx:id="registerPasswordInput" layoutX="500.0" layoutY="319.0" maxHeight="70" maxWidth="335" prefHeight="25.0" prefWidth="239.0" />
-        <ImageView fitHeight="57.0" fitWidth="154.0" layoutX="548.0" layoutY="371.0" onMouseClicked="#openFirstPage">
+        <TextField fx:id="registerUsernameInput" layoutX="830.0" layoutY="516.0" maxHeight="70" maxWidth="335" prefHeight="25.0" prefWidth="239.0" />
+        <TextField fx:id="registerNicknameInput" layoutX="830.0" layoutY="565.0" maxHeight="70" maxWidth="335" prefHeight="25.0" prefWidth="239.0" />
+        <TextField fx:id="registerPasswordInput" layoutX="830.0" layoutY="619.0" maxHeight="70" maxWidth="335" prefHeight="25.0" prefWidth="239.0" />
+        <ImageView fitHeight="57.0" fitWidth="154.0" layoutX="878.0" layoutY="671.0" onMouseClicked="#openFirstPage">
             <Image url="@../image/button.jpg" />
         </ImageView>
-        <Text fill="#daa3a3" layoutX="572.0" layoutY="408.0" onMouseClicked="#registerUser" strokeType="OUTSIDE" strokeWidth="0.0" text="Register" textAlignment="CENTER" wrappingWidth="105.13671875">
+        <Text fill="#daa3a3" layoutX="900.0" layoutY="705.0" onMouseClicked="#registerUser" strokeType="OUTSIDE" strokeWidth="0.0" text="Register" textAlignment="CENTER" wrappingWidth="105.13671875">
             <font>
                 <Font name="NPIOuj" size="24.0" />
             </font>
         </Text>
-        <Label layoutX="571.0" layoutY="193.0" text="Username">
+        <Label layoutX="900.0" layoutY="493.0" text="Username">
          <font>
             <Font name="G2 Geometric 885 BT" size="17.0" />
          </font></Label>
-        <Label layoutX="573.0" layoutY="296.0" text="Password">
+        <Label layoutX="900.0" layoutY="596.0" text="Password">
          <font>
             <Font name="G2 Geometric 885 BT" size="17.0" />
          </font></Label>
-        <Label layoutX="571.0" layoutY="242.0" prefHeight="26.0" prefWidth="94.0" text="Nickname">
+        <Label layoutX="900.0" layoutY="542.0" prefHeight="26.0" prefWidth="94.0" text="Nickname">
          <font>
             <Font name="G2 Geometric 885 BT" size="17.0" />
          </font></Label>

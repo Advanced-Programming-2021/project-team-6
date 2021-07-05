@@ -56,8 +56,11 @@ public class WelcomeMenuView extends Application {
         animationTimeLine.getKeyFrames().add(nextPageKeyFrame);
         animationTimeLine.play();
         currentPageAnimationTimeLine.play();
-        animationTimeLine.setOnFinished(actionEvent -> stackPane.getChildren().remove(scene.getRoot().getChildrenUnmodifiable().get(0)));
+        animationTimeLine.setOnFinished(actionEvent -> {
+            stackPane.getChildren().remove(scene.getRoot().getChildrenUnmodifiable().get(0));
+        });
     }
+
 
     public void openLoginPage() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/LoginMenu.fxml"));

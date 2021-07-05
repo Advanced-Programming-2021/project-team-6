@@ -42,7 +42,8 @@ public class MainMenuView {
     public void openDeckMenu() {
     }
 
-    public void openShopMenu() {
+    public void openShopMenu() throws IOException {
+        new ShopMenuView().showShop();
     }
 
     public void openScoreboard() throws IOException {
