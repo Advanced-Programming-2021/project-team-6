@@ -20,6 +20,11 @@ public class ImpExpMenuView {
         WelcomeMenuView.mainStage.setScene(new Scene(root));
     }
 
+    public void showImpExpMenu() throws IOException {
+        Pane root = FXMLLoader.load(getClass().getResource("/fxml/ImpExpMenu.fxml"));
+        WelcomeMenuView.mainStage.setScene(new Scene(root));
+    }
+
     public void importCard() throws IOException {
         if (importCardName != null){
             String result = ClientController.importCard(importCardName.getText());
@@ -34,8 +39,8 @@ public class ImpExpMenuView {
     }
 
     public void exportCard() throws IOException {
-        if (importCardName != null){
-            String result = ClientController.exportCard(importCardName.getText());
+        if (exportCardName != null){
+            String result = ClientController.exportCard(exportCardName.getText());
 
             if (result.startsWith("Success"))
                 Prompt.showMessage(result.substring(10), PromptType.Success);

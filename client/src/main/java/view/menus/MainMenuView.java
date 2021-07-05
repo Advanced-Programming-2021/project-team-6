@@ -55,7 +55,12 @@ public class MainMenuView {
         new ProfileMenuView().showProfile();
     }
 
-    public void openImpExpMenu(){
+    public void openImpExpMenu() throws IOException {
+        new ImpExpMenuView().showImpExpMenu();
+
+    }
+
+    public void openCreateCardMenu(){
 
     }
 

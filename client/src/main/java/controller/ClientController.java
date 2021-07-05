@@ -108,7 +108,7 @@ public class ClientController {
     }
 
     public static String exportCard(String cardName) throws IOException {
-        return sendMessage("import card " + cardName + " " + ClientController.token);
+        return sendMessage("export card " + cardName + " " + ClientController.token);
     }
 
 }

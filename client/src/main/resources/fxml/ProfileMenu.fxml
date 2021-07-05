@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="1200.0" prefWidth="1950.0" xmlns="http://javafx.com/javafx/11.0.1"
+<AnchorPane prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.ProfileMenuView">
-   <ImageView fitHeight="1200.0" fitWidth="1950.0" layoutX="-4.0">
+   <ImageView fitHeight="680.0" fitWidth="1200.0" layoutX="-4.0">
       <Image url="@../image/main10.jpg"/>
    </ImageView>
    <ImageView fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="30.0" layoutY="566.0">

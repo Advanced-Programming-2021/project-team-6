@@ -9,75 +9,76 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.MainMenuView">
     <AnchorPane prefHeight="680.0" prefWidth="1200.0">
-        <ImageView>
-            <Image url="@../image/leftDoor.gif"/>
+        <ImageView fitHeight="680.0" fitWidth="1200.0">
+            <Image url="@../image/menuBackground.jpg" />
         </ImageView>
-        <children>
-          <ImageView fitHeight="680.0" fitWidth="1200.0">
-              <image>
-                  <Image url="@../image/menuBackground.jpg" />
-              </image>
-          </ImageView>
-         <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="469.0" layoutY="249.0" >
-            <image>
-               <Image url="@../image/button.jpg" />
-            </image>
-         </ImageView>
-         <Text fill="#daa3a3" layoutX="490.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Game" textAlignment="CENTER" wrappingWidth="100.0" onMouseClicked="#openNewGame">
-            <font>
+        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="469.0" layoutY="249.0">
+            <Image url="@../image/button.jpg" />
+        </ImageView>
+        <Text fill="#daa3a3" layoutX="490.0" layoutY="283.0" onMouseClicked="#openNewGame" strokeType="OUTSIDE" strokeWidth="0.0" text="New Game" textAlignment="CENTER" wrappingWidth="100.0">
+           <font>
                <Font name="NPIOuj" size="24.0" />
-            </font>
-         </Text>
-         <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="469.0" layoutY="333.0">
-            <image>
-               <Image url="@../image/button.jpg" />
-            </image>
-         </ImageView>
-         <Text fill="#daa3a3" layoutX="490.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deck Menu" textAlignment="CENTER" wrappingWidth="100.0" onMouseClicked="#openDeckMenu">
-            <font>
+           </font>
+        </Text>
+        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="469.0" layoutY="333.0">
+            <Image url="@../image/button.jpg" />
+        </ImageView>
+        <Text fill="#daa3a3" layoutX="490.0" layoutY="367.0" onMouseClicked="#openDeckMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Deck Menu" textAlignment="CENTER" wrappingWidth="100.0">
+           <font>
                <Font name="NPIOuj" size="24.0" />
-            </font>
-         </Text>
-         <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="469.0" layoutY="419.0">
-            <image>
-               <Image url="@../image/button.jpg" />
-            </image>
-         </ImageView>
-         <Text fill="#daa3a3" layoutX="490.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sopping" textAlignment="CENTER" wrappingWidth="100.0" onMouseClicked="#openShopMenu">
-            <font>
+           </font>
+        </Text>
+        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="469.0" layoutY="504.0">
+            <Image url="@../image/button.jpg" />
+        </ImageView>
+        <Text fill="#daa3a3" layoutX="490.0" layoutY="538.0" onMouseClicked="#openShopMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Sopping" textAlignment="CENTER" wrappingWidth="100.0">
+           <font>
                <Font name="NPIOuj" size="24.0" />
-            </font>
-         </Text>
-         <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="709.0" layoutY="249.0">
-            <image>
-               <Image url="@../image/button.jpg" />
-            </image>
-         </ImageView>
-         <Text fill="#daa3a3" layoutX="730.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scoreboard" textAlignment="CENTER" wrappingWidth="100.0" onMouseClicked="#openScoreboard">
-            <font>
+           </font>
+        </Text>
+        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="709.0" layoutY="249.0">
+            <Image url="@../image/button.jpg" />
+        </ImageView>
+        <Text fill="#daa3a3" layoutX="730.0" layoutY="283.0" onMouseClicked="#openScoreboard" strokeType="OUTSIDE" strokeWidth="0.0" text="Scoreboard" textAlignment="CENTER" wrappingWidth="100.0">
+           <font>
                <Font name="NPIOuj" size="24.0" />
-            </font>
-         </Text>
-         <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="709.0" layoutY="333.0" >
-            <image>
-               <Image url="@../image/button.jpg" />
-            </image>
-         </ImageView>
-         <Text fill="#daa3a3" layoutX="730.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Profile" textAlignment="CENTER" wrappingWidth="100.0" onMouseClicked="#openProfileMenu">
-            <font>
+           </font>
+        </Text>
+        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="709.0" layoutY="333.0">
+            <Image url="@../image/button.jpg" />
+        </ImageView>
+        <Text fill="#daa3a3" layoutX="730.0" layoutY="367.0" onMouseClicked="#openProfileMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Profile" textAlignment="CENTER" wrappingWidth="100.0">
+           <font>
                <Font name="NPIOuj" size="24.0" />
-            </font>
-         </Text>
-         <ImageView fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="709.0" layoutY="419.0">
-            <image>
-               <Image url="@../image/button.jpg" />
-            </image>
-         </ImageView>
-         <Text fill="#daa3a3" layoutX="730.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LogOut" textAlignment="CENTER" wrappingWidth="100.0" onMouseClicked="#logout" >
-            <font>
+           </font>
+        </Text>
+        <ImageView fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="709.0" layoutY="504.0">
+            <Image url="@../image/button.jpg" />
+        </ImageView>
+        <Text fill="#daa3a3" layoutX="730.0" layoutY="538.0" onMouseClicked="#logout" strokeType="OUTSIDE" strokeWidth="0.0" text="LogOut" textAlignment="CENTER" wrappingWidth="100.0">
+           <font>
                <Font name="NPIOuj" size="24.0" />
-            </font>
-         </Text>
-        </children>
+           </font>
+        </Text>
+      <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="469.0" layoutY="420.0">
+         <image>
+            <Image url="@../image/button.jpg" />
+         </image>
+      </ImageView>
+      <Text fill="#daa3a3" layoutX="490.0" layoutY="454.0" onMouseClicked="#openImpExpMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Imp/Exp" textAlignment="CENTER" wrappingWidth="100.0">
+         <font>
+            <Font name="NPIOuj" size="24.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="backButton1" fitHeight="57.0" fitWidth="142.0" layoutX="709.0" layoutY="420.0">
+         <image>
+            <Image url="@../image/button.jpg" />
+         </image>
+      </ImageView>
+      <Text fill="#daa3a3" layoutX="730.0" layoutY="454.0" onMouseClicked="#openCreateCardMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Card" textAlignment="CENTER" wrappingWidth="100.0">
+         <font>
+            <Font name="NPIOuj" size="24.0" />
+         </font>
+      </Text>
     </AnchorPane>
 </StackPane>
