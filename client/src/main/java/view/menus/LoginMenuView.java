@@ -66,12 +66,12 @@ public class LoginMenuView {
         Scene scene = backButton.getScene();
         stackPane = (StackPane) scene.getRoot();
         stackPane.getChildren().add(root);
-        root.translateYProperty().set(+480);
+        root.translateYProperty().set(+1200);
         Timeline animationTimeLine = new Timeline();
         Timeline currentPageAnimationTimeLine = new Timeline();
         KeyValue nextPageKeyValue = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
         KeyFrame nextPageKeyFrame = new KeyFrame(Duration.seconds(1), nextPageKeyValue);
-        KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateYProperty(), -480, Interpolator.EASE_IN);
+        KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateYProperty(), -1200, Interpolator.EASE_IN);
         KeyFrame currentPageKeyFrame = new KeyFrame(Duration.seconds(1), currentPageKeyValue);
         animationTimeLine.setOnFinished(actionEvent -> {
             stackPane.getChildren().remove(0);

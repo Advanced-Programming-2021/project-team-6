@@ -4,11 +4,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0"
            prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="view.menus.ShopMenuView">
-    <AnchorPane prefHeight="680.0" prefWidth="1200.0">
-        <ImageView fitHeight="680.0" fitWidth="1200.0">
+    <AnchorPane prefHeight="1200.0" prefWidth="1950.0">
+        <ImageView fitHeight="1200.0" fitWidth="1950.0">
             <Image url="@../image/field.png"/>
         </ImageView>
         <ImageView fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="30.0" layoutY="566.0">
@@ -32,7 +33,7 @@
                 <Font size="25.0"/>
             </font>
         </Text>
-        <GridPane vgap="5" hgap="5" fx:id="gameBoard" alignment="CENTER">
+        <GridPane vgap="5" hgap="5" fx:id="gameBoardInFxml" alignment="CENTER">
             <padding>
                 <Insets left="5" right="5"/>
             </padding>

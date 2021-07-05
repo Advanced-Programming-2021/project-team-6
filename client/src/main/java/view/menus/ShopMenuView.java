@@ -1,10 +1,12 @@
 package view.menus;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -13,14 +15,14 @@ import view.Components.CardView;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+
 
 public class ShopMenuView {
     public GridPane gameBoard;
-    public Button backButton;
+    public ImageView backButton;
     public BorderPane borderPane;
+    public GridPane gameBoardInFxml;
     private Card[][] board;
     private CardView[][] cards;
     public Button[][] buyButtons;
@@ -29,8 +31,10 @@ public class ShopMenuView {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
         WelcomeMenuView.mainStage.setScene(new Scene(root));
     }
-    public void showShop(){
-        Scene scene = backButton.getScene();
+    public void showShop() throws IOException {
+        Pane root = FXMLLoader.load(getClass().getResource("/fxml/ShopMenu.fxml"));
+        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        gameBoard = ((GridPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(5));
         setGameBoardCards();
         showCards();
     }
@@ -125,7 +129,7 @@ public class ShopMenuView {
         int cnt = 0;
         for (int i = 0 ; i < board.length ; i++) {
             for (int j = 0 ; j < board[0].length ; j++)
-                board[i][j] = new Card(Objects.requireNonNull(getClass().getResource(fronts.get(cnt++))).toExternalForm(), i, j);
+                board[i][j] = new Card(getClass().getResource( "/" + fronts.get(cnt++)).toExternalForm(), i, j);
         }
     }
 
