@@ -1,8 +1,10 @@
 package serverConection;
 
 import controller.menus.*;
+import models.Database;
 import models.Player;
 import models.Scoreboard;
+import models.cards.Card;
 import org.ietf.jgss.Oid;
 
 import java.io.DataInputStream;
@@ -32,6 +34,7 @@ public class ServerController {
             "^increase (--money|-m) (?<amount>\\d+) (?<token>\\S+)",
             "^import card (?<name>\\S+) (?<token>S++)$",
             "^export card (?<name>\\S+) (?<token>S++)$",
+            "^get description (?<name>\\S+)$"
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -117,6 +120,8 @@ public class ServerController {
                 return ImpExpMenuController.getInstance().importFromFile(commandMatcher.group("name"), commandMatcher.group("token"));
             case 14:
                 return ImpExpMenuController.getInstance().exportToFile(commandMatcher.group("name"), commandMatcher.group("token"));
+            case 15:
+                return Database.getInstance().getCardByName(commandMatcher.group("name")).getDescription();
         }
         return "";
     }

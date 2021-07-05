@@ -1,5 +1,6 @@
 package view.menus;
 
+import controller.ClientController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,11 +12,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import model.Card;
 import view.Components.CardView;
+import view.Prompt;
+import view.PromptType;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -25,17 +29,16 @@ import java.util.List;
 public class ShopMenuView {
     @FXML
     static ScrollPane scrollPane;
+    static Card selectedCard;
+    public ImageView backButton;
+    @FXML
+    public Button buyButton;
     @FXML
     Text cardDescription;
     @FXML
     Rectangle imageOfSelectedCard;
-    public ImageView backButton;
-    @FXML
-    public Button buyButton;
     private Card[][] board;
     private CardView[][] cards;
-    private Card selectedCard;
-
 
     public void backToMainMenu() throws IOException {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
@@ -45,7 +48,8 @@ public class ShopMenuView {
     public void showShop() throws IOException {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/ShopMenu.fxml"));
         WelcomeMenuView.mainStage.setScene(new Scene(root));
-        scrollPane = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4);
+        scrollPane = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(3);
+        imageOfSelectedCard = ((Rectangle) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(0));
         setGameBoardCards();
         showCards();
     }
@@ -141,9 +145,11 @@ public class ShopMenuView {
         };
         List<String> fronts = Arrays.asList(labels);
         int cnt = 0;
+
         for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++)
-                board[i][j] = new Card(getClass().getResource("/" + fronts.get(cnt++)).toExternalForm(), i, j);
+            for (int j = 0; j < board[0].length; j++) {
+                board[i][j] = new Card(fronts.get(cnt).split("/")[3].split("\\.")[0], getClass().getResource("/" + fronts.get(cnt++)).toExternalForm(), i, j);
+            }
         }
     }
 
@@ -165,24 +171,42 @@ public class ShopMenuView {
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                selectCard(card);
+                try {
+                    selectCard(card);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         return rectangle;
     }
-    private void selectCard(Card card) {
+
+    private void selectCard(Card card) throws IOException {
         selectedCard = card;
         showDetails();
     }
 
-    private void showDetails() {
+    private void showDetails() throws IOException {
         imageOfSelectedCard.setFill(getCardRectangle(selectedCard).getFill());
-        //inja biad check kone gheimato buttono visible kone baades
+        cardDescription.setText(ClientController.getDescription(selectedCard.getName()));
+        String result = ClientController.buyCard(selectedCard.getName());
+        if (!result.split(":")[0].equals("not enough money")) {
+            buyButton.disableProperty().set(false);
+        } else {
+            buyButton.disableProperty().set(true);
+        }
 
     }
 
     public void buy(MouseEvent mouseEvent) {
-        //inja biad request bede
+        try {
+            ClientController.buyCard(selectedCard.getName());
+            showCards();
+            showDetails();
+            Prompt.showMessage("Success", PromptType.Success);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
