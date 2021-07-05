@@ -87,8 +87,9 @@ public class ClientController {
         return sendMessage("change nickname " + newNickname + " " + ClientController.token);
     }
 
-    public static String buyCard(String card) throws IOException {
-        return sendMessage("shop buy " + card + " " + ClientController.token);
+    public static String buyCard(String card, boolean justWantToCheck) throws IOException {
+        String command = (justWantToCheck)?"can buy " :"buy ";
+        return sendMessage("shop " +command + card + " " + ClientController.token);
     }
 
     public static String loadAllCards() throws IOException {
@@ -110,8 +111,8 @@ public class ClientController {
     public static String exportCard(String cardName) throws IOException {
         return sendMessage("export card " + cardName + " " + ClientController.token);
     }
-    public static String getDescription(String cardname) throws IOException {
-        return sendMessage("get description "+ cardname);
+    public static String getDescription(String cardName) throws IOException {
+        return sendMessage("get description "+ cardName);
     }
 
     public static String cancelGameRequest() throws IOException {

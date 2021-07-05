@@ -33,8 +33,10 @@ public class ShopMenuView {
     public ImageView backButton;
     @FXML
     public Button buyButton;
+    private Button staticBuyButton;
     @FXML
     Text cardDescription;
+    static Text cardDescriptionText;
     @FXML
     Rectangle imageOfSelectedCard;
     private Card[][] board;
@@ -50,6 +52,8 @@ public class ShopMenuView {
         WelcomeMenuView.mainStage.setScene(new Scene(root));
         scrollPane = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(3);
         imageOfSelectedCard = ((Rectangle) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(0));
+        cardDescriptionText = ((Text) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(1));
+        staticBuyButton = (Button) ((AnchorPane) root.getChildren().get(0)).getChildren().get(5);
         setGameBoardCards();
         showCards();
     }
@@ -188,22 +192,19 @@ public class ShopMenuView {
 
     private void showDetails() throws IOException {
         imageOfSelectedCard.setFill(getCardRectangle(selectedCard).getFill());
-        cardDescription.setText(ClientController.getDescription(selectedCard.getName()));
-        String result = ClientController.buyCard(selectedCard.getName());
-        if (!result.split(":")[0].equals("not enough money")) {
-            buyButton.disableProperty().set(false);
-        } else {
-            buyButton.disableProperty().set(true);
-        }
+        cardDescriptionText.setText(ClientController.getDescription(selectedCard.getName()));
+        String result = ClientController.buyCard(selectedCard.getName(), true);
+        staticBuyButton.disableProperty().set(result.split(":")[1].equals("not enough money"));
 
     }
 
-    public void buy(MouseEvent mouseEvent) {
+    public void buy() {
         try {
-            ClientController.buyCard(selectedCard.getName());
-            showCards();
-            showDetails();
-            Prompt.showMessage("Success", PromptType.Success);
+            String result = ClientController.buyCard(selectedCard.getName(), false);
+            if (result.split(":")[0].equals("not enough money"))
+                Prompt.showMessage("Card Purchased Successfully", PromptType.Success);
+            else
+                Prompt.showMessage("You Don't Have Enough Money" , PromptType.Error);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

@@ -31,6 +31,7 @@ public class MainMenuView {
     public static String startNewGame(String playerName , String opponentName , String playerProfile , String opponentProfile) {
         Label playerLabel = new Label(playerName) ,opponentLabel = new Label(opponentName);
         StackPane stackPane = new StackPane();
+        return "";
     }
 
     public void openNewGame() throws IOException {

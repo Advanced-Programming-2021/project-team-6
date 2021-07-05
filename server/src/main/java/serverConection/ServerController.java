@@ -2,10 +2,11 @@ package serverConection;
 
 import controller.menus.*;
 import models.Database;
-import models.Player;
 import models.Scoreboard;
 import models.cards.Card;
-import org.ietf.jgss.Oid;
+import models.cards.Monster;
+import models.cards.Trap;
+
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -34,7 +35,8 @@ public class ServerController {
             "^increase (--money|-m) (?<amount>\\d+) (?<token>\\S+)",
             "^import card (?<name>\\S+) (?<token>S++)$",
             "^export card (?<name>\\S+) (?<token>S++)$",
-            "^get description (?<name>\\S+)$"
+            "^get description (?<name>.+)$",
+            "^shop can buy (?<cardName>.+) (?<token>\\S+)$"
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -110,7 +112,7 @@ public class ServerController {
                         commandMatcher.group("newNickname"));
             case 9:
                 String cardName = commandMatcher.group("cardName");
-                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName));
+                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName , false));
             case 10:
                 return (ShoppingMenuController.getInstance().showAllCard());
             case 11:
@@ -122,7 +124,11 @@ public class ServerController {
             case 14:
                 return ImpExpMenuController.getInstance().exportToFile(commandMatcher.group("name"), commandMatcher.group("token"));
             case 15:
-                return Database.getInstance().getCardByName(commandMatcher.group("name")).getDescription();
+                Card card = Database.getInstance().getCardByName(commandMatcher.group("name"));
+                return card.getName() + "\n" + card.getPrice() + "\n" + card.getDescription();
+            case 16:
+                cardName = commandMatcher.group("cardName");
+                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName , true));
         }
         return "";
     }

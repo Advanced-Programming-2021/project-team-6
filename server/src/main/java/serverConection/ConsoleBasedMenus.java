@@ -375,7 +375,7 @@ public class ConsoleBasedMenus {
         switch (whichCommand) {
             case 0:
                 String cardName = commandMatcher.group("cardName");
-                Output.getInstance().showMessage(ShoppingMenuController.getInstance().buyCard("playerLoggedIn", cardName));
+                Output.getInstance().showMessage(ShoppingMenuController.getInstance().buyCard("playerLoggedIn", cardName , false));
                 break;
             case 1:
                 Output.getInstance().showMessage(ShoppingMenuController.getInstance().showAllCard());
