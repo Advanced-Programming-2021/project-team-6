@@ -1,5 +1,6 @@
 package controller.menus;
 
+import models.Database;
 import models.Player;
 import serverConection.ServerController;
 
@@ -23,6 +24,11 @@ public class MainMenuController {
         return instance;
     }
 
+    public  String cancelGame(String token) {
+        waitingLobby.remove(token);
+        return "Success";
+    }
+
     public Player getPlayerLoggedIn() {
         return playerLoggedIn;
     }
@@ -40,14 +46,19 @@ public class MainMenuController {
 
 
     public String registerOnGame(boolean isThreeRounded , String token) {
+
             for (String waitingClientToken : waitingLobby.keySet()) {
                 if (!token.equals(waitingClientToken)&& waitingLobby.get(waitingClientToken) == isThreeRounded) {
-                    ServerController.sendMessageToSocket(waitingClientToken, "GameOn", false);
-                    return "GameOn";
+                    waitingLobby.remove(waitingClientToken);
+                    Player foundedOpponent = Database.getInstance().getPlayerByToken(waitingClientToken);
+                    Player player = Database.getInstance().getPlayerByToken(token);
+                    String response = "GameOn" + " " + foundedOpponent.getNickname() + " " + foundedOpponent.getPicture() + " " + player.getNickname() + " " +player.getPicture();
+                    ServerController.sendMessageToSocket(waitingClientToken, response , false);
+                    return response;
                 }
             }
             waitingLobby.put(token , isThreeRounded);
-            return "Successful";
+            return "Success";
 
     }
 }

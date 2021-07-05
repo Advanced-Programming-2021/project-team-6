@@ -32,6 +32,7 @@ public class ServerController {
             "^increase (--money|-m) (?<amount>\\d+) (?<token>\\S+)",
             "^import card (?<name>\\S+) (?<token>S++)$",
             "^export card (?<name>\\S+) (?<token>S++)$",
+            "^get description (?<name>\\S+)$"
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -65,6 +66,7 @@ public class ServerController {
     }
 
     public static String sendMessageToSocket(String token, String message, boolean isResponseNeeded) {
+        message = message + " " + isResponseNeeded;
         Socket socket = socketHashMap.get(token);
         try {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
@@ -117,6 +119,8 @@ public class ServerController {
                 return ImpExpMenuController.getInstance().importFromFile(commandMatcher.group("name"), commandMatcher.group("token"));
             case 14:
                 return ImpExpMenuController.getInstance().exportToFile(commandMatcher.group("name"), commandMatcher.group("token"));
+            case 15:
+                return MainMenuController.getInstance().cancelGame(commandMatcher.group("token"));
         }
         return "";
     }

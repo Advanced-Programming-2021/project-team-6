@@ -53,7 +53,14 @@ public class Database {
         return null;
 
     }
+    public Player getPlayerByToken(String token) {
+        for (Player player : allPlayers) {
+            if (player.getToken().equals(token))
+                return player;
+        }
+        return null;
 
+    }
     public Player getPlayerByNickname(String nickname) {
         for (Player player : allPlayers) {
             if (player.getNickname().equals(nickname))

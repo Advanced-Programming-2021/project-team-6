@@ -22,6 +22,7 @@ public class Player implements Comparable<Player> {
     private transient Deck activeDeck;
     private int money;
     private transient Board board = null;
+    private transient String token;
 
     public Player(String username, String nickname, String password) {
         this.username = username;
@@ -191,6 +192,13 @@ public class Player implements Comparable<Player> {
                 '}';
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
 
 class PlayerSerializerForDeckDatabase implements JsonSerializer<Player> {

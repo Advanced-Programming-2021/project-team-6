@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.PublicKey;
 
 
 public class ClientController {
@@ -29,7 +28,7 @@ public class ClientController {
     private static String sendMessage(String message) throws IOException {
         dataOutputStream.writeUTF(message);
         System.out.println("message sent to server : " + message);
-        dataOutputStream .flush();
+        dataOutputStream.flush();
         String response = dataInputStream.readUTF();
         System.out.println("response from server : " + response);
         return response;
@@ -50,7 +49,9 @@ public class ClientController {
                 DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 while (true) {
-                    System.out.println(dataInputStream.readUTF());
+                    String message = dataInputStream.readUTF();
+                    if (message.endsWith("true"))
+                        dataOutputStream.writeUTF(ServerMessageHandler.getServerMessage(message));
                 }
             } catch (IOException ioException) {
                 ioException.printStackTrace();
@@ -66,13 +67,13 @@ public class ClientController {
     }
 
 
-     public static String scoreboard() throws IOException {
+    public static String scoreboard() throws IOException {
         return sendMessage("scoreboard " + token);
-     }
+    }
 
-     public static String waitForNewGame() throws IOException {
+    public static String waitForNewGame() throws IOException {
         return sendMessage("new three-rounded " + token);
-     }
+    }
 
     public static String profile() throws IOException {
         return sendMessage("profile " + ClientController.token);
@@ -96,7 +97,7 @@ public class ClientController {
     }
 
     public static String showMoney() throws IOException {
-        return sendMessage("shop show money "+ ClientController.token);
+        return sendMessage("shop show money " + ClientController.token);
     }
 
     public static String increaseMoney(String amount) throws IOException {
@@ -109,6 +110,10 @@ public class ClientController {
 
     public static String exportCard(String cardName) throws IOException {
         return sendMessage("export card " + cardName + " " + ClientController.token);
+    }
+
+    public static String cancelGameRequest() throws IOException {
+        return sendMessage("cancel game" + " " + ClientController.token);
     }
 
 }

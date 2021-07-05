@@ -10,33 +10,49 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import view.Prompt;
 import view.PromptType;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class MainMenuView {
 
     public StackPane stackPane;
+    private static StackPane stackPaneOfMainMenu;
     public ImageView backButton;
+    StackPane waiting;
+
+    public static String startNewGame(String playerName , String opponentName , String playerProfile , String opponentProfile) {
+        Label playerLabel = new Label(playerName) ,opponentLabel = new Label(opponentName);
+        StackPane stackPane = new StackPane();
+    }
 
     public void openNewGame() throws IOException {
-         String result = ClientController.waitForNewGame();
-         switch (result) {
-             case "Success" :
-                 System.out.println("waiting for opponent");
-                 break;
-             case "GameOn" :
-                 System.out.println("game on");
-                 break;
-             case "Error":
-                 System.out.println("Error");
-                 break;
-         }
+        String result = ClientController.waitForNewGame();
+
+
+            if (result.startsWith("Success")) {
+                System.out.println("waiting for opponent");
+                waiting = FXMLLoader.load(getClass().getResource("/fxml/waiting.fxml"));
+                stackPane = (StackPane) backButton.getScene().getRoot();
+                stackPane.getChildren().add(waiting);
+            }
+            else if (result.startsWith("GameOn")) {
+                    waiting = FXMLLoader.load(getClass().getResource("/fxml/waiting.fxml"));
+                    stackPane = (StackPane) backButton.getScene().getRoot();
+                    stackPane.getChildren().add(waiting);
+                    System.out.println("game on");
+            }
+            else if(result.startsWith("Error"))
+                System.out.println("Error");
+
+
     }
 
     public void openDeckMenu() {
@@ -60,7 +76,7 @@ public class MainMenuView {
 
     }
 
-    public void openCreateCardMenu(){
+    public void openCreateCardMenu() {
 
     }
 
@@ -75,24 +91,31 @@ public class MainMenuView {
             stackPane = (StackPane) scene.getRoot();
             root.translateXProperty().set(-1950);
             stackPane.getChildren().add(root);
-            Timeline animationTimeLine = new Timeline();
+            stackPaneOfMainMenu = stackPane;
             Timeline currentPageAnimationTimeLine = new Timeline();
-            KeyValue nextPageKeyValue = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
-            KeyFrame nextPageKeyFrame = new KeyFrame(Duration.seconds(1), nextPageKeyValue);
-            KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateXProperty(), +1950, Interpolator.EASE_IN);
-            animationTimeLine.getKeyFrames().add(nextPageKeyFrame);
-            KeyFrame currentPageKeyFrame = new KeyFrame(Duration.seconds(1), currentPageKeyValue);
-            currentPageAnimationTimeLine.getKeyFrames().add(currentPageKeyFrame);
-            animationTimeLine.play();
-            currentPageAnimationTimeLine.play();
+            Timeline animationTimeLine = new Timeline();
             animationTimeLine.setOnFinished(actionEvent -> {
                 stackPane.getChildren().remove(0);
                 stackPane.getChildren().remove(0);
-             //   stackPane.getChildren().remove(0);
                 scene.setRoot(root);
             });
+            KeyValue nextPageKeyValue = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
+            KeyFrame nextPageKeyFrame = new KeyFrame(Duration.seconds(1), nextPageKeyValue);
+            KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateXProperty(), +1950, Interpolator.EASE_IN);
+            KeyFrame currentPageKeyFrame = new KeyFrame(Duration.seconds(1), currentPageKeyValue);
+            animationTimeLine.getKeyFrames().add(nextPageKeyFrame);
+            currentPageAnimationTimeLine.getKeyFrames().add(currentPageKeyFrame);
+            animationTimeLine.play();
+            currentPageAnimationTimeLine.play();
+
         }
 
     }
 
+    public void cancelGame() throws IOException {
+        stackPane = (StackPane) backButton.getScene().getRoot();
+        stackPaneOfMainMenu = stackPane;
+        if (ClientController.cancelGameRequest().equals("Success"))
+            stackPane.getChildren().remove(1);
+    }
 }
