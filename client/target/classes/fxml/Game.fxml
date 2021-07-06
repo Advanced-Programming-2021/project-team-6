@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.Game">
+    <ImageView fitHeight="680" fitWidth="1200">
+        <Image url="@../image/fieldS.jpg" />
+    </ImageView>
+    <ImageView fitHeight="103" fitWidth="109" translateX="-540">
+        <Image url="@../image/bilbolak.jpg" />
+    </ImageView>
+    <ImageView fitHeight="90" fitWidth="90" translateX="430" translateY="108">
+        <Image url="@../image/profilePicture/1.jpg" />
+    </ImageView>
+    <ImageView fitHeight="90" fitWidth="90" translateX="430" translateY="-192">
+        <Image url="@../image/profilePicture/1.jpg" />
+    </ImageView>
+    <Label textFill="azure" text="8000" translateX="432.0" translateY="250.0" />
+    <Label textFill="azure" text="8000" translateX="430.0" translateY="-40.0"/>
+    <Label textFill="azure" text="username1" translateX="430.0" translateY="-113.0" />
+    <Label textFill="azure" text="username2" translateX="434.0" translateY="192.0" />
+</StackPane>

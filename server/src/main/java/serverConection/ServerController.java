@@ -1,9 +1,13 @@
 package serverConection;
 
 import controller.menus.*;
+import models.Database;
 import models.Player;
 import models.Scoreboard;
-import org.ietf.jgss.Oid;
+import models.cards.Card;
+import models.cards.Monster;
+import models.cards.Trap;
+
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,8 +34,11 @@ public class ServerController {
             "^shop show --all$",
             "shop show money (?<token>\\S+)$",
             "^increase (--money|-m) (?<amount>\\d+) (?<token>\\S+)",
-            "^import card (?<name>.+) (?<token>\\S+)$",
-            "^export card (?<name>.+) (?<token>\\S+)$",
+            "^import card (?<name>\\S+) (?<token>S++)$",
+            "^export card (?<name>\\S+) (?<token>S++)$",
+            "^get description (?<name>.+)$",
+            "^shop can buy (?<cardName>.+) (?<token>\\S+)$",
+            "^cancel game (?<token>\\S+)$"
             "^create card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<level>\\d+) (?<description>.+) (?<token>\\S+)$"
     };
 
@@ -66,6 +73,7 @@ public class ServerController {
     }
 
     public static String sendMessageToSocket(String token, String message, boolean isResponseNeeded) {
+        message = message + " " + isResponseNeeded;
         Socket socket = socketHashMap.get(token);
         try {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
@@ -107,7 +115,7 @@ public class ServerController {
                         commandMatcher.group("newNickname"));
             case 9:
                 String cardName = commandMatcher.group("cardName");
-                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName));
+                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName , false));
             case 10:
                 return (ShoppingMenuController.getInstance().showAllCard());
             case 11:
@@ -119,6 +127,14 @@ public class ServerController {
             case 14:
                 return ImpExpMenuController.getInstance().exportToFile(commandMatcher.group("name"), commandMatcher.group("token"));
             case 15:
+                Card card = Database.getInstance().getCardByName(commandMatcher.group("name"));
+                return card.getName() + "\n" + card.getPrice() + "\n" + card.getDescription();
+            case 16:
+                cardName = commandMatcher.group("cardName");
+                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName , true));
+            case 17:
+                return MainMenuController.getInstance().cancelGame(commandMatcher.group("token"));
+            case 18:
                 return CreateCardMenuController.getInstance().createCard(commandMatcher.group("name"), commandMatcher.group("attack"),
                         commandMatcher.group("defence"), commandMatcher.group("level"),
                         commandMatcher.group("description"), commandMatcher.group("token"));

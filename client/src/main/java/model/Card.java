@@ -7,8 +7,10 @@ public class Card {
     private int i;
     private int j;
     private String address;
+    private String name;
 
-    public Card(String address, int i, int j) {
+    public Card(String name, String address, int i, int j) {
+        this.name = name;
         this.address = address;
         this.i = i;
         this.j = j;
@@ -48,5 +50,13 @@ public class Card {
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
         return this.getAddress().equals(card.getAddress());
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

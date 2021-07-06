@@ -21,7 +21,7 @@ public class ShoppingMenuController {
         return instance;
     }
 
-    public String buyCard(String token, String cardName) {
+    public String buyCard(String token, String cardName , boolean justWantToCheck) {
         Player player = MainMenuController.getInstance().loggedInUsers.get(token);
         if (player == null) return "Error";
 
@@ -33,8 +33,10 @@ public class ShoppingMenuController {
             return ("Error:not enough money");
         }
 
-        player.addCardToAllPlayerCard(card);
-        player.setMoney(player.getMoney() - card.getPrice());
+        if (!justWantToCheck) {
+            player.addCardToAllPlayerCard(card);
+            player.setMoney(player.getMoney() - card.getPrice());
+        }
         return ("Success:Card purchased");
     }
 

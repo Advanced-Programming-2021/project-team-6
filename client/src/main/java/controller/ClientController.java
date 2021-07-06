@@ -1,11 +1,12 @@
 package controller;
 
+import javafx.application.Platform;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.PublicKey;
 
 
 public class ClientController {
@@ -50,7 +51,25 @@ public class ClientController {
                 DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 while (true) {
-                    System.out.println(dataInputStream.readUTF());
+                    String message = dataInputStream.readUTF();
+                    System.out.println("New Message From Central Server : " + message);
+                    Platform.runLater(() -> {
+                        if (message.endsWith("true")) {
+                            try {
+                                dataOutputStream.writeUTF(ServerMessageHandler.getServerMessage(message));
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                        }
+                        else {
+                            try {
+                                ServerMessageHandler.getServerMessage(message);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                        }
+                    });
+
                 }
             } catch (IOException ioException) {
                 ioException.printStackTrace();
@@ -86,9 +105,9 @@ public class ClientController {
         return sendMessage("change nickname " + newNickname + " " + ClientController.token);
     }
 
-    public static String buyCard(String card) throws IOException {
-        String result = sendMessage("shop buy " + card + " " + ClientController.token);
-        return result.split(":")[0];
+    public static String buyCard(String card, boolean justWantToCheck) throws IOException {
+        String command = (justWantToCheck)?"can buy " :"buy ";
+        return sendMessage("shop " +command + card + " " + ClientController.token);
     }
 
     public static String loadAllCards() throws IOException {
@@ -109,6 +128,13 @@ public class ClientController {
 
     public static String exportCard(String cardName) throws IOException {
         return sendMessage("export card " + cardName + " " + ClientController.token);
+    }
+    public static String getDescription(String cardName) throws IOException {
+        return sendMessage("get description "+ cardName);
+    }
+
+    public static String cancelGameRequest() throws IOException {
+        return sendMessage("cancel game" + " " + ClientController.token);
     }
 
     public static String createCard(String name, String attackPower, String defencePower, String description,
