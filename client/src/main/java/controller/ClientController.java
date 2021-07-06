@@ -61,8 +61,13 @@ public class ClientController {
                                 ioException.printStackTrace();
                             }
                         }
-                        else
-                            ServerMessageHandler.getServerMessage(message);
+                        else {
+                            try {
+                                ServerMessageHandler.getServerMessage(message);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                        }
                     });
 
                 }

@@ -1,26 +1,25 @@
 package view.menus;
 
 
+import controller.AnimationUtility;
 import controller.ClientController;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.scene.control.Label;
 import javafx.util.Duration;
 import view.Prompt;
 import view.PromptType;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -31,23 +30,65 @@ public class MainMenuView {
     public ImageView backButton;
     StackPane waiting;
 
-    public static String startNewGame(String playerName, String opponentName, String playerProfile, String opponentProfile) {
-        Label playerLabel = new Label(playerName), opponentLabel = new Label(opponentName);
-        GridPane stackPane = new GridPane();
+    public static String startNewGame(String playerName, String opponentName, String playerProfile, String opponentProfile, boolean isFirstPlayer) throws IOException {
+        stackPaneOfMainMenu.getChildren().add(setUpDuelDoor(playerName, opponentName, playerProfile, opponentProfile, isFirstPlayer));
+        return "";
+    }
+
+    private static Pane setUpDuelDoor(String playerName, String opponentName, String playerProfile, String opponentProfile, boolean isFirstPlayer) throws IOException {
+        Pane stackPane = new Pane();
+        Pane leftDoorPane = new Pane(), rightDoorPane = new Pane();
         ImageView leftDuelDoor = new ImageView(new Image(MainMenuView.class.getResource("/image/leftDueldoor.gif").toExternalForm()));
         ImageView rightDuelDoor = new ImageView(new Image(MainMenuView.class.getResource("/image/Dueldoor.gif").toExternalForm()));
         ImageView playerProfilePicture = new ImageView(new Image(MainMenuView.class.getResource("/image/profilePicture/" + playerProfile + ".jpg").toExternalForm()));
         ImageView opponentProfilePicture = new ImageView(new Image(MainMenuView.class.getResource("/image/profilePicture/" + opponentProfile + ".jpg").toExternalForm()));
-        opponentProfilePicture.setFitWidth(50);
-        opponentProfilePicture.setFitHeight(50);
-        playerProfilePicture.setFitHeight(50);
-        playerProfilePicture.setFitWidth(50);
-        stackPane.add(new Text(playerName), 0, 0);
-        stackPane.add(new Text(opponentName), 0, 1);
-        stackPane.add(playerProfilePicture, 1, 0);
-        stackPane.add(opponentProfilePicture, 1, 1);
-        stackPaneOfMainMenu.getChildren().add(stackPane);
-        return "";
+        leftDoorPane.getChildren().add(leftDuelDoor);
+        leftDoorPane.getChildren().add(playerProfilePicture);
+        leftDoorPane.getChildren().get(1).translateXProperty().set(103);
+        leftDoorPane.getChildren().get(1).translateYProperty().set(222);
+        rightDoorPane.getChildren().add(rightDuelDoor);
+        rightDoorPane.getChildren().add(opponentProfilePicture);
+        rightDoorPane.getChildren().get(1).translateXProperty().set(268);
+        rightDoorPane.getChildren().get(1).translateYProperty().set(220);
+        opponentProfilePicture.setFitWidth(230);
+        opponentProfilePicture.setFitHeight(230);
+        playerProfilePicture.setFitHeight(230);
+        playerProfilePicture.setFitWidth(230);
+        leftDuelDoor.setFitHeight(680);
+        leftDuelDoor.setFitWidth(862.5);
+        rightDuelDoor.setFitHeight(680);
+        rightDuelDoor.setFitWidth(621);
+        stackPane.getChildren().add(leftDoorPane);
+        stackPane.getChildren().add(rightDoorPane);
+        stackPane.getChildren().add(new Text(playerName));
+        stackPane.getChildren().add(new Text(opponentName));
+        stackPane.getChildren().get(0).translateXProperty().set(-680);
+        stackPane.getChildren().get(1).translateXProperty().set(1500);
+        stackPaneOfMainMenu.getChildren().remove(1);
+        StackPane gameView = FXMLLoader.load(MainMenuView.class.getResource("/fxml/gAME.fxml"));
+        gameView.setOpacity(0);
+        AnimationUtility.playDoorAnimation(leftDoorPane, rightDoorPane, stackPaneOfMainMenu, gameView);
+        if (isFirstPlayer)
+            setDuelInformation(gameView, playerName, playerProfile, opponentName, opponentProfile);
+        else
+            setDuelInformation(gameView, opponentName, opponentProfile, playerName, playerProfile);
+
+
+        stackPaneOfMainMenu.getChildren().add(gameView);
+        return stackPane;
+    }
+
+    private static void setDuelInformation(StackPane gameView, String playerName, String playerProfile, String opponentName, String opponentProfile) {
+        ImageView playerImage, opponentImage;
+        Label playerLabel, opponentLabel;
+        playerImage = ((ImageView) gameView.getChildren().get(2));
+        opponentImage = ((ImageView) gameView.getChildren().get(3));
+        playerImage.setImage(new Image(MainMenuView.class.getResource("/image/profilePicture/" + playerProfile + ".jpg").toExternalForm()));
+        opponentImage.setImage(new Image(MainMenuView.class.getResource("/image/profilePicture/" + opponentProfile + ".jpg").toExternalForm()));
+        playerLabel = ((Label) gameView.getChildren().get(7));
+        opponentLabel = ((Label) gameView.getChildren().get(6));
+        playerLabel.setText(playerName);
+        opponentLabel.setText(opponentName);
     }
 
     public void openNewGame() throws IOException {
@@ -64,7 +105,7 @@ public class MainMenuView {
             stackPaneOfMainMenu = stackPane;
             stackPane.getChildren().add(waiting);
             String[] params = result.split(" ");
-            MainMenuView.startNewGame(params[1], params[3], params[2], params[4]);
+            MainMenuView.startNewGame(params[1], params[3], params[2], params[4], false);
             System.out.println("game on");
         } else if (result.startsWith("Error"))
             System.out.println("Error");
