@@ -38,8 +38,8 @@ public class ServerController {
             "^export card (?<name>\\S+) (?<token>S++)$",
             "^get description (?<name>.+)$",
             "^shop can buy (?<cardName>.+) (?<token>\\S+)$",
-            "^cancel game (?<token>\\S+)$"
-            "^create card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<level>\\d+) (?<description>.+) (?<token>\\S+)$"
+            "^cancel game (?<token>\\S+)$",
+            "^create card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<level>\\d+) (?<description>.+) (?<token>\\S+)$",
     };
 
     public static void registerSocket(Socket socket, String token) {
