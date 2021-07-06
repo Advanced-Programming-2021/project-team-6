@@ -29,7 +29,7 @@ public class ClientController {
     private static String sendMessage(String message) throws IOException {
         dataOutputStream.writeUTF(message);
         System.out.println("message sent to server : " + message);
-        dataOutputStream .flush();
+        dataOutputStream.flush();
         String response = dataInputStream.readUTF();
         System.out.println("response from server : " + response);
         return response;
@@ -66,13 +66,13 @@ public class ClientController {
     }
 
 
-     public static String scoreboard() throws IOException {
+    public static String scoreboard() throws IOException {
         return sendMessage("scoreboard " + token);
-     }
+    }
 
-     public static String waitForNewGame() throws IOException {
+    public static String waitForNewGame() throws IOException {
         return sendMessage("new three-rounded " + token);
-     }
+    }
 
     public static String profile() throws IOException {
         return sendMessage("profile " + ClientController.token);
@@ -96,7 +96,7 @@ public class ClientController {
     }
 
     public static String showMoney() throws IOException {
-        return sendMessage("shop show money "+ ClientController.token);
+        return sendMessage("shop show money " + ClientController.token);
     }
 
     public static String increaseMoney(String amount) throws IOException {
@@ -109,6 +109,12 @@ public class ClientController {
 
     public static String exportCard(String cardName) throws IOException {
         return sendMessage("export card " + cardName + " " + ClientController.token);
+    }
+
+    public static String createCard(String name, String attackPower, String defencePower, String description,
+                                    String level) throws IOException {
+        return sendMessage("create card " + name + " " + attackPower + " " + defencePower + " " + level + " "
+                + description + " " + ClientController.token);
     }
 
 }

@@ -46,7 +46,7 @@
    </Text>
    <TextField fx:id="importCardName" accessibleRole="BUTTON" layoutX="612.0" layoutY="263.0" prefHeight="36.0" prefWidth="168.0" text="Card Name">
       <font>
-         <Font size="18.0" />
+         <Font name="NPIOuj" size="18.0" />
       </font>
       <effect>
          <Reflection />
@@ -54,7 +54,7 @@
    </TextField>
    <TextField fx:id="exportCardName" accessibleRole="BUTTON" layoutX="612.0" layoutY="380.0" prefHeight="36.0" prefWidth="168.0" text="Card Name">
       <font>
-         <Font size="17.0" />
+         <Font name="NPIOuj" size="17.0" />
       </font>
       <effect>
          <Reflection />

@@ -30,8 +30,9 @@ public class ServerController {
             "^shop show --all$",
             "shop show money (?<token>\\S+)$",
             "^increase (--money|-m) (?<amount>\\d+) (?<token>\\S+)",
-            "^import card (?<name>\\S+) (?<token>S++)$",
-            "^export card (?<name>\\S+) (?<token>S++)$",
+            "^import card (?<name>.+) (?<token>\\S+)$",
+            "^export card (?<name>.+) (?<token>\\S+)$",
+            "^create card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<level>\\d+) (?<description>.+) (?<token>\\S+)$"
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -117,6 +118,10 @@ public class ServerController {
                 return ImpExpMenuController.getInstance().importFromFile(commandMatcher.group("name"), commandMatcher.group("token"));
             case 14:
                 return ImpExpMenuController.getInstance().exportToFile(commandMatcher.group("name"), commandMatcher.group("token"));
+            case 15:
+                return CreateCardMenuController.getInstance().createCard(commandMatcher.group("name"), commandMatcher.group("attack"),
+                        commandMatcher.group("defence"), commandMatcher.group("level"),
+                        commandMatcher.group("description"), commandMatcher.group("token"));
         }
         return "";
     }

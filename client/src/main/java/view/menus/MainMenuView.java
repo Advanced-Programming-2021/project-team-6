@@ -60,8 +60,8 @@ public class MainMenuView {
 
     }
 
-    public void openCreateCardMenu(){
-
+    public void openCreateCardMenu() throws IOException {
+        new CreateCardMenuView().showCreateCardMenu();
     }
 
     public void logout() throws IOException {
