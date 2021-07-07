@@ -1,1 +1,0 @@
-{"Name":"Time Seal","Type":"Trap","Property":"Counter","Description":"Skip the Draw Phase of your opponent's next turn.","Status":"Limited","Price":2000,"Trigger":"wait-for{{ODP}}then-do{{*?*skip-phase;die;}}"}
