@@ -102,7 +102,7 @@ public class ShopMenuView {
                 "image/Cards/Monsters/Haniwa.jpg",
                 "image/Cards/Monsters/Herald Of Creation.jpg",
                 "image/Cards/Monsters/Hero Of The East.jpg",
-                "image/Cards/Monsters/Horn-Imp.jpg",
+                "image/Cards/Monsters/Horn Imp.jpg",
                 "image/Cards/Monsters/Leotron.jpg",
                 "image/Cards/Monsters/Man-Eater Bug.jpg",
                 "image/Cards/Monsters/Marshmallon.jpg",
