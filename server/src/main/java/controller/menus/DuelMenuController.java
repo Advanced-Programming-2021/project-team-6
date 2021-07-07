@@ -10,10 +10,16 @@ import serverConection.GameInputs;
 import serverConection.Output;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 public class DuelMenuController {
+
+    public static HashMap<String, Duel> onlineDuels = new HashMap<>();
+    private static int duelID = 1;
+
     private static DuelMenuController instance;
     public static boolean debugBool = false;
+
     private DuelMenuController() {
     }
 
@@ -23,95 +29,91 @@ public class DuelMenuController {
         return instance;
     }
 
-    public void startGame(String firstUsername, String secondUsername, String round, boolean isAI)
+    public String startGame(String firstUsername, String secondUsername, String round, boolean isAI)
             throws CloneNotSupportedException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         Player firstPlayer = Database.getInstance().getPlayerByUsername(firstUsername);
         Player secondPlayer = Database.getInstance().getPlayerByUsername(secondUsername);
 
-        if (!ErrorChecker.doesUsernameExist(secondUsername)) {
-            Output.getInstance().showMessage("there are no player with this username");
-            return;
-        }
-        if (firstPlayer.getActiveDeck() == null) {
-            Output.getInstance().showMessage(firstUsername + " has no active deck");
-            return;
-        }
-        if (secondPlayer.getActiveDeck() == null) {
-            Output.getInstance().showMessage(secondUsername + " has no active deck");
-            return;
-        }
-        if (!ErrorChecker.isDeckAllowed(firstPlayer.getActiveDeck())) {
-            Output.getInstance().showMessage(firstUsername + "'s deck is invalid");
-            return;
-        }
-        if (!ErrorChecker.isDeckAllowed(secondPlayer.getActiveDeck())) {
-            Output.getInstance().showMessage(secondUsername + "'s deck is invalid");
-            return;
-        }
-        if (!round.equals("1") && !round.equals("3")) {
-            Output.getInstance().showMessage("number of rounds is not supported");
-            return;
-        }
+        if (firstPlayer.getActiveDeck() == null)
+            return "Error: " + firstUsername + " has no active deck";
+
+        if (secondPlayer.getActiveDeck() == null)
+            return "Error: " + secondUsername + " has no active deck";
+
+        if (!ErrorChecker.isDeckAllowed(firstPlayer.getActiveDeck()))
+            return "Error: " + firstUsername + "'s deck is invalid";
+
+
+        if (!ErrorChecker.isDeckAllowed(secondPlayer.getActiveDeck()))
+            return "Error: " + secondUsername + "'s deck is invalid";
+
+
+        if (!round.equals("1") && !round.equals("3"))
+            return "Error: " + "number of rounds is not supported";
+
 
         int numberOfRound = Integer.parseInt(round);
         int numberOfWinPlayer1 = 0, numberOfWinPlayer2 = 0;
 
-        for (int i = 1; i <= numberOfRound; i++) {
-            Output.getInstance().showMessage("game on");
+        new Duel(firstPlayer, secondPlayer, String.valueOf(duelID));
 
-            if (isAI) runSinglePlayer(firstPlayer, secondPlayer);
-            if (!isAI) runMultiplePlayer(firstPlayer, secondPlayer);
+        duelID++;
+        return "Success: game on with " + (duelID - 1);
 
-            Player winner = Duel.getCurrentDuel().getWinner();
-            if (winner == null)
-                return;
-            if (Duel.getCurrentDuel().getWinner().getUsername().equals(firstPlayer.getUsername()))
-                numberOfWinPlayer1++;
-            if (Duel.getCurrentDuel().getWinner().getUsername().equals(secondPlayer.getUsername()))
-                numberOfWinPlayer2++;
+//        for (int i = 1; i <= numberOfRound; i++) {
+//            Output.getInstance().showMessage("game on");
+//
+//            if (isAI) runSinglePlayer(firstPlayer, secondPlayer);
+//            if (!isAI) runMultiplePlayer(firstPlayer, secondPlayer);
+//        }
+//            Player winner = Duel.getCurrentDuel().getWinner();
+//            if (winner == null)
+//                return;
+//            if (Duel.getCurrentDuel().getWinner().getUsername().equals(firstPlayer.getUsername()))
+//                numberOfWinPlayer1++;
+//            if (Duel.getCurrentDuel().getWinner().getUsername().equals(secondPlayer.getUsername()))
+//                numberOfWinPlayer2++;
+//
+//            if ((numberOfWinPlayer1 == 2 && numberOfWinPlayer2 == 0) ||
+//                    (numberOfWinPlayer1 == 0 && numberOfWinPlayer2 == 2)) break;
+//
+//            if (i != numberOfRound) changeDeck(firstPlayer, secondPlayer, isAI);
 
-            if ((numberOfWinPlayer1 == 2 && numberOfWinPlayer2 == 0) ||
-                    (numberOfWinPlayer1 == 0 && numberOfWinPlayer2 == 2)) break;
 
-            if (i != numberOfRound) changeDeck(firstPlayer, secondPlayer, isAI);
-
-        }
-
-        if (numberOfWinPlayer1 > numberOfWinPlayer2)
-            Output.getInstance().showMessage(firstUsername + "won the whole match with score: " +
-                    firstPlayer.getScore() + "-" + secondPlayer.getScore());
-        else
-            Output.getInstance().showMessage(secondUsername + "won the whole match with score: " +
-                    secondPlayer.getScore() + "-" + firstPlayer.getScore());
+//        if (numberOfWinPlayer1 > numberOfWinPlayer2)
+//            Output.getInstance().showMessage(firstUsername + "won the whole match with score: " +
+//                    firstPlayer.getScore() + "-" + secondPlayer.getScore());
+//        else
+//            Output.getInstance().showMessage(secondUsername + "won the whole match with score: " +
+//                    secondPlayer.getScore() + "-" + firstPlayer.getScore());
 
     }
 
     private void runMultiplePlayer(Player firstPlayer, Player secondPlayer)
             throws InvocationTargetException, CloneNotSupportedException, NoSuchMethodException, IllegalAccessException {
         Duel duel;
-        GameInputs.getInstance().setOnlineDuel(duel = new Duel(firstPlayer, secondPlayer));
 
-        while (!duel.isGameOver(debugBool))
-            GameInputs.getInstance().runGamePlay();
 
-    }
-
-    private void runSinglePlayer(Player firstPlayer, Player secondPlayer)
-            throws InvocationTargetException, CloneNotSupportedException, NoSuchMethodException, IllegalAccessException {
-        Duel duel;
-        GameInputs.getInstance().setOnlineDuel(duel = new Duel(firstPlayer, secondPlayer));
-        AI aiPlayer = AI.getInstance();
-        aiPlayer.setOnlineDuel(duel);
-        aiPlayer.setSinglePlayer(firstPlayer);
-        aiPlayer.setAiPlayer(secondPlayer);
-        while (!duel.isGameOver(false)) {
-            if (duel.getOnlinePlayer().getUsername().equals(firstPlayer.getUsername()))
-                GameInputs.getInstance().runGamePlay();
-            if (duel.getOnlinePlayer().getUsername().equals(secondPlayer.getUsername()))
-                aiPlayer.action();
-        }
+        return;
 
     }
+
+//    private void runSinglePlayer(Player firstPlayer, Player secondPlayer)
+//            throws InvocationTargetException, CloneNotSupportedException, NoSuchMethodException, IllegalAccessException {
+//        Duel duel;
+//        //GameInputs.getInstance().setOnlineDuel(duel = new Duel(firstPlayer, secondPlayer));
+//        AI aiPlayer = AI.getInstance();
+//        aiPlayer.setOnlineDuel(duel);
+//        aiPlayer.setSinglePlayer(firstPlayer);
+//        aiPlayer.setAiPlayer(secondPlayer);
+//        while (!duel.isGameOver(false)) {
+//            if (duel.getOnlinePlayer().getUsername().equals(firstPlayer.getUsername()))
+//                GameInputs.getInstance().runGamePlay();
+//            if (duel.getOnlinePlayer().getUsername().equals(secondPlayer.getUsername()))
+//                aiPlayer.action();
+//        }
+//
+//    }
 
     private void changeDeck(Player firstPlayer, Player secondPlayer, boolean isAI) {
         Duel.getCurrentDuel().setOnlinePlayer(firstPlayer);

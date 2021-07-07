@@ -78,7 +78,8 @@ public class MainMenuView {
         return stackPane;
     }
 
-    private static void setDuelInformation(StackPane gameView, String playerName, String playerProfile, String opponentName, String opponentProfile) {
+    private static void setDuelInformation(StackPane gameView, String playerName, String playerProfile,
+                                           String opponentName, String opponentProfile) {
         ImageView playerImage, opponentImage;
         Label playerLabel, opponentLabel;
         playerImage = ((ImageView) gameView.getChildren().get(2));
@@ -159,7 +160,8 @@ public class MainMenuView {
             });
             KeyValue nextPageKeyValue = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
             KeyFrame nextPageKeyFrame = new KeyFrame(Duration.seconds(1), nextPageKeyValue);
-            KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateXProperty(), +1950, Interpolator.EASE_IN);
+            KeyValue currentPageKeyValue = new KeyValue(scene.getRoot().getChildrenUnmodifiable().get(0).translateXProperty(),
+                    +1950, Interpolator.EASE_IN);
             KeyFrame currentPageKeyFrame = new KeyFrame(Duration.seconds(1), currentPageKeyValue);
             animationTimeLine.getKeyFrames().add(nextPageKeyFrame);
             currentPageAnimationTimeLine.getKeyFrames().add(currentPageKeyFrame);

@@ -1,5 +1,6 @@
 package controller;
 
+import controller.menus.DuelMenuController;
 import models.Board;
 import models.Deck;
 import models.Player;
@@ -25,10 +26,12 @@ public class Duel {
     private Player winner;
     private Monster attackingMonster, targetMonster;
     private boolean isFirstTurn = true;
+    private String ID ;
 
-    public Duel(Player firstPlayer, Player secondPlayer) throws CloneNotSupportedException {
+    public Duel(Player firstPlayer, Player secondPlayer, String ID) throws CloneNotSupportedException {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
+        this.ID = ID;
         firstPlayer.setHealth(8000);
         secondPlayer.setHealth(8000);
         this.firstPlayer.setBoard(new Board(firstPlayer, secondPlayer));
@@ -36,6 +39,7 @@ public class Duel {
         this.onlinePlayer = firstPlayer;
         this.offlinePlayer = secondPlayer;
         ActionJsonParser.getInstance().setDuel(this);
+        DuelMenuController.onlineDuels.put(ID, this);
         currentDuel = this;
     }
 

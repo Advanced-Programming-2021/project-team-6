@@ -21,7 +21,7 @@
     </ImageView>
     <Text fill="#daa3a3" layoutX="74.0" layoutY="600.0" onMouseClicked="#backToMainMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Back" textAlignment="CENTER" wrappingWidth="54.13671875">
         <font>
-            <Font name="Aldhabi" size="24.0" />
+            <Font name="NPIOuj" size="24.0" />
         </font>
     </Text>
 
@@ -68,7 +68,7 @@
     </ImageView>
     <Text fill="#daa3a3" layoutX="620.0" layoutY="491.0" onMouseClicked="#calculateCost" strokeType="OUTSIDE" strokeWidth="0.0" text="Fix details" textAlignment="CENTER" wrappingWidth="148.13671875">
         <font>
-            <Font name="Aldhabi" size="22.0" />
+            <Font name="NPIOuj" size="22.0" />
         </font>
     </Text>
 
@@ -79,7 +79,7 @@
     </ImageView>
     <Text fill="#daa3a3" layoutX="903.0" layoutY="492.0" onMouseClicked="#createCard" strokeType="OUTSIDE" strokeWidth="0.0" text="create" textAlignment="CENTER" wrappingWidth="54.13671875">
         <font>
-            <Font name="Aldhabi" size="24.0" />
+            <Font name="NPIOuj" size="24.0" />
         </font>
     </Text>
    <ImageView fitHeight="276.0" fitWidth="207.0" layoutX="283.0" layoutY="76.0">
@@ -108,17 +108,17 @@
          <Image url="@../image/sugoroku_footer.dds.jpg" />
       </image>
    </ImageView>
-   <Text fx:id="cost" layoutX="367.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1202" wrappingWidth="107.13671875">
+   <Text fx:id="cost" layoutX="367.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="107.13671875">
       <font>
          <Font name="Aldhabi" size="48.0" />
       </font>
    </Text>
-   <Text fx:id="attackedView" layoutX="321.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="120" wrappingWidth="60.13671875">
+   <Text fx:id="attackedView" layoutX="321.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="60.13671875">
       <font>
          <Font name="Aldhabi" size="40.0" />
       </font>
    </Text>
-   <Text fx:id="defenceView" layoutX="416.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="120" wrappingWidth="60.13671875">
+   <Text fx:id="defenceView" layoutX="416.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="60.13671875">
       <font>
          <Font name="Aldhabi" size="40.0" />
       </font>

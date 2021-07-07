@@ -14,35 +14,35 @@
                 <Image url="@../image/menuBackground.jpg" />
             </image>
         </ImageView>
-        <ImageView fx:id="registerButton" fitHeight="81.0" fitWidth="265.0" layoutX="468.0" layoutY="334.0">
+        <ImageView fx:id="registerButton" fitHeight="57.0" fitWidth="142.0" layoutX="546.0" layoutY="351.0">
             <image>
                 <Image url="@../image/button.jpg" />
             </image>
         </ImageView>
-        <ImageView fitHeight="81.0" fitWidth="265.0" layoutX="468.0" layoutY="226.0">
+        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="546.0" layoutY="243.0">
             <image>
                 <Image url="@../image/button.jpg" />
             </image>
         </ImageView>
-        <ImageView fitHeight="81.0" fitWidth="265.0" layoutX="468.0" layoutY="531.0" onMouseClicked="#exitClicked">
+        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="100.0" layoutY="542.0" onMouseClicked="#exitClicked">
             <image>
                 <Image url="@../image/button.jpg" />
             </image>
         </ImageView>
 
-        <Text fill="#daa3a3" layoutX="500.0" layoutY="276.0" onMouseClicked="#openRegisterPage" strokeType="OUTSIDE" strokeWidth="0.0" text="Register" textAlignment="CENTER" wrappingWidth="200">
+        <Text fill="#daa3a3" layoutX="517.0" layoutY="277.0" onMouseClicked="#openRegisterPage" strokeType="OUTSIDE" strokeWidth="0.0" text="Register" textAlignment="CENTER" wrappingWidth="200">
             <font>
-                <Font name="NPIOuj" size="40.0" />
+                <Font name="NPIOuj" size="24.0" />
             </font>
         </Text>
-        <Text fill="#daa3a3" layoutX="500.0" layoutY="380.0" onMouseClicked="#openLoginPage" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="200">
+        <Text fill="#daa3a3" layoutX="517.0" layoutY="385.0" onMouseClicked="#openLoginPage" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="200">
             <font>
-                <Font name="NPIOuj" size="40.0" />
+                <Font name="NPIOuj" size="24.0" />
             </font>
         </Text>
-        <Text fill="#daa3a3" layoutX="501.0" layoutY="581.0" onMouseClicked="#exitClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit" textAlignment="CENTER" wrappingWidth="200">
+        <Text fill="#daa3a3" layoutX="71.0" layoutY="576.0" onMouseClicked="#exitClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit" textAlignment="CENTER" wrappingWidth="200">
             <font>
-                <Font name="NPIOuj" size="40.0" />
+                <Font name="NPIOuj" size="24.0" />
             </font>
         </Text>
     </AnchorPane>
