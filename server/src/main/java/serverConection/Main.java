@@ -25,7 +25,7 @@ public class Main {
                 Socket socket = serverSocket.accept();
                 createNewClient(serverSocket, socket);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -37,10 +37,11 @@ public class Main {
 
                 dataInputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                ServerController.getInputFromClient(dataInputStream, dataOutputStream, socket);
+                ServerController.getInputFromClient(dataInputStream, dataOutputStream);
 
             } catch (IOException e) {
                 try {
+                    assert dataInputStream != null;
                     dataInputStream.close();
                     socket.close();
                     serverSocket.close();
@@ -49,6 +50,8 @@ public class Main {
                 }
                 Database.getInstance().updatingDatabase();
                 System.out.println("a client disconnected!");
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         }).start();
     }

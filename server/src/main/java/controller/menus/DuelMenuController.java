@@ -58,7 +58,7 @@ public class DuelMenuController {
         new Duel(firstPlayer, secondPlayer, String.valueOf(duelID));
 
         duelID++;
-        return "Success: game on with " + (duelID - 1);
+        return (duelID - 1) + "";
 
 //        for (int i = 1; i <= numberOfRound; i++) {
 //            Output.getInstance().showMessage("game on");

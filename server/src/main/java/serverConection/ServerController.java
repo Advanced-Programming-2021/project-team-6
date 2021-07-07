@@ -2,16 +2,15 @@ package serverConection;
 
 import controller.menus.*;
 import models.Database;
-import models.Player;
 import models.Scoreboard;
 import models.cards.Card;
-import models.cards.Monster;
-import models.cards.Trap;
+
 
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -46,11 +45,11 @@ public class ServerController {
         socketHashMap.put(token, socket);
     }
 
-    public static void getInputFromClient(DataInputStream dataInputStream, DataOutputStream dataOutputStream, Socket socket) throws IOException {
+    public static void getInputFromClient(DataInputStream dataInputStream, DataOutputStream dataOutputStream) throws Exception {
         while (true) {
             String command = dataInputStream.readUTF();
             System.out.println("message from " + command);
-            String result = processCommand(command, socket);
+            String result = processCommand(command);
             System.out.println("response set :" + result);
             if (result.equals("")) return;
             dataOutputStream.writeUTF(result);
@@ -58,13 +57,13 @@ public class ServerController {
         }
     }
 
-    private static String processCommand(String command, Socket socket) throws IOException {
+    private static String processCommand(String command) throws Exception {
         Matcher commandMatcher;
         int whichCommand;
         for (whichCommand = 0; whichCommand < regexes.length; whichCommand++) {
             commandMatcher = findMatcher(command, regexes[whichCommand]);
             if (commandMatcher.find())
-                return executeCommands(commandMatcher, whichCommand, socket);
+                return executeCommands(commandMatcher, whichCommand);
 
         }
         System.out.println(1);
@@ -87,7 +86,7 @@ public class ServerController {
         }
     }
 
-    private static String executeCommands(Matcher commandMatcher, int witchCommand, Socket socket) throws IOException {
+    private static String executeCommands(Matcher commandMatcher, int witchCommand) throws Exception {
         switch (witchCommand) {
             case 0:
                 return RegisterMenuController.getInstance().createUser(commandMatcher.group("username"),

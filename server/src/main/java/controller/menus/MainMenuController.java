@@ -3,6 +3,8 @@ package controller.menus;
 import models.Database;
 import models.Player;
 import serverConection.ServerController;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 public class MainMenuController {
@@ -11,7 +13,7 @@ public class MainMenuController {
     private static MainMenuController instance;
     private Player playerLoggedIn;
     public HashMap<String, Player> loggedInUsers = new HashMap<>();
-    HashMap<String , Boolean> waitingLobby = new HashMap<>();
+    HashMap<String, Boolean> waitingLobby = new HashMap<>();
 
     private MainMenuController() {
     }
@@ -22,7 +24,7 @@ public class MainMenuController {
         return instance;
     }
 
-    public  String cancelGame(String token) {
+    public String cancelGame(String token) {
         waitingLobby.remove(token);
         return "Success";
     }
@@ -35,7 +37,7 @@ public class MainMenuController {
         this.playerLoggedIn = playerLoggedIn;
     }
 
-    public String logout(String token){
+    public String logout(String token) {
         if (!loggedInUsers.containsKey(token))
             return "Error";
         loggedInUsers.remove(token);
@@ -43,20 +45,23 @@ public class MainMenuController {
     }
 
 
-    public String registerOnGame(boolean isThreeRounded , String token) {
+    public String registerOnGame(boolean isThreeRounded, String token) throws InvocationTargetException, CloneNotSupportedException, NoSuchMethodException, IllegalAccessException {
 
-            for (String waitingClientToken : waitingLobby.keySet()) {
-                if (!token.equals(waitingClientToken)&& waitingLobby.get(waitingClientToken) == isThreeRounded) {
-                    waitingLobby.remove(waitingClientToken);
-                    Player foundedOpponent = Database.getInstance().getPlayerByToken(waitingClientToken);
-                    Player player = Database.getInstance().getPlayerByToken(token);
-                    String response = "GameOn" + " " + foundedOpponent.getNickname() + " " + foundedOpponent.getPicture() + " " + player.getNickname() + " " +player.getPicture();
-                    ServerController.sendMessageToSocket(waitingClientToken, response , false);
-                    return response;
-                }
+        for (String waitingClientToken : waitingLobby.keySet()) {
+            if (!token.equals(waitingClientToken) && waitingLobby.get(waitingClientToken) == isThreeRounded) {
+                waitingLobby.remove(waitingClientToken);
+                Player foundedOpponent = Database.getInstance().getPlayerByToken(waitingClientToken);
+                Player player = Database.getInstance().getPlayerByToken(token);
+                int playerDeckSize = player.getActiveDeck().mainCards.size() , opponentDeckSize = foundedOpponent.getActiveDeck().mainCards.size();
+                int duelId = Integer.parseInt(DuelMenuController.getInstance().startGame(player.getUsername(), foundedOpponent.getUsername(), 3 + "", false));
+                String response = "GameOn" + " " + foundedOpponent.getNickname() + " " + foundedOpponent.getPicture() + " " + player.getNickname() + " " + player.getPicture() + " "
+                        + playerDeckSize+" " + opponentDeckSize + " "+ duelId ;
+                ServerController.sendMessageToSocket(waitingClientToken, response , false);
+                return response;
             }
-            waitingLobby.put(token , isThreeRounded);
-            return "Success";
+        }
+        waitingLobby.put(token, isThreeRounded);
+        return "Success";
 
     }
 }
