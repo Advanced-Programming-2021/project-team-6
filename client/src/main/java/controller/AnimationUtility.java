@@ -4,6 +4,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -34,5 +35,19 @@ public class AnimationUtility {
         rightDoorAnimation.delayProperty().set(Duration.seconds(3));
         leftDoorAnimation.play();
         rightDoorAnimation.play();
+    }
+    public static synchronized void playSimpleCardTransition(ImageView card , int destX , int destY , int deckSize , int startX , int startY , int delay) {
+        card.translateXProperty().set(startX);
+        card.translateYProperty().set(startY);
+        KeyValue cardYValue = new KeyValue(card.translateYProperty() , destY , Interpolator.EASE_OUT) , cardXValue = new KeyValue(card.translateXProperty(), destX , Interpolator.EASE_OUT );
+        KeyFrame cardYFrame = new KeyFrame(Duration.millis(250) , cardYValue) , cardXFrame = new KeyFrame(Duration.millis(250) , cardXValue);
+        Timeline cardYTimeLine = new Timeline(cardYFrame),
+         cardXTimeLine = new Timeline(cardXFrame);
+        cardXTimeLine.setDelay(Duration.seconds(delay));
+        cardYTimeLine.setDelay(Duration.seconds(delay));
+        cardXTimeLine.setCycleCount(deckSize);
+        cardYTimeLine.setCycleCount(deckSize);
+        cardYTimeLine.play();
+        cardXTimeLine.play();
     }
 }

@@ -2,6 +2,7 @@ package serverConection;
 
 import controller.menus.*;
 import models.Database;
+import models.Player;
 import models.Scoreboard;
 import models.cards.Card;
 
@@ -75,6 +76,7 @@ public class ServerController {
         message = message + " " + isResponseNeeded;
         Socket socket = socketHashMap.get(token);
         try {
+            System.out.println("message sent to " + Database.getInstance().getPlayerByToken(token) + " :" + message);
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataOutputStream.writeUTF(message);

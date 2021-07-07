@@ -37,21 +37,21 @@ public class AI {
             case DRAW:
             case END:
             case STANDBY:
-                onlineDuel.changePhase();
+             //   onlineDuel.changePhase();
                 break;
             case MAIN1:
                 setAMonster();
                 setSpellsAndTraps();
-                onlineDuel.changePhase();
+             //   onlineDuel.changePhase();
                 break;
             case BATTLE:
                 attackMonster();
                 handleSpell();
-                onlineDuel.changePhase();
+             //   onlineDuel.changePhase();
                 break;
             case MAIN2:
                 handleSpell();
-                onlineDuel.changePhase();
+               // onlineDuel.changePhase();
                 break;
         }
     }

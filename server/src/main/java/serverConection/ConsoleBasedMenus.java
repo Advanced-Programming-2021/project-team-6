@@ -423,12 +423,12 @@ public class ConsoleBasedMenus {
             case 1:
                 secondUsername = commandMatcher.group("username");
                 round = commandMatcher.group("round");
-                DuelMenuController.getInstance().startGame(playerLoggedIn.getUsername(), secondUsername, round, false);
+            //    DuelMenuController.getInstance().startGame(playerLoggedIn.getUsername(), secondUsername, round, false);
                 break;
             case 2:
             case 3:
                 round = commandMatcher.group("round");
-                DuelMenuController.getInstance().startGame(playerLoggedIn.getUsername(), "ai", round, true);
+               // DuelMenuController.getInstance().startGame(playerLoggedIn.getUsername(), "ai", round, true);
             case 4:
                 Output.getInstance().showMessage("duel Menu");
                 break;

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 
-<StackPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.Game">
+<StackPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.Game">
     <ImageView fitHeight="680" fitWidth="1200">
         <Image url="@../image/fieldS.jpg" />
     </ImageView>
@@ -23,4 +25,49 @@
     <Label text="username2" textFill="azure" translateX="434.0" translateY="192.0" />
     <Label prefHeight="21.0" prefWidth="61.0" text="40" textFill="azure" translateX="535.0" translateY="-268" />
     <Label prefHeight="21.0" prefWidth="61.0" text="40" textFill="azure" translateX="535.0" translateY="30" />
+   <StackPane fx:id="playerDeck" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="150.0" translateX="570.0" translateY="110.0">
+      <children>
+         <ImageView pickOnBounds="true" preserveRatio="true" scaleX="0.15" scaleY="0.15">
+            <image>
+               <Image url="@../image/backOfCard.jpg" />
+            </image>
+         </ImageView>
+         <ImageView pickOnBounds="true" preserveRatio="true" scaleX="0.15" scaleY="0.15" translateX="3.0">
+            <image>
+               <Image url="@../image/backOfCard.jpg" />
+            </image>
+         </ImageView>
+         <ImageView pickOnBounds="true" preserveRatio="true" scaleX="0.15" scaleY="0.15" translateX="6.0">
+            <image>
+               <Image url="@../image/backOfCard.jpg" />
+            </image>
+         </ImageView>
+      </children>
+   </StackPane>
+   <StackPane fx:id="opponentDeck" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="150.0" translateX="570.0" translateY="-190.0">
+      <children>
+         <ImageView pickOnBounds="true" preserveRatio="true" scaleX="0.15" scaleY="0.15">
+             <Image url="@../image/backOfCard.jpg" />
+         </ImageView>
+         <ImageView pickOnBounds="true" preserveRatio="true" scaleX="0.15" scaleY="0.15" translateX="3.0">
+            <image>
+               <Image url="@../image/backOfCard.jpg" />
+            </image>
+         </ImageView>
+         <ImageView pickOnBounds="true" preserveRatio="true" scaleX="0.15" scaleY="0.15" translateX="6.0">
+            <image>
+               <Image url="@../image/backOfCard.jpg" />
+            </image>
+         </ImageView>
+      </children>
+   </StackPane>
+   <HBox fx:id="handFXML" prefHeight="100.0" prefWidth="1200.0" translateY="300.0">
+      <children>
+         <ImageView pickOnBounds="true" preserveRatio="true" scaleX="0.15" scaleY="0.15">
+            <image>
+               <Image url="@../image/backOfCard.jpg" />
+            </image>
+         </ImageView>
+      </children>
+   </HBox>
 </StackPane>

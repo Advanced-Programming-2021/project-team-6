@@ -58,9 +58,7 @@ public class ActionExecutor {
 
     private void drawCard() {
         int howMany = getNumber(neededInformation.group("howMany"));
-        for (int i = 0; i < howMany; i++) {
-            Duel.getCurrentDuel().getOnlinePlayer().getBoard().drawCard();
-        }
+            Duel.getCurrentDuel().getOnlinePlayer().getBoard().drawCard(howMany , "1");
     }
 
     public void makeHorcrux() {

@@ -52,19 +52,18 @@ public class ClientController {
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 while (true) {
                     String message = dataInputStream.readUTF();
-                    System.out.println("New Message From Central Server : " + message);
                     Platform.runLater(() -> {
                         if (message.endsWith("true")) {
                             try {
                                 dataOutputStream.writeUTF(ServerMessageHandler.getServerMessage(message));
-                            } catch (IOException ioException) {
+                            } catch (Exception ioException) {
                                 ioException.printStackTrace();
                             }
                         }
                         else {
                             try {
                                 ServerMessageHandler.getServerMessage(message);
-                            } catch (IOException ioException) {
+                            } catch (Exception ioException) {
                                 ioException.printStackTrace();
                             }
                         }
