@@ -234,13 +234,13 @@ public class ConsoleBasedMenus {
         Player loggedInPlayer = MainMenuController.getInstance().getPlayerLoggedIn();
         switch (whichCommand) {
             case 0:
-                controller.createDeck(commandMatcher.group("name"), loggedInPlayer);
+                controller.createDeck(commandMatcher.group("name"), loggedInPlayer.getToken());
                 break;
             case 1:
                 controller.deleteDeck(commandMatcher.group("name"));
                 break;
             case 2:
-                controller.setActiveDeck(commandMatcher.group("name"), loggedInPlayer);
+                controller.setActiveDeck(commandMatcher.group("name"), loggedInPlayer.getToken());
                 break;
             case 3:
             case 4:
@@ -250,13 +250,13 @@ public class ConsoleBasedMenus {
             case 8:
                 String cardName = commandMatcher.group("cardName"),
                         deckName = commandMatcher.group("deckName");
-                controller.addCardToDeck(cardName, deckName, loggedInPlayer, false);
+                controller.addCardToDeck(cardName, deckName, loggedInPlayer.getToken(), false);
                 break;
             case 9:
             case 10:
                 cardName = commandMatcher.group("cardName");
                 deckName = commandMatcher.group("deckName");
-                controller.addCardToDeck(cardName, deckName, loggedInPlayer, true);
+                controller.addCardToDeck(cardName, deckName, loggedInPlayer.getToken(), true);
                 break;
             case 11:
             case 12:
@@ -266,23 +266,23 @@ public class ConsoleBasedMenus {
             case 16:
                 cardName = commandMatcher.group("cardName");
                 deckName = commandMatcher.group("deckName");
-                controller.removeCardFromDeck(cardName, deckName, loggedInPlayer, false);
+                controller.removeCardFromDeck(cardName, deckName, loggedInPlayer.getToken(), false);
                 break;
             case 17:
             case 18:
                 cardName = commandMatcher.group("cardName");
                 deckName = commandMatcher.group("deckName");
-                controller.removeCardFromDeck(cardName, deckName, loggedInPlayer, true);
+                controller.removeCardFromDeck(cardName, deckName, loggedInPlayer.getToken(), true);
                 break;
             case 19:
-                controller.showAllDecks(loggedInPlayer);
+                controller.showAllDecks(loggedInPlayer.getToken());
                 break;
             case 20:
             case 21:
-                controller.showDeck(commandMatcher.group("deckName"), loggedInPlayer, false);
+                controller.showDeck(commandMatcher.group("deckName"), loggedInPlayer.getToken(), false);
                 break;
             case 22:
-                controller.showDeck(commandMatcher.group("deckName"), loggedInPlayer, true);
+                controller.showDeck(commandMatcher.group("deckName"), loggedInPlayer.getToken(), true);
                 break;
             case 23:
                 Output.getInstance().showMessage("Deck Menu");

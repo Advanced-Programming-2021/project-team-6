@@ -40,6 +40,16 @@ public class ServerController {
             "^shop can buy (?<cardName>.+) (?<token>\\S+)$",
             "^cancel game (?<token>\\S+)$",
             "^create card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<level>\\d+) (?<description>.+) (?<token>\\S+)$",
+            "^deck create (?<name>\\w+) (?<token>\\S+)$",
+            "^deck delete (?<name>\\w+) $",
+            "^deck set-activate (?<name>\\w+) (?<token>\\S+)$",
+            "^deck add-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?:--side|-s) (?<token>\\S+)$",
+            "^deck add-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?<token>\\S+)$",
+            "^deck rm-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?:--side|-s) (?<token>\\S+)$",
+            "^deck rm-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?<token>\\S+)$",
+            "^deck show (?:--all|-a) (?<token>\\S+)$",
+            "^deck show (?:--deck-name|-d) (?<deckName>.+) (?:--side|-s) (?<token>\\S+)$",
+            "^deck show (?:--deck-name|-d) (?<deckName>.+) (?<token>\\S+)$",
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -139,9 +149,30 @@ public class ServerController {
                 return CreateCardMenuController.getInstance().createCard(commandMatcher.group("name"), commandMatcher.group("attack"),
                         commandMatcher.group("defence"), commandMatcher.group("level"),
                         commandMatcher.group("description"), commandMatcher.group("token"));
+            case 19:
+                return DeckMenuController.getInstance().createDeck(commandMatcher.group("name"), commandMatcher.group("token"));
+            case 20:
+                return DeckMenuController.getInstance().deleteDeck(commandMatcher.group("name"));
+            case 21:
+                return DeckMenuController.getInstance().setActiveDeck(commandMatcher.group("name") , commandMatcher.group("token"));
+            case 22:
+                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), false );
+            case 23:
+                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), true );
+            case 24:
+                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), false);
+            case 25:
+                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), true );
+            case 26:
+                return DeckMenuController.getInstance().showAllDecks(commandMatcher.group("token"));
+            case 27:
+                return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckname"),commandMatcher.group("token") , false);
+            case 28:
+                return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckname"),commandMatcher.group("token") , true);
         }
         return "";
     }
+
 
     private static Matcher findMatcher(String input, String regex) {
 
