@@ -12,7 +12,7 @@
         <Image url="@../image/field.png" />
     </ImageView>
 
-    <ImageView fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="30.0" layoutY="566.0" onMouseClicked="#backToMainMenu">
+    <ImageView  fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="30.0" layoutY="566.0" onMouseClicked="#backToMainMenu">
         <image>
             <Image url="@../image/button.jpg" />
         </image>

@@ -1,6 +1,9 @@
 package models;
 
+import controller.Duel;
+import controller.menus.DuelMenuController;
 import models.cards.*;
+import serverConection.ServerController;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +23,9 @@ public class Board {
     private boolean isChangePositionInTurn = false;
 
 
-    public Board(Player player, Player opponent) throws CloneNotSupportedException {
+    public Board(Player player, Player opponent , String duelID) throws CloneNotSupportedException {
+        setPlayer(player);
+        setOpponent(opponent);
         deckZone = player.getActiveDeck().clone();
         deckZone.setName("D");
         deckZone.updateCurrentDeck();
@@ -37,10 +42,8 @@ public class Board {
             spellZone.addCard(null);
         spellZone.updateCurrentDeck();
         hand = new Deck("HZ", player);
-        for (int i = 1; i <= 6; i++) drawCard();
         hand.updateCurrentDeck();
-        setPlayer(player);
-        setOpponent(opponent);
+        drawCard(6 , duelID);
     }
 
     public Player getPlayer() {
@@ -294,10 +297,20 @@ public class Board {
         return true;
     }
 
-    public void drawCard() {
-        if (deckZone.mainCards.size() > 0) {
-            deckZone.moveCardToForGame(hand, deckZone.mainCards.get(deckZone.mainCards.size() - 1), true, true);
+    public void drawCard(int howMany , String duelID) {
+        String responseForPlayer = "draw-p " + howMany + " ";
+        String responseForOpponent = "draw-o " + howMany + " ";
+        for (int i =0 ; i < howMany; i++) {
+            if (deckZone.mainCards.size() > 0) {
+                Card lastCardOfDeck = deckZone.mainCards.get(deckZone.mainCards.size() - 1);
+                responseForPlayer +=  lastCardOfDeck.getName() + ",";
+                deckZone.moveCardToForGame(hand, lastCardOfDeck, true, true);
+            }
         }
+        String playerToken = player.getToken();
+        String opponentToken = opponent.getToken();
+        ServerController.sendMessageToSocket(playerToken , responseForPlayer , false);
+        ServerController.sendMessageToSocket(opponentToken , responseForOpponent , false);
     }
 
     public void shuffleDeck() {

@@ -31,15 +31,16 @@ public class Duel {
     public Duel(Player firstPlayer, Player secondPlayer, String ID) throws CloneNotSupportedException {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
-        this.ID = ID;
-        firstPlayer.setHealth(8000);
-        secondPlayer.setHealth(8000);
-        this.firstPlayer.setBoard(new Board(firstPlayer, secondPlayer));
-        this.secondPlayer.setBoard(new Board(secondPlayer, firstPlayer));
         this.onlinePlayer = firstPlayer;
         this.offlinePlayer = secondPlayer;
-        ActionJsonParser.getInstance().setDuel(this);
+        this.offlinePlayer = secondPlayer;
+        this.ID = ID;
         DuelMenuController.onlineDuels.put(ID, this);
+        firstPlayer.setHealth(8000);
+        secondPlayer.setHealth(8000);
+        this.firstPlayer.setBoard(new Board(firstPlayer, secondPlayer , ID));
+        this.secondPlayer.setBoard(new Board(secondPlayer, firstPlayer , ID));
+        ActionJsonParser.getInstance().setDuel(this);
         currentDuel = this;
     }
 
@@ -87,12 +88,12 @@ public class Duel {
         this.phase = phase;
     }
 
-    public void changePhase() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public void changePhase(String duelID) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         showBoard();
         if (phase.equals(Phases.DRAW)) {
             phase = Phases.STANDBY;
             if (isPhaseSkipped) {
-                changePhase();
+                changePhase(duelID);
                 isPhaseSkipped = false;
                 return;
             }
@@ -103,7 +104,7 @@ public class Duel {
         if (phase.equals(Phases.STANDBY)) {
             phase = Phases.MAIN1;
             if (isPhaseSkipped) {
-                changePhase();
+                changePhase(duelID);
                 isPhaseSkipped = false;
                 return;
             }
@@ -114,7 +115,7 @@ public class Duel {
         if (phase.equals(Phases.MAIN1)) {
             phase = Phases.BATTLE;
             if (isPhaseSkipped) {
-                changePhase();
+                changePhase(duelID);
                 isPhaseSkipped = false;
                 return;
             }
@@ -125,7 +126,7 @@ public class Duel {
         if (phase.equals(Phases.BATTLE)) {
             phase = Phases.MAIN2;
             if (isPhaseSkipped) {
-                changePhase();
+                changePhase(duelID);
                 isPhaseSkipped = false;
                 return;
             }
@@ -137,7 +138,7 @@ public class Duel {
             phase = Phases.END;
             EventHandler.triggerEndPhase(onlinePlayer);
             if (isPhaseSkipped) {
-                changePhase();
+                changePhase(duelID);
                 isPhaseSkipped = false;
                 return;
             }
@@ -150,18 +151,18 @@ public class Duel {
             changeTurn();
             EventHandler.triggerDrawPhase(onlinePlayer);
             if (isPhaseSkipped) {
-                changePhase();
+                changePhase(duelID);
                 isPhaseSkipped = false;
                 return;
             }
-            actionsInDrawPhase();
+            actionsInDrawPhase(duelID);
             Output.getInstance().showMessage("phase: " + phase);
         }
     }
 
-    public void actionsInDrawPhase() {
+    public void actionsInDrawPhase(String duelID) {
         Output.getInstance().showMessage("its " + onlinePlayer.getNickname() + "'s turn");
-        onlinePlayer.getBoard().drawCard();
+        onlinePlayer.getBoard().drawCard(1 , duelID);
     }
 
     public void actionInStandbyPhase() {

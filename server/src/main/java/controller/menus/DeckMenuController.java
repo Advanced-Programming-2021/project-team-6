@@ -3,7 +3,6 @@ package controller.menus;
 import controller.ErrorChecker;
 import models.Database;
 import models.Deck;
-import models.Player;
 import models.cards.Card;
 import serverConection.Output;
 
@@ -20,78 +19,82 @@ public class DeckMenuController {
         return Objects.requireNonNullElseGet(instance, () -> (instance = new DeckMenuController()));
     }
 
-    public void createDeck(String name, Player owner) {
+    public String createDeck(String name, String token) {
         if (!ErrorChecker.isDeckNameUnique(name))
-            return;
+            return "Error";
 
-        new Deck(name, owner , true , true);
-        Output.getInstance().showMessage("deck created successfully!");
+        new Deck(name, MainMenuController.getInstance().loggedInUsers.get(token), true, true);
+        return ("deck created successfully!");
     }
 
-    public void deleteDeck(String name) {
+    public String deleteDeck(String name) {
         if (ErrorChecker.isDeckNameUnique(name))
-            return;
+            return "Error";
 
         Database.removeDeck(name);
-        Output.getInstance().showMessage("deck deleted successfully!");
-
+        return ("deck deleted successfully!");
     }
 
 
-    public void setActiveDeck(String name, Player player) {
+    public String setActiveDeck(String name, String token) {
         Deck deck = null;
         boolean isPermitted = ErrorChecker.doesDeckExist(name)
-                && ErrorChecker.doesDeckBelongToPlayer(deck = Database.getInstance().getDeckByName(name), player);
+                && ErrorChecker.doesDeckBelongToPlayer(deck = Database.getInstance().getDeckByName(name), MainMenuController.getInstance().loggedInUsers.get(token));
         if (isPermitted) {
-            player.setActiveDeck(deck);
+            MainMenuController.getInstance().loggedInUsers.get(token).setActiveDeck(deck);
 
-            Output.getInstance().showMessage("deck activated successfully!");
+            return ("deck activated successfully!");
         }
-
+        return "Error";
     }
 
-    public void addCardToDeck(String cardName, String deckName, Player player, boolean isMain) {
+    public String addCardToDeck(String cardName, String deckName, String token, boolean isMain) {
         Card card = null;
         Deck deck = null;
         boolean isPermitted = ErrorChecker.doesCardExist(cardName)
                 && ErrorChecker.doesDeckExist(deckName)
-                && ErrorChecker.doesDeckBelongToPlayer(deck = Database.getInstance().getDeckByName(deckName), player)
+                && ErrorChecker.doesDeckBelongToPlayer(deck = Database.getInstance().getDeckByName(deckName), MainMenuController.getInstance().loggedInUsers.get(token))
                 && ((isMain) ? ErrorChecker.doesDeckHaveSpace(deck) : ErrorChecker.doesSideDeckHaveSpace(deck))
                 && ErrorChecker.isNumberOfCardsInDeckLessThanFour(deck, card = Database.getInstance().getCardByName(cardName))
-                && ErrorChecker.doesPlayerHaveEnoughCards(card , player);
+                && ErrorChecker.doesPlayerHaveEnoughCards(card, MainMenuController.getInstance().loggedInUsers.get(token));
         if (isPermitted) {
-            player.getAllPlayerCard().moveCardTo(deck , card , true , isMain);
-            Output.getInstance().showMessage("card added to deck successfully!");
+            MainMenuController.getInstance().loggedInUsers.get(token).getAllPlayerCard().moveCardTo(deck, card, true, isMain);
+            return ("card added to deck successfully!");
         }
+        return "Error";
     }
 
-    public void removeCardFromDeck(String cardName, String deckName, Player player, boolean isMain) {
+    public String removeCardFromDeck(String cardName, String deckName, String token, boolean isMain) {
         Card card;
         Deck deck = null;
         boolean isPermitted = ErrorChecker.doesCardExist(cardName)
                 && ErrorChecker.doesDeckExist(deckName)
-                && ErrorChecker.doesDeckBelongToPlayer(deck = Database.getInstance().getDeckByName(deckName), player);
+                && ErrorChecker.doesDeckBelongToPlayer(deck = Database.getInstance().getDeckByName(deckName), MainMenuController.getInstance().loggedInUsers.get(token));
         if (isPermitted) {
             card = Database.getInstance().getCardByName(cardName);
-            deck.moveCardTo(player.getAllPlayerCard(),card, isMain , true);
+            deck.moveCardTo(MainMenuController.getInstance().loggedInUsers.get(token).getAllPlayerCard(), card, isMain, true);
             Output.getInstance().showMessage("card removed from deck successfully!");
         }
+        return "Error";
     }
 
-    public void showAllDecks(Player player) {
-        for (Deck deck : player.getAllDeck())
-            Output.getInstance().showMessage(deck.toString());
-
+    public String showAllDecks(String token) {
+        StringBuilder string = new StringBuilder();
+        for (Deck deck : MainMenuController.getInstance().loggedInUsers.get(token).getAllDeck())
+            string.append(deck.getName()).append(":");
+        return String.valueOf(string);
     }
 
-    public void showDeck(String name, Player player, boolean isMain) {
+    public String showDeck(String name, String token, boolean isMain) {
         if (!ErrorChecker.doesDeckExist(name))
-            return;
+            return "Error";
         Deck deck = Database.getInstance().getDeckByName(name);
-        if (!ErrorChecker.doesDeckBelongToPlayer(deck, player))
-            return;
-        Output.getInstance().showMessage(deck.toString(isMain));
-
-
+        if (!ErrorChecker.doesDeckBelongToPlayer(deck, MainMenuController.getInstance().loggedInUsers.get(token)))
+            return "Error";
+        StringBuilder string  = new StringBuilder();
+        for(Card card : deck.getMainCards()){
+            string.append(card.getName()).append(":");
+        }
+        return String.valueOf(string);
     }
 }

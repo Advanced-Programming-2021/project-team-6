@@ -169,7 +169,7 @@ public class ShopMenuView {
         return board;
     }
 
-    private CardView getCardRectangle(Card card) {
+    public CardView getCardRectangle(Card card) {
         CardView rectangle = new CardView();
         rectangle.setFill(card.getImage());
         rectangle.setHeight(200);

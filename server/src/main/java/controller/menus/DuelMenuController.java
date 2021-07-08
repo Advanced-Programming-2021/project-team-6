@@ -8,6 +8,7 @@ import models.Player;
 import models.cards.Card;
 import serverConection.GameInputs;
 import serverConection.Output;
+import serverConection.ServerController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class DuelMenuController {
         return instance;
     }
 
-    public String startGame(String firstUsername, String secondUsername, String round, boolean isAI)
+    public String startGame(String firstUsername, String secondUsername, String round, boolean isAI , String response)
             throws CloneNotSupportedException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         Player firstPlayer = Database.getInstance().getPlayerByUsername(firstUsername);
         Player secondPlayer = Database.getInstance().getPlayerByUsername(secondUsername);
@@ -54,7 +55,7 @@ public class DuelMenuController {
 
         int numberOfRound = Integer.parseInt(round);
         int numberOfWinPlayer1 = 0, numberOfWinPlayer2 = 0;
-
+        ServerController.sendMessageToSocket(secondPlayer.getToken(), response + duelID , false);
         new Duel(firstPlayer, secondPlayer, String.valueOf(duelID));
 
         duelID++;
@@ -134,6 +135,10 @@ public class DuelMenuController {
         for (Card card : player.getBoard().getDeckZoneMainCards())
             Output.getInstance().showMessage(card.toString());
 
+    }
+
+    public static Duel getDuelById(String id) {
+        return onlineDuels.get(id);
     }
 
     public void showSideDeck(Player player) {

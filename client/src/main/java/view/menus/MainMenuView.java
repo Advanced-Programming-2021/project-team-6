@@ -41,6 +41,8 @@ public class MainMenuView {
 
     private static Pane setUpDuelDoor(String playerName, String opponentName, String playerProfile, String opponentProfile, String playerDeckSize , String opponentDeckSize
             , boolean isFirstPlayer) throws IOException {
+        StackPane gameView = FXMLLoader.load(MainMenuView.class.getResource("/fxml/GameView.fxml"));
+        gameView.setOpacity(0);
         Pane stackPane = new Pane();
         Pane leftDoorPane = new Pane(), rightDoorPane = new Pane();
         ImageView leftDuelDoor = new ImageView(new Image(MainMenuView.class.getResource("/image/leftDueldoor.gif").toExternalForm()));
@@ -70,8 +72,6 @@ public class MainMenuView {
         stackPane.getChildren().get(0).translateXProperty().set(-680);
         stackPane.getChildren().get(1).translateXProperty().set(1500);
         stackPaneOfMainMenu.getChildren().remove(1);
-        StackPane gameView = FXMLLoader.load(MainMenuView.class.getResource("/fxml/gAME.fxml"));
-        gameView.setOpacity(0);
         AnimationUtility.playDoorAnimation(leftDoorPane, rightDoorPane, stackPaneOfMainMenu, gameView);
         if (isFirstPlayer)
             setDuelInformation(gameView, playerName, playerProfile, opponentName, opponentProfile , playerDeckSize , opponentDeckSize);
@@ -96,8 +96,8 @@ public class MainMenuView {
         playerDeckLabel = ((Label) gameView.getChildren().get(8));
         opponentLabel = ((Label) gameView.getChildren().get(6));
         opponentDeckLabel = ((Label) gameView.getChildren().get(9));
-        constructPlayerDeck(Integer.parseInt(playerDeckSize) , gameView , playerDeckLabel);
-        constructOpponentDeck(Integer.parseInt(opponentDeckSize) , gameView , opponentDeckLabel);
+        //constructPlayerDeck(Integer.parseInt(playerDeckSize) , gameView);
+        //constructOpponentDeck(Integer.parseInt(opponentDeckSize) , gameView , opponentDeckLabel);
         playerLabel.setText(playerName);
         opponentLabel.setText(opponentName);
         playerDeckLabel.setText(playerDeckSize);
@@ -105,15 +105,25 @@ public class MainMenuView {
     }
 
     private static void constructOpponentDeck(int deckSize, StackPane gameView, Label opponentDeckLabel) {
-        for (int i = 0; i < deckSize; i++) {
-
-        }
+        StackPane playerDeck = (StackPane) gameView.getChildren().get(11);
+        ImageView newCard  = new ImageView();
+        playerDeck.getChildren().add(newCard);
+        newCard.setScaleY(0.15);
+        newCard.setScaleX(0.15);
+        newCard.setImage(new Image(MainMenuView.class.getResource("/image/backOfCard.jpg").toExternalForm()));
+        AnimationUtility.playSimpleCardTransition(newCard , 9, 0 , deckSize , -1200 , 300 , 17);
     }
 
-    private static void constructPlayerDeck(int deckSize, StackPane gameView, Label playerDeckLabel) {
-        for (int i = 0; i < deckSize; i++) {
+    private static void constructPlayerDeck(int deckSize, StackPane gameView) {
+        StackPane playerDeck = (StackPane) gameView.getChildren().get(10);
+            ImageView newCard  = new ImageView();
+            playerDeck.getChildren().add(newCard);
+            newCard.setScaleX(0.15);
+            newCard.setScaleY(0.15);
+            newCard.setImage(new Image(MainMenuView.class.getResource("/image/backOfCard.jpg").toExternalForm()));
+            AnimationUtility.playSimpleCardTransition(newCard , 9, 0 , deckSize , -1200 , -900 , 5);
 
-        }
+
     }
 
     public void openNewGame() throws IOException {
@@ -139,7 +149,8 @@ public class MainMenuView {
 
     }
 
-    public void openDeckMenu() {
+    public void openDeckMenu() throws IOException {
+        new DeckMenuView().showDeckMenu();
     }
 
     public void openShopMenu() throws IOException {

@@ -53,11 +53,10 @@ public class MainMenuController {
                 Player foundedOpponent = Database.getInstance().getPlayerByToken(waitingClientToken);
                 Player player = Database.getInstance().getPlayerByToken(token);
                 int playerDeckSize = player.getActiveDeck().mainCards.size() , opponentDeckSize = foundedOpponent.getActiveDeck().mainCards.size();
-                int duelId = Integer.parseInt(DuelMenuController.getInstance().startGame(player.getUsername(), foundedOpponent.getUsername(), 3 + "", false));
                 String response = "GameOn" + " " + foundedOpponent.getNickname() + " " + foundedOpponent.getPicture() + " " + player.getNickname() + " " + player.getPicture() + " "
-                        + playerDeckSize+" " + opponentDeckSize + " "+ duelId ;
-                ServerController.sendMessageToSocket(waitingClientToken, response , false);
-                return response;
+                        + playerDeckSize+" " + opponentDeckSize + " ";
+                int duelId = Integer.parseInt(DuelMenuController.getInstance().startGame(player.getUsername(), foundedOpponent.getUsername(), 3 + "", false , response));
+                return response + duelId;
             }
         }
         waitingLobby.put(token, isThreeRounded);

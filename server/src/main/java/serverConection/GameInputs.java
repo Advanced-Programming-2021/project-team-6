@@ -117,7 +117,7 @@ public class GameInputs {
                 onlineDuel.deSelect();
                 break;
             case 11:
-                onlineDuel.changePhase();
+              //  onlineDuel.changePhase();
                 break;
             case 12:
                 onlineDuel.summon();
