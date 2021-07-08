@@ -6,11 +6,8 @@ import models.Scoreboard;
 import models.cards.Card;
 
 
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -38,7 +35,8 @@ public class ServerController {
             "^get description (?<name>.+)$",
             "^shop can buy (?<cardName>.+) (?<token>\\S+)$",
             "^cancel game (?<token>\\S+)$",
-            "^create card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<level>\\d+) (?<description>.+) (?<token>\\S+)$",
+            "^create monster card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<action>.+) (?<level>\\d+) (?<description>.+) (?<token>\\S+)$",
+            "^create spell card (?<name>\\w+) \"(?<description>.+)\" (?<token>\\S+) \"(?<action>.+)\"$",
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -114,7 +112,7 @@ public class ServerController {
                         commandMatcher.group("newNickname"));
             case 9:
                 String cardName = commandMatcher.group("cardName");
-                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName , false));
+                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName, false));
             case 10:
                 return (ShoppingMenuController.getInstance().showAllCard());
             case 11:
@@ -130,13 +128,16 @@ public class ServerController {
                 return card.getName() + "\n" + card.getPrice() + "\n" + card.getDescription();
             case 16:
                 cardName = commandMatcher.group("cardName");
-                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName , true));
+                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName, true));
             case 17:
                 return MainMenuController.getInstance().cancelGame(commandMatcher.group("token"));
             case 18:
-                return CreateCardMenuController.getInstance().createCard(commandMatcher.group("name"), commandMatcher.group("attack"),
+                return CreateCardMenuController.createCard(commandMatcher.group("name"), commandMatcher.group("attack"),
                         commandMatcher.group("defence"), commandMatcher.group("level"),
-                        commandMatcher.group("description"), commandMatcher.group("token"));
+                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"),true);
+            case 19:
+                return CreateCardMenuController.createCard(commandMatcher.group("name"), "", "", "",
+                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"),false);
         }
         return "";
     }

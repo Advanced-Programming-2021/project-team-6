@@ -5,6 +5,7 @@ module client {
     requires com.google.gson;
     requires java.desktop;
     requires org.junit.jupiter.api;
+    requires javafx.media;
 
 
     opens view.menus to javafx.fxml;

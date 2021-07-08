@@ -45,27 +45,27 @@
       <Image url="@../image/GUI_T_Detail_TimeBase01.dds9.jpg"/>
    </ImageView>
    <TextField fx:id="oldPassword" accessibleRole="BUTTON" layoutX="673.0" layoutY="466.0" prefHeight="36.0"
-              prefWidth="168.0" text="Old Password">
+              prefWidth="168.0" promptText="Old Password">
       <font>
-         <Font size="18.0"/>
+         <Font name="Algerian" size="18.0"/>
       </font>
       <effect>
          <Reflection/>
       </effect>
    </TextField>
    <TextField fx:id="newNickname" accessibleRole="BUTTON" layoutX="673.0" layoutY="583.0" prefHeight="36.0"
-              prefWidth="168.0" text="New Nickname">
+              prefWidth="168.0" promptText="New Nickname">
       <font>
-         <Font size="17.0"/>
+         <Font name="Algerian" size="17.0"/>
       </font>
       <effect>
          <Reflection/>
       </effect>
    </TextField>
    <TextField fx:id="newPassword" accessibleRole="BUTTON" layoutX="889.0" layoutY="466.0" prefHeight="36.0"
-              prefWidth="168.0" text="new Password">
+              prefWidth="168.0" promptText="new Password">
       <font>
-         <Font size="18.0"/>
+         <Font name="Algerian" size="18.0"/>
       </font>
       <effect>
          <Reflection/>

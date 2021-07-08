@@ -10,11 +10,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import view.MusicManager;
 import view.Prompt;
 import view.PromptType;
 
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -26,8 +26,11 @@ public class ProfileMenuView {
     public TextField oldPassword;
 
     public void backToMainMenu() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+
+        Scene scene = new Scene(root);
+        WelcomeMenuView.mainStage.setScene(scene);
     }
 
     public void showProfile() throws IOException, URISyntaxException {
@@ -60,11 +63,13 @@ public class ProfileMenuView {
         photo.setFitWidth(200);
         root.getChildren().add(photo);
 
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        WelcomeMenuView.mainStage.setScene(scene);
 
     }
 
     public void changePassword() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
 
         if (newPassword != null && oldPassword != null) {
             String result = ClientController.changePassword(oldPassword.getText(), newPassword.getText());
@@ -77,6 +82,8 @@ public class ProfileMenuView {
     }
 
     public void changeNickname() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
+
         if (newNickname != null) {
             String result = ClientController.changeNickname(newNickname.getText());
             if (result.startsWith("Error"))

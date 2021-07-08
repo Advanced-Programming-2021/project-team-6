@@ -7,12 +7,15 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import view.MusicManager;
 import view.Prompt;
 import view.PromptType;
 
@@ -25,8 +28,10 @@ public class LoginMenuView {
     public TextField passwordInput;
 
     public void openFirstPage() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/WelcomeMenu.fxml"));
         Scene scene = backButton.getScene();
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
         stackPane = (StackPane) scene.getRoot();
         root.translateXProperty().set(-1950);
         stackPane.getChildren().add(root);
@@ -48,6 +53,7 @@ public class LoginMenuView {
     }
 
     public void openMainMenu() throws Exception {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         String username = usernameInput.getText();
         String password = passwordInput.getText();
         if (password.equals("") || username.equals(""))
@@ -64,6 +70,7 @@ public class LoginMenuView {
         ClientController.username = username;
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
         Scene scene = backButton.getScene();
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
         stackPane = (StackPane) scene.getRoot();
         stackPane.getChildren().add(root);
         root.translateYProperty().set(+1200);

@@ -28,6 +28,13 @@ public class Spell extends Card implements Cloneable {
         isActive = false;
     }
 
+    public Spell(String name, String description, String action) {
+        super(name);
+        this.action = action;
+        super.description = description;
+
+    }
+
     public SpellProperty getProperty() {
         return property;
     }

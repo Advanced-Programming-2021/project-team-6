@@ -4,10 +4,12 @@ import controller.ClientController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import model.Card;
 import view.Components.CardView;
+import view.MusicManager;
 import view.Prompt;
 import view.PromptType;
 
@@ -43,13 +46,18 @@ public class ShopMenuView {
     private CardView[][] cards;
 
     public void backToMainMenu() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
+        WelcomeMenuView.mainStage.setScene(scene);
     }
 
     public void showShop() throws IOException {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/ShopMenu.fxml"));
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
+        WelcomeMenuView.mainStage.setScene(scene);
         scrollPane = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(3);
         imageOfSelectedCard = ((Rectangle) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(0));
         cardDescriptionText = ((Text) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(1));
@@ -199,6 +207,7 @@ public class ShopMenuView {
     }
 
     public void buy() {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         try {
             String result = ClientController.buyCard(selectedCard.getName(), false);
             if (result.split(":")[0].equals("not enough money"))

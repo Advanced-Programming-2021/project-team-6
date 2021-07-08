@@ -8,6 +8,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -17,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
+import view.MusicManager;
 import view.Prompt;
 import view.PromptType;
 
@@ -115,6 +117,7 @@ public class MainMenuView {
     }
 
     public void openNewGame() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         String result = ClientController.waitForNewGame();
         if (result.startsWith("Success")) {
             System.out.println("waiting for opponent");
@@ -140,28 +143,34 @@ public class MainMenuView {
     }
 
     public void openShopMenu() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         new ShopMenuView().showShop();
     }
 
     public void openScoreboard() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         new ScoreBoardView().showScoreboard();
 
     }
 
     public void openProfileMenu() throws IOException, URISyntaxException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         new ProfileMenuView().showProfile();
     }
 
     public void openImpExpMenu() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         new ImpExpMenuView().showImpExpMenu();
 
     }
 
     public void openCreateCardMenu() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         new CreateCardMenuView().showCreateCardMenu();
     }
 
     public void logout() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         String result = ClientController.logout();
         if (result.startsWith("Error")) {
             Prompt.showMessage("logout was not successful", PromptType.Error);
@@ -169,6 +178,7 @@ public class MainMenuView {
         if (result.startsWith("Success")) {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/WelcomeMenu.fxml"));
             Scene scene = backButton.getScene();
+            scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
             stackPane = (StackPane) scene.getRoot();
             stackPaneOfMainMenu = stackPane;
             root.translateXProperty().set(-1950);
@@ -195,6 +205,7 @@ public class MainMenuView {
     }
 
     public void cancelGame() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         stackPane = (StackPane) backButton.getScene().getRoot();
         stackPaneOfMainMenu = stackPane;
         if (ClientController.cancelGameRequest().equals("Success"))

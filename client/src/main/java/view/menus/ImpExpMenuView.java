@@ -2,9 +2,12 @@ package view.menus;
 
 import controller.ClientController;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import view.MusicManager;
 import view.Prompt;
 import view.PromptType;
 
@@ -17,15 +20,21 @@ public class ImpExpMenuView {
 
     public void backToMainMenu() throws IOException {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
+        WelcomeMenuView.mainStage.setScene(scene);
     }
 
     public void showImpExpMenu() throws IOException {
+
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/ImpExpMenu.fxml"));
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
+        WelcomeMenuView.mainStage.setScene(scene);
     }
 
     public void importCard() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         if (importCardName != null){
             String result = ClientController.importCard(importCardName.getText());
 
@@ -39,6 +48,7 @@ public class ImpExpMenuView {
     }
 
     public void exportCard() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         if (exportCardName != null){
             String result = ClientController.exportCard(exportCardName.getText());
 

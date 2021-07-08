@@ -46,8 +46,9 @@ public class Monster extends Card implements Cloneable {
     }
 
     public Monster(String name, String attackPower, String defencePower, String description,
-                   String level) {
+                   String level, String action) {
         super(name);
+        this.action = action;
         super.description = description;
         this.LEVEL = Integer.parseInt(level);
         this.attackPower = Integer.parseInt(attackPower);

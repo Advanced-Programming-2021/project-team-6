@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.CreateCardMenuView">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.CreateCardMenuView">
 
     <ImageView fitHeight="680.0" fitWidth="1230.0">
         <Image url="@../image/field.png" />
@@ -24,106 +22,25 @@
             <Font name="NPIOuj" size="24.0" />
         </font>
     </Text>
-
-    <TextField fx:id="cardName" accessibleRole="BUTTON" layoutX="610.0" layoutY="166.0" prefHeight="36.0" prefWidth="168.0" text="Card Name">
-        <font>
-            <Font name="Aldhabi" size="18.0" />
-        </font>
-        <effect>
-            <Reflection />
-        </effect>
-    </TextField>
-
-    <TextField fx:id="attackPower" accessibleRole="BUTTON" layoutX="846.0" layoutY="166.0" prefHeight="36.0" prefWidth="168.0" text="attack power">
-        <font>
-            <Font name="Aldhabi" size="18.0" />
-        </font>
-        <effect>
-            <Reflection />
-        </effect>
-    </TextField>
-
-    <TextField fx:id="defencePower" accessibleRole="BUTTON" layoutX="846.0" layoutY="260.0" prefHeight="36.0" prefWidth="168.0" text="defence power">
-        <font>
-            <Font name="Aldhabi" size="18.0" />
-        </font>
-        <effect>
-            <Reflection />
-        </effect>
-    </TextField>
-
-    <TextField fx:id="description" accessibleRole="BUTTON" layoutX="610.0" layoutY="260.0" prefHeight="36.0" prefWidth="168.0" text="description">
-        <font>
-            <Font name="Aldhabi" size="18.0" />
-        </font>
-        <effect>
-            <Reflection />
-        </effect>
-    </TextField>
-
-    <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="623.0" layoutY="458.0">
-        <image>
-            <Image url="@../image/button.jpg" />
-        </image>
-    </ImageView>
-    <Text fill="#daa3a3" layoutX="620.0" layoutY="491.0" onMouseClicked="#calculateCost" strokeType="OUTSIDE" strokeWidth="0.0" text="Fix details" textAlignment="CENTER" wrappingWidth="148.13671875">
-        <font>
-            <Font name="NPIOuj" size="22.0" />
-        </font>
-    </Text>
-
-    <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="859.0" layoutY="458.0">
-        <image>
-            <Image url="@../image/button.jpg" />
-        </image>
-    </ImageView>
-    <Text fill="#daa3a3" layoutX="903.0" layoutY="492.0" onMouseClicked="#createCard" strokeType="OUTSIDE" strokeWidth="0.0" text="create" textAlignment="CENTER" wrappingWidth="54.13671875">
-        <font>
-            <Font name="NPIOuj" size="24.0" />
-        </font>
-    </Text>
-   <ImageView fitHeight="276.0" fitWidth="207.0" layoutX="283.0" layoutY="76.0">
+   <ImageView fitHeight="77.0" fitWidth="182.0" layoutX="529.0" layoutY="244.0">
       <image>
-         <Image url="@../image/Cards/template.gif" />
+         <Image url="@../image/button.jpg" />
       </image>
    </ImageView>
-   <TextField fx:id="pictureName" accessibleRole="BUTTON" layoutX="610.0" layoutY="352.0" prefHeight="36.0" prefWidth="168.0" text="picture name">
+   <Text fill="#daa3a3" layoutX="585.0" layoutY="271.0" onMouseClicked="#showCreateMonsterCardMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Monster" textAlignment="CENTER" wrappingWidth="70.13671875">
       <font>
-         <Font name="Aldhabi" size="18.0" />
+         <Font name="NPIOuj" size="24.0" />
       </font>
-      <effect>
-         <Reflection />
-      </effect>
-   </TextField>
-   <TextField fx:id="level" accessibleRole="BUTTON" layoutX="846.0" layoutY="352.0" prefHeight="36.0" prefWidth="168.0" text="level">
-      <font>
-         <Font name="Aldhabi" size="18.0" />
-      </font>
-      <effect>
-         <Reflection />
-      </effect>
-   </TextField>
-   <ImageView fitHeight="57.0" fitWidth="178.0" layoutX="298.0" layoutY="408.0">
+   </Text>
+   <ImageView fitHeight="77.0" fitWidth="182.0" layoutX="529.0" layoutY="355.0" >
       <image>
-         <Image url="@../image/sugoroku_footer.dds.jpg" />
+         <Image url="@../image/button.jpg" />
       </image>
    </ImageView>
-   <Text fx:id="cost" layoutX="367.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="107.13671875">
+   <Text fill="#daa3a3" layoutX="585.0" layoutY="382.0" onMouseClicked="#showCreateSpellCardMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Spell" textAlignment="CENTER" wrappingWidth="70.13671875">
       <font>
-         <Font name="Aldhabi" size="48.0" />
+         <Font name="NPIOuj" size="24.0" />
       </font>
    </Text>
-   <Text fx:id="attackedView" layoutX="321.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="60.13671875">
-      <font>
-         <Font name="Aldhabi" size="40.0" />
-      </font>
-   </Text>
-   <Text fx:id="defenceView" layoutX="416.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="60.13671875">
-      <font>
-         <Font name="Aldhabi" size="40.0" />
-      </font>
-   </Text>
-   <ImageView fx:id="levelPicture" fitHeight="24.0" fitWidth="101.0" layoutX="335.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
-   <ImageView fx:id="pictureView" fitHeight="198.0" fitWidth="200.0" layoutX="286.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true" />
 
 </AnchorPane>

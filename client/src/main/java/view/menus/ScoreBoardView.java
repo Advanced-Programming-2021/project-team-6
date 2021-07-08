@@ -3,8 +3,10 @@ package view.menus;
 import controller.ClientController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -12,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import view.MusicManager;
 
 import java.io.IOException;
 
@@ -22,8 +25,11 @@ public class ScoreBoardView {
 
 
     public void backToMainMenu() throws IOException {
+        MusicManager.playMusic(MusicManager.mouseClick,false);
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
+        WelcomeMenuView.mainStage.setScene(scene);
     }
 
     public void showScoreboard() throws IOException {
@@ -46,8 +52,9 @@ public class ScoreBoardView {
             root.getChildren().add(text);
         }
 
-
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
+        WelcomeMenuView.mainStage.setScene(scene);
     }
 
 

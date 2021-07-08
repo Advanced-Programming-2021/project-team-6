@@ -60,8 +60,7 @@ public class ClientController {
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }
-                        }
-                        else {
+                        } else {
                             try {
                                 ServerMessageHandler.getServerMessage(message);
                             } catch (IOException ioException) {
@@ -106,8 +105,8 @@ public class ClientController {
     }
 
     public static String buyCard(String card, boolean justWantToCheck) throws IOException {
-        String command = (justWantToCheck)?"can buy " :"buy ";
-        return sendMessage("shop " +command + card + " " + ClientController.token);
+        String command = (justWantToCheck) ? "can buy " : "buy ";
+        return sendMessage("shop " + command + card + " " + ClientController.token);
     }
 
     public static String loadAllCards() throws IOException {
@@ -129,18 +128,24 @@ public class ClientController {
     public static String exportCard(String cardName) throws IOException {
         return sendMessage("export card " + cardName + " " + ClientController.token);
     }
+
     public static String getDescription(String cardName) throws IOException {
-        return sendMessage("get description "+ cardName);
+        return sendMessage("get description " + cardName);
     }
 
     public static String cancelGameRequest() throws IOException {
         return sendMessage("cancel game" + " " + ClientController.token);
     }
 
-    public static String createCard(String name, String attackPower, String defencePower, String description,
-                                    String level) throws IOException {
-        return sendMessage("create card " + name + " " + attackPower + " " + defencePower + " " + level + " "
+    public static String createMonsterCard(String name, String attackPower, String defencePower, String description,
+                                           String level, String action) throws IOException {
+        return sendMessage("create monster card " + name + " " + attackPower + " " + defencePower + " " + action + " " + level + " "
                 + description + " " + ClientController.token);
+    }
+
+    public static String createSpellCard(String name, String description, String action) throws IOException {
+        return sendMessage("create spell card " + name + " \""
+                + description + "\" " + ClientController.token + " \"" + action+"\"");
     }
 
 
