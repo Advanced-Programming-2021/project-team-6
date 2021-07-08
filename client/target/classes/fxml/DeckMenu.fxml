@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.DeckMenuView">
+    <AnchorPane prefHeight="680.0" prefWidth="1200.0">
+        <ImageView fitHeight="680.0" fitWidth="1200.0">
+            <Image url="@../image/deck.jpg" />
+        </ImageView>
+        <ImageView fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="1000.0" layoutY="586.0">
+            <Image url="@../image/button.jpg" />
+        </ImageView>
+        <Text fill="#daa3a3" layoutX="1044.0" layoutY="620.0" onMouseClicked="#backToMainMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Back" textAlignment="CENTER" wrappingWidth="54.13671875">
+            <font>
+                <Font name="NPIOuj" size="24.0" />
+            </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
+        </Text>
+        <ScrollPane fx:id="mainDeck" layoutX="75.0" layoutY="34.0" prefHeight="150" prefWidth="711.0">
+         <effect>
+            <MotionBlur radius="63.0" />
+         </effect></ScrollPane>
+        <ScrollPane fx:id="sideDeck" layoutX="75.0" layoutY="195.0" prefHeight="150" prefWidth="711.0">
+         <effect>
+            <MotionBlur radius="63.0" />
+         </effect></ScrollPane>
+        <ScrollPane fx:id="inactiveCards" layoutX="813.0" layoutY="26.0" prefHeight="487.0" prefWidth="342.0">
+         <effect>
+            <DropShadow blurType="GAUSSIAN" radius="55.28" width="202.12" />
+         </effect></ScrollPane>
+        <ScrollPane fx:id="decks" layoutX="75.0" layoutY="360.0" minWidth="350" prefHeight="160" prefWidth="711.0">
+         <effect>
+            <MotionBlur radius="63.0" />
+         </effect></ScrollPane>
+      <HBox layoutX="14.0" layoutY="544.0" prefHeight="83.0" prefWidth="742.0">
+         <children>
+               <ToggleButton fx:id="mainSwitch" prefHeight="123.0" prefWidth="90" text="Main">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <effect>
+                  <Bloom threshold="0.91" />
+               </effect>
+            </ToggleButton>
+               <ToggleButton fx:id="sideSwitch" prefHeight="91.0" prefWidth="90" text="Side">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <effect>
+                  <Bloom threshold="0.91" />
+               </effect>
+            </ToggleButton>
+
+               <Button fx:id="deleteDeckButton" disable="true" onMouseClicked="#deleteDeck" prefHeight="83.0" prefWidth="130.0" text="Delete Deck">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="283.88" elevation="71.92">
+                           <color>
+                              <Color red="0.9263157844543457" green="0.8199610114097595" blue="0.9139077067375183" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+               <Button fx:id="addCardButton" disable="true" onMouseClicked="#addCard" prefHeight="83.0" prefWidth="118.0" text="Add Card">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="283.88" elevation="71.92">
+                           <color>
+                              <Color red="0.9263157844543457" green="0.8199610114097595" blue="0.9139077067375183" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+               <Button fx:id="removeCardButton" disable="true" onMouseClicked="#removeCard" prefHeight="83.0" prefWidth="138.0" text="Remove Card">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="283.88" elevation="71.92">
+                           <color>
+                              <Color red="0.9263157844543457" green="0.8199610114097595" blue="0.9139077067375183" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+               <Button fx:id="activateDeckButton" disable="true" onMouseClicked="#activateDeck" prefHeight="83.0" prefWidth="206.0" text="Activate Deck">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="283.88" elevation="71.92">
+                           <color>
+                              <Color red="0.9263157844543457" green="0.8199610114097595" blue="0.9139077067375183" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+         </children>
+         <effect>
+            <Reflection />
+         </effect>
+      </HBox>
+    </AnchorPane>
+</StackPane>

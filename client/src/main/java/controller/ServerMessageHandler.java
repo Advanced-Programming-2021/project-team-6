@@ -20,6 +20,8 @@ public class ServerMessageHandler {
             }
         } else if (message.startsWith("draw-o")) {
             int howManyCards = Integer.parseInt(params[1]);
+            for (int i = 0; i < howManyCards; i++)
+                Game.drawCardForOpponent();
         }
         return "";
     }

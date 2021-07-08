@@ -86,7 +86,7 @@ public class ServerController {
         message = message + " " + isResponseNeeded;
         Socket socket = socketHashMap.get(token);
         try {
-            System.out.println("message sent to " + Database.getInstance().getPlayerByToken(token) + " :" + message);
+            System.out.println("message sent to " + Database.getInstance().getPlayerByToken(token).getUsername() + " :" + message);
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataOutputStream.writeUTF(message);

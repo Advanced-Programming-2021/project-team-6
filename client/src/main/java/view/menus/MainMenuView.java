@@ -39,7 +39,7 @@ public class MainMenuView {
 
     private static Pane setUpDuelDoor(String playerName, String opponentName, String playerProfile, String opponentProfile, String playerDeckSize , String opponentDeckSize
             , boolean isFirstPlayer) throws IOException {
-        StackPane gameView = FXMLLoader.load(MainMenuView.class.getResource("/fxml/gAME.fxml"));
+        StackPane gameView = FXMLLoader.load(MainMenuView.class.getResource("/fxml/GameView.fxml"));
         gameView.setOpacity(0);
         Pane stackPane = new Pane();
         Pane leftDoorPane = new Pane(), rightDoorPane = new Pane();
@@ -94,8 +94,8 @@ public class MainMenuView {
         playerDeckLabel = ((Label) gameView.getChildren().get(8));
         opponentLabel = ((Label) gameView.getChildren().get(6));
         opponentDeckLabel = ((Label) gameView.getChildren().get(9));
-        constructPlayerDeck(Integer.parseInt(playerDeckSize) , gameView);
-        constructOpponentDeck(Integer.parseInt(opponentDeckSize) , gameView , opponentDeckLabel);
+        //constructPlayerDeck(Integer.parseInt(playerDeckSize) , gameView);
+        //constructOpponentDeck(Integer.parseInt(opponentDeckSize) , gameView , opponentDeckLabel);
         playerLabel.setText(playerName);
         opponentLabel.setText(opponentName);
         playerDeckLabel.setText(playerDeckSize);
