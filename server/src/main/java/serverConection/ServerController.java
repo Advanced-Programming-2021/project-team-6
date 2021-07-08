@@ -49,7 +49,7 @@ public class ServerController {
             "^deck rm-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?<token>\\S+)$",
             "^deck show (?:--all|-a) (?<token>\\S+)$",
             "^deck show (?:--deck-name|-d) (?<deckName>.+) (?:--side|-s) (?<token>\\S+)$",
-            "^deck show (?:--deck-name|-d) (?<deckName>.+) (?<token>\\S+)$",
+            "^deck show (?:--deck-name|-d) (?<deckName>.+) (?<token>\\S+)$"
     };
 
     public static void registerSocket(Socket socket, String token) {

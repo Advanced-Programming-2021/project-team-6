@@ -141,6 +141,36 @@ public class ClientController {
         return sendMessage("create card " + name + " " + attackPower + " " + defencePower + " " + level + " "
                 + description + " " + ClientController.token);
     }
+    public static String createDeck(String name) throws IOException {
+        return sendMessage("deck create " + name + " " + ClientController.token);
+    }
 
+    public static String deleteDeck(String name) throws IOException {
+        return sendMessage("deck delete " + name);
+    }
 
+    public static String activateDeck(String name) throws IOException {
+        return sendMessage("deck set-activate " + name + " " + ClientController.token);
+    }
+    public static String addCardToSideDeck(String name , String card) throws IOException {
+        return sendMessage("deck add-card -c " + card + " -d " + name +" -s " +  ClientController.token);
+    }
+    public static String addCardToMainDeck(String name , String card) throws IOException {
+        return sendMessage("deck add-card -c " + card + " -d " + name +" " +  ClientController.token);
+    }
+    public static String removeCardFromSideDeck(String name , String card) throws IOException {
+        return sendMessage("deck rm-card -c " + card + " -d " + name +" -s " +  ClientController.token);
+    }
+    public static String removeCardFromMainDeck(String name , String card) throws IOException {
+        return sendMessage("deck rm-card -c " + card + " -d " + name +" " +  ClientController.token);
+    }
+    public static String showAllDecks() throws IOException {
+        return sendMessage("deck show -a " +  ClientController.token);
+    }
+    public static String showSideDeck(String name) throws IOException {
+        return sendMessage("deck show -d " + name +" -s " +  ClientController.token);
+    }
+    public static String showMainDeck(String name) throws IOException {
+        return sendMessage("deck show -d " + name +" " +  ClientController.token);
+    }
 }

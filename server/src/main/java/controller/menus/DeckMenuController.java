@@ -91,6 +91,10 @@ public class DeckMenuController {
         Deck deck = Database.getInstance().getDeckByName(name);
         if (!ErrorChecker.doesDeckBelongToPlayer(deck, MainMenuController.getInstance().loggedInUsers.get(token)))
             return "Error";
-        return (deck.toString(isMain));
+        StringBuilder string  = new StringBuilder();
+        for(Card card : deck.getMainCards()){
+            string.append(card.getName()).append(":");
+        }
+        return String.valueOf(string);
     }
 }

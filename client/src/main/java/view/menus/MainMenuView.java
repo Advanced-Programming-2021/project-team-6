@@ -146,7 +146,8 @@ public class MainMenuView {
 
     }
 
-    public void openDeckMenu() {
+    public void openDeckMenu() throws IOException {
+        new DeckMenuView().showDeckMenu();
     }
 
     public void openShopMenu() throws IOException {
