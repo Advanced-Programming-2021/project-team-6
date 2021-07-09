@@ -51,12 +51,12 @@ public class ServerController {
             "^deck show (?:--all|-a) (?<token>\\S+)$",
             "^deck show (?:--deck-name|-d) (?<deckName>.+) (?:--side|-s) (?<token>\\S+)$",
             "^deck show (?:--deck-name|-d) (?<deckName>.+) (?<token>\\S+)$",
-            "^summon (?<address>\\d+) (?<duelID>\\d+) (?<token>\\S+)$",
-            "^set monster (?<address>\\d+) (?<duelID>\\d+) (?<token>\\S+)$",
-            "^set spell/trap (?<address>\\d+) (?<duelID>\\d+) (?<token>\\S+)$",
-            "^set -p (?<mode>attack|defence) (?<address>\\d+) (?<duelID>\\d+) (?<token>\\S+)$",
+            "^summon (?<address>\\d+) (?<token>\\S+)$",
+            "^set monster (?<address>\\d+) (?<token>\\S+)$",
+            "^set spell/trap (?<address>\\d+) (?<token>\\S+)$",
+            "^set -p (?<mode>attack|defence) (?<address>\\d+) (?<token>\\S+)$",
             "^duel set-winner (?<opponentUsername>\\w+)$",
-            "^increase --LP (?<duelID>\\d+) (?<myToken>\\S+)$",
+            "^increase --LP (?<myToken>\\S+)$",
 
     };
 
@@ -185,19 +185,27 @@ public class ServerController {
 //                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
 //                        .summon(commandMatcher.group("address"), commandMatcher.group("token"));
             case 31:
-                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
-                        .setMonster(commandMatcher.group("address"), commandMatcher.group("token"));
+                token = commandMatcher.group("token");
+                Player player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(player.getDuelID() + "")
+                        .setMonster(commandMatcher.group("address"), token );
             case 32:
-                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
-                        .setSpellAndTrap(commandMatcher.group("address"), commandMatcher.group("token"));
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(player.getDuelID() + "")
+                        .setSpellAndTrap(commandMatcher.group("address"), token);
             case 33:
-                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
-                        .setPosition(commandMatcher.group("mode"), commandMatcher.group("token"), commandMatcher.group("address"));
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(player.getDuelID() + "")
+                        .setPosition(commandMatcher.group("mode"), token, commandMatcher.group("address"));
             case 34:
                 return "";
             case 35:
-                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
-                        .increaseLP(commandMatcher.group("myToken"));
+                token = commandMatcher.group("myToken");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(player.getDuelID() + "")
+                        .increaseLP(token);
 
         }
         return "";

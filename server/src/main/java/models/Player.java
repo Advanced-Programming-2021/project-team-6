@@ -23,6 +23,7 @@ public class Player implements Comparable<Player> {
     private int money;
     private transient Board board = null;
     private transient String token;
+    private transient int duelID;
 
     public Player(String username, String nickname, String password) {
         this.username = username;
@@ -198,6 +199,14 @@ public class Player implements Comparable<Player> {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public void setDuelID(int duelId) {
+        this.duelID = duelId;
+    }
+
+    public int getDuelID() {
+        return duelID;
     }
 }
 
