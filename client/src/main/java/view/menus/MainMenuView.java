@@ -23,7 +23,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
-import view.MusicManager;
 import view.Prompt;
 import view.PromptType;
 
@@ -103,8 +102,8 @@ public class MainMenuView {
         playerDeckLabel = ((Label) gameView.getChildren().get(8));
         opponentLabel = ((Label) gameView.getChildren().get(6));
         opponentDeckLabel = ((Label) gameView.getChildren().get(9));
-        //constructPlayerDeck(Integer.parseInt(playerDeckSize) , gameView);
-        //constructOpponentDeck(Integer.parseInt(opponentDeckSize) , gameView , opponentDeckLabel);
+        constructPlayerDeck(Integer.parseInt(playerDeckSize) / 5 , gameView);
+        constructOpponentDeck(Integer.parseInt(opponentDeckSize) / 5, gameView , opponentDeckLabel);
         playerLabel.setText(playerName);
         opponentLabel.setText(opponentName);
         playerDeckLabel.setText(playerDeckSize);
@@ -118,17 +117,17 @@ public class MainMenuView {
         newCard.setScaleY(0.15);
         newCard.setScaleX(0.15);
         newCard.setImage(new Image(MainMenuView.class.getResource("/image/backOfCard.jpg").toExternalForm()));
-        AnimationUtility.playSimpleCardTransition(newCard, 9, 0, deckSize, -1200, 300, 17);
+        AnimationUtility.playSimpleCardTransition(newCard , 9, 0 , deckSize , -1200 , 0 , 8);
     }
 
     private static void constructPlayerDeck(int deckSize, StackPane gameView) {
         StackPane playerDeck = (StackPane) gameView.getChildren().get(10);
-        ImageView newCard = new ImageView();
-        playerDeck.getChildren().add(newCard);
-        newCard.setScaleX(0.15);
-        newCard.setScaleY(0.15);
-        newCard.setImage(new Image(MainMenuView.class.getResource("/image/backOfCard.jpg").toExternalForm()));
-        AnimationUtility.playSimpleCardTransition(newCard, 9, 0, deckSize, -1200, -900, 5);
+            ImageView newCard  = new ImageView();
+            playerDeck.getChildren().add(newCard);
+            newCard.setScaleX(0.15);
+            newCard.setScaleY(0.15);
+            newCard.setImage(new Image(MainMenuView.class.getResource("/image/backOfCard.jpg").toExternalForm()));
+            AnimationUtility.playSimpleCardTransition(newCard , 9, 0 , deckSize , -1200 , 0 , 4);
 
 
     }

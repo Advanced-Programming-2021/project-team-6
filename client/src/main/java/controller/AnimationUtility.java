@@ -1,15 +1,15 @@
 package controller;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
+import view.menus.Game;
 
 public class AnimationUtility {
 
@@ -79,5 +79,68 @@ public class AnimationUtility {
         cardXTimeLine.setDelay(Duration.seconds(delay));
         cardYTimeLine.play();
         cardXTimeLine.play();
+    }
+
+    public static void cardGoesFromOpponentDeckToTheirHand(ImageView newCard , HBox opponentHand , double delay) {
+        newCard.setScaleX(0.62);
+        newCard.setScaleY(0.68);
+        int startingX = 1010 -  (opponentHand.getChildren().size() - 1) * 152 ;
+        newCard.setTranslateX(startingX);
+        newCard.setTranslateY(210);
+        KeyValue cardYV = new KeyValue(newCard.translateYProperty() , 0 , Interpolator.LINEAR),
+                cardXV = new KeyValue(newCard.translateXProperty() , opponentHand.getChildren().size() * -40 , Interpolator.LINEAR);
+        KeyValue cardScaleYV = new KeyValue(newCard.scaleYProperty() , 1 , Interpolator.EASE_OUT),
+                cardScaleXV = new KeyValue(newCard.scaleXProperty() , 1 , Interpolator.EASE_OUT);
+        KeyFrame cardYKeyFrame = new KeyFrame(Duration.seconds(0.5), cardYV) ,
+                cardXKeyFrame = new KeyFrame(Duration.seconds(0.5) , cardXV);
+        KeyFrame cardScaleYKeyFrame = new KeyFrame(Duration.seconds(0.7), cardScaleYV) ,
+                cardScaleXKeyFrame = new KeyFrame(Duration.seconds(0.7) , cardScaleXV);
+        Timeline cardYAnimation = new Timeline(cardYKeyFrame) , cardXAnimation = new Timeline(cardXKeyFrame) ,
+                cardScaleYAnimation = new Timeline(cardScaleYKeyFrame) , cardScaleXAnimation = new Timeline(cardScaleXKeyFrame);
+        cardXAnimation.setDelay(Duration.seconds(delay));
+        cardYAnimation.setDelay(Duration.seconds(delay));
+        cardScaleYAnimation.setDelay(Duration.seconds(delay));
+        cardScaleXAnimation.setDelay(Duration.seconds(delay));
+        cardXAnimation.play();
+        cardYAnimation.play();
+        cardScaleYAnimation.play();
+        cardScaleXAnimation.play();
+    }
+    public static void cardGoesFromPlayerDeckToTheirHand(ImageView newCard , HBox hand ,String address , double delay) {
+        newCard.setScaleX(0.62);
+        newCard.setScaleY(0.68);
+        int startingX = 1010 -  (hand.getChildren().size() - 1) * 152 ;
+        newCard.setTranslateX(startingX);
+        newCard.setTranslateY(-270);
+        KeyValue cardYV = new KeyValue(newCard.translateYProperty() , 0 , Interpolator.LINEAR),
+                cardXV = new KeyValue(newCard.translateXProperty() , hand.getChildren().size() * -40 , Interpolator.LINEAR);
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.3) , newCard);
+        RotateTransition rotateTransitionBackward = new RotateTransition(Duration.seconds(0.3) , newCard);
+        KeyValue cardScaleYV = new KeyValue(newCard.scaleYProperty() , 1 , Interpolator.EASE_OUT),
+                cardScaleXV = new KeyValue(newCard.scaleXProperty() , 1 , Interpolator.EASE_OUT);
+        rotateTransition.setAxis(Rotate.Y_AXIS);
+        rotateTransition.setAxis(Rotate.Y_AXIS);
+        rotateTransitionBackward.setFromAngle(90);
+        rotateTransitionBackward.setToAngle(0);
+        KeyFrame cardYKeyFrame = new KeyFrame(Duration.seconds(0.5), cardYV) ,
+                cardXKeyFrame = new KeyFrame(Duration.seconds(0.5) , cardXV);
+        rotateTransition.setToAngle(90);
+        KeyFrame cardScaleYKeyFrame = new KeyFrame(Duration.seconds(0.7), cardScaleYV) ,
+                cardScaleXKeyFrame = new KeyFrame(Duration.seconds(0.7) , cardScaleXV);
+        rotateTransition.setDelay(Duration.seconds(delay));
+        Timeline cardYAnimation = new Timeline(cardYKeyFrame) , cardXAnimation = new Timeline(cardXKeyFrame) ,
+                cardScaleYAnimation = new Timeline(cardScaleYKeyFrame) , cardScaleXAnimation = new Timeline(cardScaleXKeyFrame);
+        cardScaleXAnimation.setDelay(Duration.seconds(delay));
+        cardYAnimation.setDelay(Duration.seconds(delay));
+        rotateTransition.setOnFinished(actionEvent -> {
+            newCard.setImage(new Image(Game.class.getResource(address).toExternalForm()));
+            rotateTransitionBackward.play();});
+        cardXAnimation.setDelay(Duration.seconds(delay));
+        cardScaleYAnimation.setDelay(Duration.seconds(delay));
+        rotateTransition.play();
+        cardYAnimation.play();
+        cardXAnimation.play();
+        cardScaleXAnimation.play();
+        cardScaleYAnimation.play();
     }
 }

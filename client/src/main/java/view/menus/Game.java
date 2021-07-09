@@ -39,19 +39,24 @@ public class Game implements Initializable {
     public VBox fieldFXML;
     public static VBox field;
     public static ArrayList<Card> cardsOfHand = new ArrayList<>();
+    public Label numberOfCardsRemainingInPlayersDeckFXML;
+    public static Label numberOfCardsRemainingInPlayersDeck;
+    public static Label numberOfCardsRemainingInOpponentsDeck;
+    public Label numberOfCardsRemainingInOpponentsDeckFXML;
     public Label myLPText;
     public Label LPTextOpponentFxml;
     public static Label LPTextOpponent;
 
 
-    public static void drawCardForPlayer(String cardName) {
+    public static void drawCardForPlayer(String cardName , double delay) {
+        numberOfCardsRemainingInOpponentsDeck.setText((Integer.parseInt(numberOfCardsRemainingInOpponentsDeck.getText()) - 1) + "");
         String address = "/image/Cards/" + cardName + ".jpg";
         ImageView newCard = new ImageView();
         newCard.setFitWidth(150);
         newCard.setFitHeight(200);
         newCard.translateXProperty().set(hand.getChildren().size() * -40);
         cardsOfHand.add(new Card(cardName ,address , true));
-        Image cardImage = new Image(Game.class.getResource(address).toExternalForm());
+        Image cardImage = new Image(Game.class.getResource("/image/backOfCard.jpg").toExternalForm());
         newCard.setOnMouseEntered(mouseEvent -> AnimationUtility.playScalingAnimationOnACard(newCard , 0 , 1.2 , 1.2 , -80));
         newCard.setOnMouseReleased(mouseEvent ->
                 {
@@ -81,6 +86,7 @@ public class Game implements Initializable {
         });
         newCard.setImage(cardImage);
         hand.getChildren().add(newCard);
+        AnimationUtility.cardGoesFromPlayerDeckToTheirHand(newCard , hand , address , delay);
     }
 
     private static void showCardInfo(String description, String cardAddress) throws IOException {
@@ -92,7 +98,8 @@ public class Game implements Initializable {
         ((Text) cardInfo.getChildrenUnmodifiable().get(2)).setText(description);
     }
 
-    public static void drawCardForOpponent() {
+    public static void drawCardForOpponent(double delay) {
+
         ImageView newCard = new ImageView();
         newCard.translateXProperty().set(opponentHand.getChildren().size() * -40);
         newCard.setOnMouseEntered(mouseEvent -> AnimationUtility.playScalingAnimationOnACard(newCard , 0 , 1.2 , 1.2 , 0));
@@ -102,6 +109,7 @@ public class Game implements Initializable {
         Image cardImage = new Image(Game.class.getResource("/image/backOfCard.jpg").toExternalForm());
         newCard.setImage(cardImage);
         opponentHand.getChildren().add(newCard);
+        AnimationUtility.cardGoesFromOpponentDeckToTheirHand(newCard , opponentHand , delay);
     }
 
     @Override
@@ -113,6 +121,8 @@ public class Game implements Initializable {
         dropReactor = dropReactorFXML;
         field = fieldFXML;
         LPTextOpponent = LPTextOpponentFxml;
+        numberOfCardsRemainingInOpponentsDeck = numberOfCardsRemainingInOpponentsDeckFXML;
+        numberOfCardsRemainingInPlayersDeck = numberOfCardsRemainingInPlayersDeckFXML;
     }
 
     public void getDeckDown() {
