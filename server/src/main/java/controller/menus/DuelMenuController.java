@@ -30,6 +30,12 @@ public class DuelMenuController {
         return instance;
     }
 
+    public Duel getDuelByID(String ID){
+        if(!onlineDuels.containsKey(ID)) return null;
+
+        return onlineDuels.get(ID);
+    }
+
     public String startGame(String firstUsername, String secondUsername, String round, boolean isAI , String response)
             throws CloneNotSupportedException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         Player firstPlayer = Database.getInstance().getPlayerByUsername(firstUsername);

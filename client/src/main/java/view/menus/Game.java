@@ -1,6 +1,8 @@
 package view.menus;
 import controller.AnimationUtility;
+import controller.ClientController;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -10,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,6 +30,10 @@ public class Game implements Initializable {
     public static Rectangle dropReactor;
     public VBox fieldFXML;
     public static VBox field;
+    public Label myLPText;
+    public Label LPTextOpponentFxml;
+    public static Label LPTextOpponent;
+
 
     public static void drawCardForPlayer(String cardName) {
         ImageView newCard = new ImageView();
@@ -37,12 +44,12 @@ public class Game implements Initializable {
         newCard.setOnMouseEntered(mouseEvent -> AnimationUtility.playScalingAnimationOnACard(newCard , 0 , 1.2 , 1.2 , -80));
         newCard.setOnMouseExited(mouseEvent -> AnimationUtility.playScalingAnimationOnACard(newCard , 0 , 1 , 1 , 0));
         newCard.setOnDragDetected(mouseEvent ->  {
-                Dragboard dragboard = newCard.startDragAndDrop(TransferMode.ANY);
-                ClipboardContent content = new ClipboardContent();
-                content.putImage(newCard.getImage());
-                newCard.opacityProperty().set(0);
-                dragboard.setContent(content);
-                mouseEvent.consume();
+            Dragboard dragboard = newCard.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(newCard.getImage());
+            newCard.opacityProperty().set(0);
+            dragboard.setContent(content);
+            mouseEvent.consume();
 
         });
         newCard.setOnDragDone(mouseEvent ->  {
@@ -73,6 +80,7 @@ public class Game implements Initializable {
         opponentHand = opponentHandFXML;
         dropReactor = dropReactorFXML;
         field = fieldFXML;
+        LPTextOpponent = LPTextOpponentFxml;
     }
 
     public void getDeckDown() {
@@ -108,4 +116,20 @@ public class Game implements Initializable {
         }
         event.consume();
     }
+    public void cheatLP() throws IOException {
+        String result = ClientController.cheatLP();
+
+        if (result.startsWith("Error")) return;
+
+        myLPText.setText(result);
+    }
+    public static void cheatLPOpponent(){
+        LPTextOpponent.setText(String.valueOf(Integer.parseInt(LPTextOpponent.getText()) + 1));
+    }
+
+
+    public void cheatWin() throws IOException {
+        ClientController.cheatWin();
+    }
+
 }

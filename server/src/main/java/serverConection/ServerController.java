@@ -1,11 +1,11 @@
 package serverConection;
 
+import controller.Duel;
 import controller.menus.*;
 import models.Database;
 import models.Player;
 import models.Scoreboard;
 import models.cards.Card;
-
 
 
 import java.io.DataInputStream;
@@ -50,7 +50,14 @@ public class ServerController {
             "^deck rm-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?<token>\\S+)$",
             "^deck show (?:--all|-a) (?<token>\\S+)$",
             "^deck show (?:--deck-name|-d) (?<deckName>.+) (?:--side|-s) (?<token>\\S+)$",
-            "^deck show (?:--deck-name|-d) (?<deckName>.+) (?<token>\\S+)$"
+            "^deck show (?:--deck-name|-d) (?<deckName>.+) (?<token>\\S+)$",
+            "^summon (?<address>\\d+) (?<duelID>\\d+) (?<token>\\S+)$",
+            "^set monster (?<address>\\d+) (?<duelID>\\d+) (?<token>\\S+)$",
+            "^set spell/trap (?<address>\\d+) (?<duelID>\\d+) (?<token>\\S+)$",
+            "^set -p (?<mode>attack|defence) (?<address>\\d+) (?<duelID>\\d+) (?<token>\\S+)$",
+            "^duel set-winner (?<opponentUsername>\\w+)$",
+            "^increase --LP (?<duelID>\\d+) (?<myToken>\\S+)$",
+
     };
 
     public static void registerSocket(Socket socket, String token) {
@@ -78,7 +85,6 @@ public class ServerController {
                 return executeCommands(commandMatcher, whichCommand);
 
         }
-        System.out.println(1);
         return "";
 
     }
@@ -127,7 +133,7 @@ public class ServerController {
                         commandMatcher.group("newNickname"));
             case 9:
                 String cardName = commandMatcher.group("cardName");
-                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName , false));
+                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName, false));
             case 10:
                 return (ShoppingMenuController.getInstance().showAllCard());
             case 11:
@@ -143,37 +149,56 @@ public class ServerController {
                 return card.getName() + "\n" + card.getPrice() + "\n" + card.getDescription();
             case 16:
                 cardName = commandMatcher.group("cardName");
-                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName , true));
+                return (ShoppingMenuController.getInstance().buyCard(commandMatcher.group("token"), cardName, true));
             case 17:
                 return MainMenuController.getInstance().cancelGame(commandMatcher.group("token"));
             case 18:
                 return CreateCardMenuController.createCard(commandMatcher.group("name"), commandMatcher.group("attack"),
                         commandMatcher.group("defence"), commandMatcher.group("level"),
-                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"),true);
+                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"), true);
             case 19:
                 return CreateCardMenuController.createCard(commandMatcher.group("name"), "", "", "",
-                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"),false);
-                        commandMatcher.group("description"), commandMatcher.group("token"));
+                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"), false);
             case 20:
                 return DeckMenuController.getInstance().createDeck(commandMatcher.group("name"), commandMatcher.group("token"));
             case 21:
                 return DeckMenuController.getInstance().deleteDeck(commandMatcher.group("name"));
             case 22:
-                return DeckMenuController.getInstance().setActiveDeck(commandMatcher.group("name") , commandMatcher.group("token"));
+                return DeckMenuController.getInstance().setActiveDeck(commandMatcher.group("name"), commandMatcher.group("token"));
             case 23:
-                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), false );
+                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), false);
             case 24:
-                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), true );
+                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), true);
             case 25:
                 return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), false);
             case 26:
-                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), true );
+                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), true);
             case 27:
                 return DeckMenuController.getInstance().showAllDecks(commandMatcher.group("token"));
             case 28:
-                return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckname"),commandMatcher.group("token") , false);
+                return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckname"),
+                        commandMatcher.group("token"), false);
             case 29:
-                return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckname"),commandMatcher.group("token") , true);
+                return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckname"),
+                        commandMatcher.group("token"), true);
+//            case 30:
+//                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
+//                        .summon(commandMatcher.group("address"), commandMatcher.group("token"));
+            case 31:
+                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
+                        .setMonster(commandMatcher.group("address"), commandMatcher.group("token"));
+            case 32:
+                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
+                        .setSpellAndTrap(commandMatcher.group("address"), commandMatcher.group("token"));
+            case 33:
+                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
+                        .setPosition(commandMatcher.group("mode"), commandMatcher.group("token"), commandMatcher.group("address"));
+            case 34:
+                return "";
+            case 35:
+                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
+                        .increaseLP(commandMatcher.group("myToken"));
+
         }
         return "";
     }

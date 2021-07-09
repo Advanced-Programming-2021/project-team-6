@@ -89,45 +89,45 @@ public class GameInputs {
 
     private void executeGamePlayCommands(Matcher commandMatcher, int whichCommand) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         switch (whichCommand) {
-            case 0:
-                onlineDuel.select(commandMatcher.group("address"), true, "m");
-                break;
-            case 1:
-            case 2:
-                onlineDuel.select(commandMatcher.group("address"), false, "m");
-                break;
-            case 3:
-                onlineDuel.select(commandMatcher.group("address"), true, "s");
-                break;
-            case 4:
-            case 5:
-                onlineDuel.select(commandMatcher.group("address"), false, "s");
-                break;
-            case 6:
-                onlineDuel.select(commandMatcher.group("address"), true, "f");
-                break;
-            case 7:
-            case 8:
-                onlineDuel.select(commandMatcher.group("address"), false, "f");
-                break;
-            case 9:
-                onlineDuel.select(commandMatcher.group("address"), true, "h");
-                break;
+//            case 0:
+//                onlineDuel.select(commandMatcher.group("address"), true, "m");
+//                break;
+//            case 1:
+//            case 2:
+//                onlineDuel.select(commandMatcher.group("address"), false, "m");
+//                break;
+//            case 3:
+//                onlineDuel.select(commandMatcher.group("address"), true, "s");
+//                break;
+//            case 4:
+//            case 5:
+//                onlineDuel.select(commandMatcher.group("address"), false, "s");
+//                break;
+//            case 6:
+//                onlineDuel.select(commandMatcher.group("address"), true, "f");
+//                break;
+//            case 7:
+//            case 8:
+//                onlineDuel.select(commandMatcher.group("address"), false, "f");
+//                break;
+//            case 9:
+//                onlineDuel.select(commandMatcher.group("address"), true, "h");
+//                break;
             case 10:
-                onlineDuel.deSelect();
+                //onlineDuel.deSelect();
                 break;
             case 11:
               //  onlineDuel.changePhase();
                 break;
             case 12:
-                onlineDuel.summon();
+                //onlineDuel.summon();
                 break;
             case 13:
-                onlineDuel.setMonster();
-                onlineDuel.setSpellAndTrap();
+                //onlineDuel.setMonster();
+                //onlineDuel.setSpellAndTrap();
                 break;
             case 14:
-                onlineDuel.setPosition(commandMatcher.group("mode"));
+                //onlineDuel.setPosition(commandMatcher.group("mode"));
                 break;
             case 15:
                 onlineDuel.flipSummon();
@@ -148,7 +148,7 @@ public class GameInputs {
                 onlineDuel.showCard();
                 break;
             case 21:
-                onlineDuel.increaseLP(Integer.parseInt(commandMatcher.group("amount")));
+                //onlineDuel.increaseLP(Integer.parseInt(commandMatcher.group("amount")));
                 break;
             case 22:
                 onlineDuel.cheatForWinGame(commandMatcher.group("nickname"));

@@ -1,17 +1,21 @@
 package controller;
 
 import javafx.application.Platform;
+import view.menus.Game;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.LogManager;
 
 
 public class ClientController {
 
+
     public static String username;
+    public static String opponentUsername;
     public static String token;
     private static Socket socket;
     private static DataInputStream dataInputStream;
@@ -60,8 +64,7 @@ public class ClientController {
                             } catch (Exception ioException) {
                                 ioException.printStackTrace();
                             }
-                        }
-                        else {
+                        } else {
                             try {
                                 ServerMessageHandler.getServerMessage(message);
                             } catch (Exception ioException) {
@@ -94,20 +97,20 @@ public class ClientController {
     }
 
     public static String profile() throws IOException {
-        return sendMessage("profile " + ClientController.token);
+        return sendMessage("profile " + token);
     }
 
     public static String changePassword(String oldPassword, String newPassword) throws IOException {
-        return sendMessage("change password " + oldPassword + " " + newPassword + " " + ClientController.token);
+        return sendMessage("change password " + oldPassword + " " + newPassword + " " + token);
     }
 
     public static String changeNickname(String newNickname) throws IOException {
-        return sendMessage("change nickname " + newNickname + " " + ClientController.token);
+        return sendMessage("change nickname " + newNickname + " " + token);
     }
 
     public static String buyCard(String card, boolean justWantToCheck) throws IOException {
-        String command = (justWantToCheck)?"can buy " :"buy ";
-        return sendMessage("shop " +command + card + " " + ClientController.token);
+        String command = (justWantToCheck) ? "can buy " : "buy ";
+        return sendMessage("shop " + command + card + " " + token);
     }
 
     public static String loadAllCards() throws IOException {
@@ -115,19 +118,19 @@ public class ClientController {
     }
 
     public static String showMoney() throws IOException {
-        return sendMessage("shop show money " + ClientController.token);
+        return sendMessage("shop show money " + token);
     }
 
     public static String increaseMoney(String amount) throws IOException {
-        return sendMessage("increase -m " + amount + " " + ClientController.token);
+        return sendMessage("increase -m " + amount + " " + token);
     }
 
     public static String importCard(String cardName) throws IOException {
-        return sendMessage("import card " + cardName + " " + ClientController.token);
+        return sendMessage("import card " + cardName + " " + token);
     }
 
     public static String exportCard(String cardName) throws IOException {
-        return sendMessage("export card " + cardName + " " + ClientController.token);
+        return sendMessage("export card " + cardName + " " + token);
     }
 
     public static String getDescription(String cardName) throws IOException {
@@ -135,21 +138,22 @@ public class ClientController {
     }
 
     public static String cancelGameRequest() throws IOException {
-        return sendMessage("cancel game" + " " + ClientController.token);
+        return sendMessage("cancel game" + " " + token);
     }
 
     public static String createMonsterCard(String name, String attackPower, String defencePower, String description,
                                            String level, String action) throws IOException {
         return sendMessage("create monster card " + name + " " + attackPower + " " + defencePower + " " + action + " " + level + " "
-                + description + " " + ClientController.token);
+                + description + " " + token);
     }
+
     public static String createDeck(String name) throws IOException {
-        return sendMessage("deck create " + name + " " + ClientController.token);
+        return sendMessage("deck create " + name + " " + token);
     }
 
     public static String createSpellCard(String name, String description, String action) throws IOException {
         return sendMessage("create spell card " + name + " \""
-                + description + "\" " + ClientController.token + " \"" + action+"\"");
+                + description + "\" " + token + " \"" + action + "\"");
     }
 
     public static String deleteDeck(String name) throws IOException {
@@ -157,27 +161,56 @@ public class ClientController {
     }
 
     public static String activateDeck(String name) throws IOException {
-        return sendMessage("deck set-activate " + name + " " + ClientController.token);
+        return sendMessage("deck set-activate " + name + " " + token);
     }
-    public static String addCardToSideDeck(String name , String card) throws IOException {
-        return sendMessage("deck add-card -c " + card + " -d " + name +" -s " +  ClientController.token);
+
+    public static String addCardToSideDeck(String name, String card) throws IOException {
+        return sendMessage("deck add-card -c " + card + " -d " + name + " -s " + token);
     }
-    public static String addCardToMainDeck(String name , String card) throws IOException {
-        return sendMessage("deck add-card -c " + card + " -d " + name +" " +  ClientController.token);
+
+    public static String addCardToMainDeck(String name, String card) throws IOException {
+        return sendMessage("deck add-card -c " + card + " -d " + name + " " + token);
     }
-    public static String removeCardFromSideDeck(String name , String card) throws IOException {
-        return sendMessage("deck rm-card -c " + card + " -d " + name +" -s " +  ClientController.token);
+
+    public static String removeCardFromSideDeck(String name, String card) throws IOException {
+        return sendMessage("deck rm-card -c " + card + " -d " + name + " -s " + token);
     }
-    public static String removeCardFromMainDeck(String name , String card) throws IOException {
-        return sendMessage("deck rm-card -c " + card + " -d " + name +" " +  ClientController.token);
+
+    public static String removeCardFromMainDeck(String name, String card) throws IOException {
+        return sendMessage("deck rm-card -c " + card + " -d " + name + " " + token);
     }
+
     public static String showAllDecks() throws IOException {
-        return sendMessage("deck show -a " +  ClientController.token);
+        return sendMessage("deck show -a " + token);
     }
+
     public static String showSideDeck(String name) throws IOException {
-        return sendMessage("deck show -d " + name +" -s " +  ClientController.token);
+        return sendMessage("deck show -d " + name + " -s " + token);
     }
+
     public static String showMainDeck(String name) throws IOException {
-        return sendMessage("deck show -d " + name +" " +  ClientController.token);
+        return sendMessage("deck show -d " + name + " " + token);
     }
+
+    public static String summon(String address) throws IOException {
+        return sendMessage("summon " + address + " " + Game.duelId + " " + token);
+    }
+
+    public static String setMonster(String address) throws IOException {
+        return sendMessage("set monster " + address + " " + Game.duelId + " " + token);
+    }
+
+    public static String setSpellAndTrap(String address) throws IOException {
+        return sendMessage("set spell/trap " + address + " " + Game.duelId + " " + token);
+    }
+
+    public static String cheatWin() throws IOException {
+        return sendMessage("duel set-winner " + opponentUsername);
+    }
+
+    public static String cheatLP() throws IOException {
+        return sendMessage("increase --LP " + Game.duelId + " " + token);
+    }
+
+
 }

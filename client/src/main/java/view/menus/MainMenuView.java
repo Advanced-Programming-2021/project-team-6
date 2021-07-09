@@ -7,12 +7,17 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -32,15 +37,16 @@ public class MainMenuView {
     public ImageView backButton;
     StackPane waiting;
 
-    public static String startNewGame(String playerName, String opponentName, String playerProfile, String opponentProfile,String playerDeckSize , String opponentDeckSize
-            , int duelId , boolean isFirstPlayer) throws IOException {
+    public static String startNewGame(String playerName, String opponentName, String playerProfile, String opponentProfile, String playerDeckSize, String opponentDeckSize
+            , int duelId, boolean isFirstPlayer) throws IOException {
         Game.duelId = duelId;
-        stackPaneOfMainMenu.getChildren().add(setUpDuelDoor(playerName, opponentName, playerProfile, opponentProfile , playerDeckSize , opponentDeckSize , isFirstPlayer));
+        stackPaneOfMainMenu.getChildren().add(setUpDuelDoor(playerName, opponentName, playerProfile, opponentProfile, playerDeckSize, opponentDeckSize, isFirstPlayer));
         return "";
     }
 
-    private static Pane setUpDuelDoor(String playerName, String opponentName, String playerProfile, String opponentProfile, String playerDeckSize , String opponentDeckSize
+    private static Pane setUpDuelDoor(String playerName, String opponentName, String playerProfile, String opponentProfile, String playerDeckSize, String opponentDeckSize
             , boolean isFirstPlayer) throws IOException {
+        MusicManager.playMusic(MusicManager.gameMusic, true);
         StackPane gameView = FXMLLoader.load(MainMenuView.class.getResource("/fxml/GameView.fxml"));
         gameView.setOpacity(0);
         Pane stackPane = new Pane();
@@ -74,9 +80,10 @@ public class MainMenuView {
         stackPaneOfMainMenu.getChildren().remove(1);
         AnimationUtility.playDoorAnimation(leftDoorPane, rightDoorPane, stackPaneOfMainMenu, gameView);
         if (isFirstPlayer)
-            setDuelInformation(gameView, playerName, playerProfile, opponentName, opponentProfile , playerDeckSize , opponentDeckSize);
+            setDuelInformation(gameView, playerName, playerProfile, opponentName, opponentProfile, playerDeckSize, opponentDeckSize);
         else
-            setDuelInformation(gameView, opponentName, opponentProfile, playerName, playerProfile , opponentDeckSize , playerDeckSize);
+            setDuelInformation(gameView, opponentName, opponentProfile, playerName, playerProfile, opponentDeckSize, playerDeckSize);
+
 
 
         stackPaneOfMainMenu.getChildren().add(gameView);
@@ -84,7 +91,7 @@ public class MainMenuView {
     }
 
     private static void setDuelInformation(StackPane gameView, String playerName, String playerProfile,
-                                           String opponentName, String opponentProfile , String playerDeckSize , String opponentDeckSize) {
+                                           String opponentName, String opponentProfile, String playerDeckSize, String opponentDeckSize) {
         ImageView playerImage, opponentImage;
         Label playerLabel, opponentLabel;
         Label playerDeckLabel, opponentDeckLabel;
@@ -106,28 +113,28 @@ public class MainMenuView {
 
     private static void constructOpponentDeck(int deckSize, StackPane gameView, Label opponentDeckLabel) {
         StackPane playerDeck = (StackPane) gameView.getChildren().get(11);
-        ImageView newCard  = new ImageView();
+        ImageView newCard = new ImageView();
         playerDeck.getChildren().add(newCard);
         newCard.setScaleY(0.15);
         newCard.setScaleX(0.15);
         newCard.setImage(new Image(MainMenuView.class.getResource("/image/backOfCard.jpg").toExternalForm()));
-        AnimationUtility.playSimpleCardTransition(newCard , 9, 0 , deckSize , -1200 , 300 , 17);
+        AnimationUtility.playSimpleCardTransition(newCard, 9, 0, deckSize, -1200, 300, 17);
     }
 
     private static void constructPlayerDeck(int deckSize, StackPane gameView) {
         StackPane playerDeck = (StackPane) gameView.getChildren().get(10);
-            ImageView newCard  = new ImageView();
-            playerDeck.getChildren().add(newCard);
-            newCard.setScaleX(0.15);
-            newCard.setScaleY(0.15);
-            newCard.setImage(new Image(MainMenuView.class.getResource("/image/backOfCard.jpg").toExternalForm()));
-            AnimationUtility.playSimpleCardTransition(newCard , 9, 0 , deckSize , -1200 , -900 , 5);
+        ImageView newCard = new ImageView();
+        playerDeck.getChildren().add(newCard);
+        newCard.setScaleX(0.15);
+        newCard.setScaleY(0.15);
+        newCard.setImage(new Image(MainMenuView.class.getResource("/image/backOfCard.jpg").toExternalForm()));
+        AnimationUtility.playSimpleCardTransition(newCard, 9, 0, deckSize, -1200, -900, 5);
 
 
     }
 
     public void openNewGame() throws IOException {
-        MusicManager.playMusic(MusicManager.mouseClick,false);
+        MusicManager.playMusic(MusicManager.mouseClick, false);
         String result = ClientController.waitForNewGame();
         if (result.startsWith("Success")) {
             System.out.println("waiting for opponent");
@@ -136,12 +143,14 @@ public class MainMenuView {
             stackPaneOfMainMenu = stackPane;
             stackPane.getChildren().add(waiting);
         } else if (result.startsWith("GameOn")) {
+            String opponentUsername = result.split(" ")[1];
+            ClientController.opponentUsername = opponentUsername;
             waiting = FXMLLoader.load(getClass().getResource("/fxml/waiting.fxml"));
             stackPane = (StackPane) backButton.getScene().getRoot();
             stackPaneOfMainMenu = stackPane;
             stackPane.getChildren().add(waiting);
             String[] params = result.split(" ");
-            MainMenuView.startNewGame(params[1], params[3], params[2], params[4], params[5] ,params[6]  , Integer.parseInt(params[7]) , false);
+            MainMenuView.startNewGame(params[1], params[3], params[2], params[4], params[5], params[6], Integer.parseInt(params[7]), false);
             System.out.println("game on");
         } else if (result.startsWith("Error"))
             System.out.println("Error");
@@ -154,34 +163,34 @@ public class MainMenuView {
     }
 
     public void openShopMenu() throws IOException {
-        MusicManager.playMusic(MusicManager.mouseClick,false);
+        MusicManager.playMusic(MusicManager.mouseClick, false);
         new ShopMenuView().showShop();
     }
 
     public void openScoreboard() throws IOException {
-        MusicManager.playMusic(MusicManager.mouseClick,false);
+        MusicManager.playMusic(MusicManager.mouseClick, false);
         new ScoreBoardView().showScoreboard();
 
     }
 
     public void openProfileMenu() throws IOException, URISyntaxException {
-        MusicManager.playMusic(MusicManager.mouseClick,false);
+        MusicManager.playMusic(MusicManager.mouseClick, false);
         new ProfileMenuView().showProfile();
     }
 
     public void openImpExpMenu() throws IOException {
-        MusicManager.playMusic(MusicManager.mouseClick,false);
+        MusicManager.playMusic(MusicManager.mouseClick, false);
         new ImpExpMenuView().showImpExpMenu();
 
     }
 
     public void openCreateCardMenu() throws IOException {
-        MusicManager.playMusic(MusicManager.mouseClick,false);
+        MusicManager.playMusic(MusicManager.mouseClick, false);
         new CreateCardMenuView().showCreateCardMenu();
     }
 
     public void logout() throws IOException {
-        MusicManager.playMusic(MusicManager.mouseClick,false);
+        MusicManager.playMusic(MusicManager.mouseClick, false);
         String result = ClientController.logout();
         if (result.startsWith("Error")) {
             Prompt.showMessage("logout was not successful", PromptType.Error);
@@ -216,7 +225,7 @@ public class MainMenuView {
     }
 
     public void cancelGame() throws IOException {
-        MusicManager.playMusic(MusicManager.mouseClick,false);
+        MusicManager.playMusic(MusicManager.mouseClick, false);
         stackPane = (StackPane) backButton.getScene().getRoot();
         stackPaneOfMainMenu = stackPane;
         if (ClientController.cancelGameRequest().equals("Success"))

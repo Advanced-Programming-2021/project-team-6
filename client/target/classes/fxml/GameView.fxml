@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -11,6 +12,7 @@
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
 
 <StackPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../CSS/Game.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.Game">
     <ImageView fitHeight="680" fitWidth="1200">
@@ -25,8 +27,8 @@
     <ImageView fitHeight="90" fitWidth="90" styleClass="cardInHand" translateX="430" translateY="-192">
         <Image url="@../image/profilePicture/1.jpg" />
     </ImageView>
-    <Label text="8000" textFill="azure" translateX="432.0" translateY="250.0" />
-    <Label text="8000" textFill="azure" translateX="430.0" translateY="-40.0" />
+    <Label fx:id="myLPText" text="8000" textFill="azure" translateX="432.0" translateY="250.0" />
+    <Label fx:id="LPTextOpponentFxml" text="8000" textFill="azure" translateX="430.0" translateY="-40.0" />
     <Label text="username1" textFill="azure" translateX="430.0" translateY="-113.0" />
     <Label text="username2" textFill="azure" translateX="434.0" translateY="192.0" />
     <Label prefHeight="21.0" prefWidth="61.0" text="40" textFill="azure" translateX="535.0" translateY="-268" />
@@ -100,11 +102,26 @@
          <Image url="@../image/skull.gif" />
       </image>
    </ImageView>
-    <VBox  onDragEntered="#dragEnter" onDragExited="#dragEXit" onDragOver="#acceptDrag" onDragDropped="#dragDropped"
-            fx:id="fieldFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="480.0" translateX="-200.0">
+    <VBox fx:id="fieldFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#dragDropped" onDragEntered="#dragEnter" onDragExited="#dragEXit" onDragOver="#acceptDrag" prefHeight="550.0" prefWidth="480.0" translateX="-200.0">
     <HBox fx:id="opponentSZ" prefHeight="115.0" prefWidth="490.0" translateY="15.0" />
     <HBox fx:id="opponentMZ" prefHeight="115.0" prefWidth="490.0" translateY="20.0" />
     <HBox fx:id="playerMZ" prefHeight="115.0" prefWidth="490.0" translateY="60.0" />
     <HBox fx:id="playerSZ" prefHeight="115.0" prefWidth="490.0" translateY="65.0" />
     </VBox>
+   <AnchorPane prefHeight="680.0" prefWidth="628.0">
+      <children>
+         <ImageView fitHeight="21.0" fitWidth="26.0" layoutX="1153.0" layoutY="645.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../image/but.JPG" />
+            </image>
+         </ImageView>
+         <Text fill="WHITE" layoutX="1161.0" layoutY="659.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LP" onMouseClicked="#cheatLP"/>
+         <ImageView fitHeight="21.0" fitWidth="26.0" layoutX="1118.0" layoutY="645.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../image/but.JPG" />
+            </image>
+         </ImageView>
+         <Text fill="WHITE" layoutX="1121.0" layoutY="658.0" strokeType="OUTSIDE" strokeWidth="0.0" text="win" wrappingWidth="20.0" onMouseClicked="#cheatWin" />
+      </children>
+   </AnchorPane>
 </StackPane>

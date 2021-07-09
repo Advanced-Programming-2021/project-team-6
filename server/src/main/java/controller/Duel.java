@@ -1,14 +1,18 @@
 package controller;
 
 import controller.menus.DuelMenuController;
+import controller.menus.MainMenuController;
 import models.Board;
+import models.Database;
 import models.Deck;
 import models.Player;
 import models.cards.*;
 import serverConection.ConsoleBasedMenus;
 import serverConection.GameInputs;
 import serverConection.Output;
+import serverConection.ServerController;
 
+import javax.crypto.spec.OAEPParameterSpec;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -26,7 +30,7 @@ public class Duel {
     private Player winner;
     private Monster attackingMonster, targetMonster;
     private boolean isFirstTurn = true;
-    private String ID ;
+    private String ID;
 
     public Duel(Player firstPlayer, Player secondPlayer, String ID) throws CloneNotSupportedException {
         this.firstPlayer = firstPlayer;
@@ -38,8 +42,8 @@ public class Duel {
         DuelMenuController.onlineDuels.put(ID, this);
         firstPlayer.setHealth(8000);
         secondPlayer.setHealth(8000);
-        this.firstPlayer.setBoard(new Board(firstPlayer, secondPlayer , ID));
-        this.secondPlayer.setBoard(new Board(secondPlayer, firstPlayer , ID));
+        this.firstPlayer.setBoard(new Board(firstPlayer, secondPlayer, ID));
+        this.secondPlayer.setBoard(new Board(secondPlayer, firstPlayer, ID));
         ActionJsonParser.getInstance().setDuel(this);
         currentDuel = this;
     }
@@ -162,7 +166,7 @@ public class Duel {
 
     public void actionsInDrawPhase(String duelID) {
         Output.getInstance().showMessage("its " + onlinePlayer.getNickname() + "'s turn");
-        onlinePlayer.getBoard().drawCard(1 , duelID);
+        onlinePlayer.getBoard().drawCard(1, duelID);
     }
 
     public void actionInStandbyPhase() {
@@ -248,34 +252,6 @@ public class Duel {
         isFirstTurn = false;
     }
 
-
-    public void select(String address, boolean isMyBoard, String state) {
-        if (!ErrorChecker.isValidAddress(address, state)) return;
-        int cardPosition = Integer.parseInt(address);
-
-        Card selectedCard;
-        if (isMyBoard) {
-            if (!state.equals("h")) cardPosition = setCardAddressInMyBoard(cardPosition);
-            else cardPosition = cardPosition - 1;
-            if ((selectedCard = ErrorChecker.istTheSeatVacant(onlinePlayer.getBoard(), cardPosition, state)) == null)
-                return;
-        } else {
-            if (!state.equals("h")) cardPosition = setCardAddressInOpponentBoard(cardPosition);
-            if ((selectedCard = ErrorChecker.istTheSeatVacant(offlinePlayer.getBoard(), cardPosition, state)) == null)
-                return;
-        }
-        onlinePlayer.getBoard().setSelectedCard(selectedCard);
-        Output.getInstance().showMessage("card selected");
-
-    }
-
-    public void deSelect() {
-
-        if (ErrorChecker.isCardSelected(onlinePlayer)) return;
-        onlinePlayer.getBoard().setSelectedCard(null);
-        Output.getInstance().showMessage("card deselected");
-
-    }
 
     public void changeDeckBasedOnClientCard(Card clientCard, Card card, String destination) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         changeDeck(clientCard, card, destination);
@@ -365,90 +341,95 @@ public class Duel {
         changeDeck(card, card, destination);
     }
 
-    public void summon() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        Card selectedCard = onlinePlayer.getBoard().getSelectedCard();
+//    public String summon(String cardAddress, String token) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+//        Player onlinePlayer = MainMenuController.getInstance().loggedInUsers.get(token);
+//        if (onlinePlayer == null) return "Error";
+//
+//        Card selectedCard = onlinePlayer.getBoard().getHandZoneCards().get(Integer.parseInt(cardAddress));
+//
+//        ArrayList<Card> monsterZone = onlinePlayer.getBoard().getMonsterZoneCards();
+//        EventHandler.triggerOpponentMonsterSummon(selectedCard);
+//        EventHandler.triggerMonsterSummon(selectedCard);
+//        if (isSummonNegated) {
+//            return "Error: summon is negated";
+//            isSummonNegated = false;
+//        }
+//        if (!ErrorChecker.isCardInPlayerHand(selectedCard, onlinePlayer) ||
+//                !ErrorChecker.isMonsterCard(selectedCard))
+//            return "Error: you can't summon this card";
+//
+//        if (!ErrorChecker.isMainPhase(phase)) return "Error: this is not main phase";
+//        if (ErrorChecker.isMonsterCardZoneFull(monsterZone)) return "Error: monster zone is full";
+//        if (onlinePlayer.getBoard().isSummonedOrSetCardInTurn())
+//            return "Error: you already summoned/set on this turn";
+//
+//
+//        if (selectedCard.getType() == CardType.ritual)
+//            return "Error: you can't normal summon a ritual monster";
+//
+//
+//        if (((Monster) selectedCard).getLEVEL() == 5 || ((Monster) selectedCard).getLEVEL() == 6) {
+//            if (!ErrorChecker.isThereOneMonsterForTribute(monsterZone))
+//                return "Error: you can't summon this card";
+//            String addressString = GameInputs.getInstance().getAddressForTribute();
+//            if (addressString.equals("")) return;
+//            int address = setCardAddressInMyBoard(Integer.parseInt(addressString));
+//            if (!ErrorChecker.isThereCardInAddress(monsterZone, address)) return;
+//            onlinePlayer.getBoard().removeFromMonsterZone(monsterZone.get(address));
+//            onlinePlayer.getBoard().removeFromHand(selectedCard);
+//        }
+//
+//        if (((Monster) selectedCard).getLEVEL() == 7 || ((Monster) selectedCard).getLEVEL() == 8) {
+//            if (!ErrorChecker.isThereTwoMonsterForTribute(onlinePlayer.getBoard().getMonsterZoneCards()))
+//                return "Error: you can't summon this card";
+//            String addressString1 = GameInputs.getInstance().getAddressForTribute();
+//            if (addressString1.equals("surrender")) return;
+//            String addressString2 = GameInputs.getInstance().getAddressForTribute();
+//            if (addressString2.equals("surrender")) return;
+//            int address1 = setCardAddressInMyBoard(Integer.parseInt(addressString1));
+//            int address2 = setCardAddressInMyBoard(Integer.parseInt(addressString2));
+//            if (!ErrorChecker.isThereCardInAddress(onlinePlayer.getBoard().getMonsterZoneCards(), address1)) return;
+//            if (!ErrorChecker.isThereCardInAddress(onlinePlayer.getBoard().getMonsterZoneCards(), address2)) return;
+//            onlinePlayer.getBoard().removeFromMonsterZone(monsterZone.get(address1));
+//            onlinePlayer.getBoard().removeFromMonsterZone(monsterZone.get(address2));
+//        }
+//
+//        selectedCard.setCardPlacement(CardPlacement.faceUp);
+//        ((Monster) selectedCard).setMonsterMode(MonsterMode.attack);
+//        onlinePlayer.getBoard().putCardInMonsterZone(selectedCard);
+//        ((Monster) selectedCard).summon();
+//        onlinePlayer.getBoard().setSummonedOrSetCardInTurn(true);
+//        onlinePlayer.getBoard().removeFromHand(selectedCard);
+//        onlinePlayer.getBoard().setSelectedCard(null);
+//        return "success";
+//
+//    }
+
+    public String setMonster(String cardAddress, String token) {
+        Player onlinePlayer = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (onlinePlayer == null) return "Error";
+
+        Card selectedCard = onlinePlayer.getBoard().getHandZoneCards().get(Integer.parseInt(cardAddress));
+
+        if (!(selectedCard instanceof Monster))
+            return "Error: you can't set this card in this zone";
         ArrayList<Card> monsterZone = onlinePlayer.getBoard().getMonsterZoneCards();
-        EventHandler.triggerOpponentMonsterSummon(selectedCard);
-        EventHandler.triggerMonsterSummon(selectedCard);
-        if (isSummonNegated) {
-            Output.getInstance().showMessage("summon is negated");
-            isSummonNegated = false;
-            return;
-        }
-        if (!ErrorChecker.isCardSelected(onlinePlayer)) return;
-        if (!ErrorChecker.isCardInPlayerHand(selectedCard, onlinePlayer) ||
-                !ErrorChecker.isMonsterCard(selectedCard)) {
-            Output.getInstance().showMessage("you can't summon this card");
-            return;
-        }
-        if (!ErrorChecker.isMainPhase(phase)) return;
-        if (ErrorChecker.isMonsterCardZoneFull(monsterZone)) return;
-        if (onlinePlayer.getBoard().isSummonedOrSetCardInTurn()) {
-            Output.getInstance().showMessage("you already summoned/set on this turn");
-            return;
-        }
-        if (selectedCard.getType() == CardType.ritual) {
-            Output.getInstance().showMessage("you can't normal summon a ritual monster.");
-            return;
-        }
-        if (((Monster) selectedCard).getLEVEL() == 5 || ((Monster) selectedCard).getLEVEL() == 6) {
-            if (!ErrorChecker.isThereOneMonsterForTribute(monsterZone)) return;
-            String addressString = GameInputs.getInstance().getAddressForTribute();
-            if (addressString.equals("")) return;
-            int address = setCardAddressInMyBoard(Integer.parseInt(addressString));
-            if (!ErrorChecker.isThereCardInAddress(monsterZone, address)) return;
-            onlinePlayer.getBoard().removeFromMonsterZone(monsterZone.get(address));
-            onlinePlayer.getBoard().removeFromHand(selectedCard);
-        }
 
-        if (((Monster) selectedCard).getLEVEL() == 7 || ((Monster) selectedCard).getLEVEL() == 8) {
-            if (!ErrorChecker.isThereTwoMonsterForTribute(onlinePlayer.getBoard().getMonsterZoneCards())) return;
-            String addressString1 = GameInputs.getInstance().getAddressForTribute();
-            if (addressString1.equals("surrender")) return;
-            String addressString2 = GameInputs.getInstance().getAddressForTribute();
-            if (addressString2.equals("surrender")) return;
-            int address1 = setCardAddressInMyBoard(Integer.parseInt(addressString1));
-            int address2 = setCardAddressInMyBoard(Integer.parseInt(addressString2));
-            if (!ErrorChecker.isThereCardInAddress(onlinePlayer.getBoard().getMonsterZoneCards(), address1)) return;
-            if (!ErrorChecker.isThereCardInAddress(onlinePlayer.getBoard().getMonsterZoneCards(), address2)) return;
-            onlinePlayer.getBoard().removeFromMonsterZone(monsterZone.get(address1));
-            onlinePlayer.getBoard().removeFromMonsterZone(monsterZone.get(address2));
-        }
-
-        selectedCard.setCardPlacement(CardPlacement.faceUp);
-        ((Monster) selectedCard).setMonsterMode(MonsterMode.attack);
-        onlinePlayer.getBoard().putCardInMonsterZone(selectedCard);
-        ((Monster) selectedCard).summon();
-        onlinePlayer.getBoard().setSummonedOrSetCardInTurn(true);
-        onlinePlayer.getBoard().removeFromHand(selectedCard);
-        onlinePlayer.getBoard().setSelectedCard(null);
-        Output.getInstance().showMessage("summoned successfully");
-
-    }
-
-    public void setMonster() {
-        Card selectedCard = onlinePlayer.getBoard().getSelectedCard();
-        if (!(selectedCard instanceof Monster)) return;
-        ArrayList<Card> monsterZone = onlinePlayer.getBoard().getMonsterZoneCards();
-        if (!ErrorChecker.isCardSelected(onlinePlayer)) return;
-        if (!ErrorChecker.isCardInPlayerHand(selectedCard, onlinePlayer)) {
-            Output.getInstance().showMessage("you can't set this card");
-            return;
-        }
-        if (ErrorChecker.isMonsterCard(selectedCard) && !ErrorChecker.isMainPhase(phase)) return;
-        if (ErrorChecker.isMonsterCardZoneFull(monsterZone)) return;
-        if (onlinePlayer.getBoard().isSummonedOrSetCardInTurn()) {
-            Output.getInstance().showMessage("you already summoned/set on this turn");
-            return;
-        }
+        if (!ErrorChecker.isMainPhase(phase))
+            return "Error: you can't set card in this phase";
+        if (ErrorChecker.isMonsterCardZoneFull(monsterZone))
+            return "Error: monster zone is full";
+        if (onlinePlayer.getBoard().isSummonedOrSetCardInTurn())
+            return "Error: you already summoned/set on this turn";
 
         selectedCard.setCardPlacement(CardPlacement.faceDown);
         ((Monster) selectedCard).setMonsterMode(MonsterMode.defence);
-        onlinePlayer.getBoard().putCardInMonsterZone(selectedCard);
+        int place = onlinePlayer.getBoard().putCardInMonsterZone(selectedCard);
         onlinePlayer.getBoard().setSummonedOrSetCardInTurn(true);
         onlinePlayer.getBoard().removeFromHand(selectedCard);
-        onlinePlayer.getBoard().setSelectedCard(null);
-        Output.getInstance().showMessage("set successfully");
+
+        ServerController.sendMessageToSocket(onlinePlayer.getBoard().getOpponent().getToken(), "monster set " + selectedCard.getName() + " in " + place, false);
+        return "Success: " + selectedCard.getName() + " set in monster zone" + place;
     }
 
     public void activateSpellCard() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -488,41 +469,42 @@ public class Duel {
         }
     }
 
-    public void setSpellAndTrap() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        Card selectedCard = onlinePlayer.getBoard().getSelectedCard();
-        if (!(selectedCard instanceof Spell || selectedCard instanceof Trap)) return;
-        if (!ErrorChecker.isCardSelected(onlinePlayer)) return;
-        if (!ErrorChecker.isCardInPlayerHand(selectedCard, onlinePlayer)) {
-            Output.getInstance().showMessage("you can't set this card");
-            return;
-        }
-        if ((ErrorChecker.isTrapCard(selectedCard) || ErrorChecker.isSpellCard(selectedCard)) &&
-                !ErrorChecker.isMainPhase(phase)) return;
-        if (onlinePlayer.getBoard().isSpellZoneFull()) {
-            Output.getInstance().showMessage("spell card zone is full");
-            return;
-        }
-        if (((Spell) selectedCard).getProperty().equals(SpellProperty.field)) {
-            setFieldCard();
-            return;
-        }
+    public String setSpellAndTrap(String cardAddress, String token) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        Player onlinePlayer = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (onlinePlayer == null) return "Error";
+
+        Card selectedCard = onlinePlayer.getBoard().getHandZoneCards().get(Integer.parseInt(cardAddress));
+
+        if (!(selectedCard instanceof Spell || selectedCard instanceof Trap))
+            return "Error: you can't set this card in this zone";
+
+        if (!ErrorChecker.isMainPhase(phase)) return "Error: you can't set card in this phase";
+
+        if (onlinePlayer.getBoard().isSpellZoneFull())
+            return "Error: spell card zone is full";
+
+        if (((Spell) selectedCard).getProperty().equals(SpellProperty.field))
+            return setFieldCard(onlinePlayer, selectedCard);
+
         selectedCard.setCardPlacement(CardPlacement.faceDown);
-        onlinePlayer.getBoard().putCardInSpellZone(selectedCard);
+        int place = onlinePlayer.getBoard().putCardInSpellZone(selectedCard);
         onlinePlayer.getBoard().removeFromHand(selectedCard);
         onlinePlayer.getBoard().setSelectedCard(null);
-        Output.getInstance().showMessage("set successfully");
+
+        ServerController.sendMessageToSocket(onlinePlayer.getBoard().getOpponent().getToken(), "spell set " + selectedCard.getName() + " in " + place, false);
+        return "Success: " + selectedCard.getName() + " set in spell zone" + place;
     }
 
-    private void setFieldCard() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        Card selectedCard = onlinePlayer.getBoard().getSelectedCard();
-        if (currentDuel.onlinePlayer.getBoard().getFieldZone() != null) {
-            ((Spell) currentDuel.onlinePlayer.getBoard().getFieldZone()).die();
-            currentDuel.onlinePlayer.getBoard().putInGraveyard(currentDuel.onlinePlayer.getBoard().getFieldZone());
+    private String setFieldCard(Player onlinePlayer, Card selectedCard) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+
+        if (onlinePlayer.getBoard().getFieldZone() != null) {
+            ((Spell) onlinePlayer.getBoard().getFieldZone()).die();
+            onlinePlayer.getBoard().putInGraveyard(onlinePlayer.getBoard().getFieldZone());
         }
-        currentDuel.onlinePlayer.getBoard().putCardInFieldZone(selectedCard);
+        onlinePlayer.getBoard().putCardInFieldZone(selectedCard);
         onlinePlayer.getBoard().removeFromHand(selectedCard);
         onlinePlayer.getBoard().setSelectedCard(null);
-        Output.getInstance().showMessage("set successfully");
+        return "Success";
     }
 
     public void activationOfSpellInOpponentTurn() throws
@@ -551,27 +533,33 @@ public class Duel {
         }
     }
 
-    public void setPosition(String mode) {
+    public String setPosition(String mode, String token, String address) {
+
+        Player onlinePlayer = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (onlinePlayer == null) return "Error";
+
+        Card selectedCard = onlinePlayer.getBoard().getHandZoneCards().get(Integer.parseInt(address));
+
         MonsterMode newMonsterMode = null;
         if (mode.equals("attack")) newMonsterMode = MonsterMode.attack;
         if (mode.equals("defence")) newMonsterMode = MonsterMode.defence;
 
-        Card selectedCard = onlinePlayer.getBoard().getSelectedCard();
-        if (!ErrorChecker.isCardSelected(onlinePlayer)) return;
-        if (!onlinePlayer.getBoard().isInMonsterZone(selectedCard)) {
-            Output.getInstance().showMessage("you can't set this card");
-            return;
-        }
-        if (!ErrorChecker.isMainPhase(phase)) return;
-        if (!ErrorChecker.isNewMonsterMode(selectedCard, newMonsterMode)) return;
-        if (onlinePlayer.getBoard().isChangePositionInTurn()) {
-            Output.getInstance().showMessage("you already changed this card position in this turn");
-            return;
-        }
+        if (!onlinePlayer.getBoard().isInMonsterZone(selectedCard))
+            return "Error: you can't set this card";
+
+
+        if (!ErrorChecker.isMainPhase(phase))
+            return "Error: you can't set card in this phase";
+        //i will edit it
+        if (!ErrorChecker.isNewMonsterMode(selectedCard, newMonsterMode)) return "Error";
+
+        if (onlinePlayer.getBoard().isChangePositionInTurn())
+            return "Error: you already changed this card position in this turn";
+
         ((Monster) selectedCard).setMonsterMode(newMonsterMode);
         onlinePlayer.getBoard().setChangePositionInTurn(true);
         onlinePlayer.getBoard().setSelectedCard(null);
-        Output.getInstance().showMessage("monster card position changed successfully");
+        return "Success";
     }
 
     public void flipSummon() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -624,7 +612,7 @@ public class Duel {
         }
         Output.getInstance().showMessage("select position of your ritual monster : attack or defence");
         String position = ConsoleBasedMenus.scanner.nextLine();
-        setPosition(position);
+        //setPosition(position);
         onlinePlayer.getBoard().putCardInMonsterZone(monster);
         for (Card monster1 : selectedCards.mainCards) {
             onlinePlayer.getBoard().getMonsterZone().moveCardToForGame(onlinePlayer.getBoard().getGraveyardZone(), monster1, true, true);
@@ -853,13 +841,22 @@ public class Duel {
         return -1;
     }
 
-    public void increaseLP(int amount) {
-        onlinePlayer.setHealth(onlinePlayer.getHealth() + amount);
+    public String increaseLP(String myToken) {
+        Player onlinePlayer = MainMenuController.getInstance().loggedInUsers.get(myToken);
+        if (onlinePlayer == null) return "Error";
+
+        onlinePlayer.setHealth(onlinePlayer.getHealth() + 1);
+        ServerController.sendMessageToSocket(onlinePlayer.getBoard().getOpponent().getToken(), "increase LP -o", false);
+        System.out.println(1);
+        return String.valueOf(onlinePlayer.getHealth());
     }
 
-    public void cheatForWinGame(String nickname) {
-        if (onlinePlayer.getNickname().equals(nickname)) offlinePlayer.setHealth(0);
-        if (offlinePlayer.getNickname().equals(nickname)) onlinePlayer.setHealth(0);
+    public String cheatForWinGame(String opponentUsername) {
+        Player opponent = Database.getInstance().getPlayerByUsername(opponentUsername);
+        if (opponent == null) return "Error";
+
+        opponent.setHealth(0);
+        return "Success";
     }
 
     public void showBoard() {

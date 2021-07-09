@@ -22,6 +22,12 @@ public class ServerMessageHandler {
             int howManyCards = Integer.parseInt(params[1]);
             for (int i = 0; i < howManyCards; i++)
                 Game.drawCardForOpponent();
+        }else if (message.startsWith("increase LP")){
+            Game.cheatLPOpponent();
+        }else if (message.startsWith("monster set")){
+            //graphics for set monster
+        }else if ((message.startsWith("spell set"))){
+            //graphics for set spell
         }
         return "";
     }

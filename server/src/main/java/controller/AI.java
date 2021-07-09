@@ -62,7 +62,7 @@ public class AI {
             for (Card monster : monsters) {
                 if (monster == null) continue;
                 if (((Monster) monster).getMonsterMode().equals(MonsterMode.defence)) continue;
-                onlineDuel.select(String.valueOf(correctPositions(aiPlayer.getBoard().getMonsterZone().mainCards.indexOf(monster))), true, "m");
+                //onlineDuel.select(String.valueOf(correctPositions(aiPlayer.getBoard().getMonsterZone().mainCards.indexOf(monster))), true, "m","");
                 Card selectedCard = aiPlayer.getBoard().getSelectedCard();
                 singlePlayer.setHealth(singlePlayer.getHealth() - ((Monster) selectedCard).getAttackPower());
                 ((Monster) selectedCard).setHaveBeenAttackedWithMonsterInTurn(true);
@@ -74,7 +74,7 @@ public class AI {
             Monster tale = isThereWeakerCard(monster);
             assert tale != null;
             if (monster.getAttackPower() < tale.getDefencePower()) return;
-            onlineDuel.select(String.valueOf(correctPositions(aiPlayer.getBoard().getMonsterZone().mainCards.indexOf(monster))), true, "m");
+            //onlineDuel.select(String.valueOf(correctPositions(aiPlayer.getBoard().getMonsterZone().mainCards.indexOf(monster))), true, "m","");
             int cardPosition = (singlePlayer.getBoard().getMonsterZone().mainCards.indexOf(tale));
             Card selectedCard = aiPlayer.getBoard().getSelectedCard();
             onlineDuel.runAttack(cardPosition, (Monster) selectedCard);
@@ -99,7 +99,7 @@ public class AI {
 
     private void setAMonster() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         Monster monster = findBestMonsterInHand();
-        onlineDuel.select(String.valueOf(correctPositions(aiPlayer.getBoard().getHand().mainCards.indexOf(monster))), true, "h");
+        //onlineDuel.select(String.valueOf(correctPositions(aiPlayer.getBoard().getHand().mainCards.indexOf(monster))), true, "h","");
         Output.getInstance().showMessage("Ai Select a Card");
         if (!monster.getTypeCard().equals("ritual")) {
             Card selectedCard = aiPlayer.getBoard().getSelectedCard();
@@ -112,7 +112,7 @@ public class AI {
                 aiPlayer.getBoard().setSelectedCard(null);
                 Output.getInstance().showMessage("AI set a Monster");
             } else {
-                onlineDuel.summon();
+                //onlineDuel.summon();
             }
         }
     }
@@ -172,8 +172,8 @@ public class AI {
     private void handleSpell() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         Card spell = selectSpell();
         if (numberOfSpellsInTheField() == 0 && spell != null) return;
-        onlineDuel.select(String.valueOf(correctPositions(aiPlayer.getBoard().getSpellZone().mainCards.indexOf(spell))),
-                true, "s");
+        //onlineDuel.select(String.valueOf(correctPositions(aiPlayer.getBoard().getSpellZone().mainCards.indexOf(spell))),
+                //true, "s","");
         onlineDuel.activateSpellCard();
     }
 

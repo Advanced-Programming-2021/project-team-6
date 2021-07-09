@@ -162,20 +162,25 @@ public class Board {
         isChangePositionInTurn = changePositionInTurn;
     }
 
-    public void putCardInMonsterZone(Card card) {
-        for (Card cardInMonsterZone : monsterZone.getMainCards()) {
+    public int putCardInMonsterZone(Card card) {
+        for (int i = 0; i < monsterZone.getMainCards().size(); i++){
+            Card cardInMonsterZone = monsterZone.mainCards.get(i);
             if (cardInMonsterZone == card)
-                return;
+                return -1;
         }
         card.setCurrentDeck(player.getBoard().getMonsterZone());
+        int place = getFirstFreeMonsterZoneIndex();
         monsterZone.mainCards.set(getFirstFreeMonsterZoneIndex(), card);
+        return place;
     }
 
-    public void putCardInSpellZone(Card card) {
+    public int putCardInSpellZone(Card card) {
         if (card.getCurrentDeck() == card.getCurrentDeck().getOwner().getBoard().getSpellZone())
-            return;
+            return -1;
         card.setCurrentDeck(card.getCurrentDeck().getOwner().getBoard().getSpellZone());
-        spellZone.mainCards.set(getFirstFreeSpellZoneIndex(), card);
+        int place = getFirstFreeSpellZoneIndex();
+        spellZone.mainCards.set(place, card);
+        return place;
     }
 
     public void putCardInFieldZone(Card card) {
