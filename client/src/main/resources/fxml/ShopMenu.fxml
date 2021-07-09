@@ -31,7 +31,7 @@
 
         <Pane fx:id="pane" layoutX="538.0" layoutY="27.0" prefHeight="454.0" prefWidth="626.0">
             <HBox layoutX="38.0" layoutY="14.0" prefHeight="454.0" prefWidth="391.0">
-                <Rectangle fx:id="imageOfSelectedCard" fill="tan" height="331.0" width="210.0" />
+                <ImageView fx:id="imageOfSelectedCard" fitHeight="331.0" fitWidth="210.0" />
                 <Text fx:id="cardDescription" styleClass="description" translateX="20" wrappingWidth="350">
                <font>
                   <Font name="Eras Bold ITC" size="24.0" />

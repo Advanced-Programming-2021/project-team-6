@@ -23,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
+import view.MusicManager;
 import view.Prompt;
 import view.PromptType;
 

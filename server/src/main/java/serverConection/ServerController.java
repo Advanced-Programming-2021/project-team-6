@@ -56,7 +56,7 @@ public class ServerController {
             "^set spell/trap (?<address>\\d+) (?<token>\\S+)$",
             "^set -p (?<mode>attack|defence) (?<address>\\d+) (?<token>\\S+)$",
             "^duel set-winner (?<opponentUsername>\\w+)$",
-            "^increase --LP (?<myToken>\\S+)$",
+            "^increase --LP (?<duelID>\\S+) (?<myToken>\\S+)$",
 
     };
 

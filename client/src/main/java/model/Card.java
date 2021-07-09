@@ -23,8 +23,8 @@ public class Card {
     }
 
 
-    public ImagePattern getImage() {
-        return new ImagePattern(new Image(address));
+    public Image getImage() {
+        return new Image(address);
     }
 
     public boolean isUP() {

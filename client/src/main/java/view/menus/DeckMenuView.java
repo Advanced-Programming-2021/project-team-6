@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
@@ -199,7 +200,7 @@ public class DeckMenuView {
 
     public VBox getCardView(Card card, int i, Boolean position) {
         VBox vBox = new VBox();
-        Rectangle cardView = new Rectangle(70, 100, getCardRectangle(card).getFill());
+        ImageView cardView = getCardRectangle(card);
         Label name = new Label(card.getName());
         name.setMaxWidth(70);
         cardView.getStyleClass().add("cardItems");
@@ -275,9 +276,9 @@ public class DeckMenuView {
 
     public CardView getCardRectangle(Card card) {
         CardView rectangle = new CardView();
-        rectangle.setFill(card.getImage());
-        rectangle.setHeight(200);
-        rectangle.setWidth(90);
+        rectangle.setImage(card.getImage());
+        rectangle.setFitHeight(200);
+        rectangle.setFitWidth(90);
         DropShadow dropShadow = new DropShadow();
         dropShadow.setWidth(1);
         dropShadow.setHeight(1);

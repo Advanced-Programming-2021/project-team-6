@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import model.Card;
@@ -41,7 +42,7 @@ public class ShopMenuView {
     Text cardDescription;
     static Text cardDescriptionText;
     @FXML
-    Rectangle imageOfSelectedCard;
+    ImageView imageOfSelectedCard;
     private Card[][] board;
     private CardView[][] cards;
 
@@ -57,13 +58,13 @@ public class ShopMenuView {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/ShopMenu.fxml"));
         Scene scene = new Scene(root);
         scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
-        WelcomeMenuView.mainStage.setScene(scene);
         scrollPane = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(3);
-        imageOfSelectedCard = ((Rectangle) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(0));
+        imageOfSelectedCard = ((ImageView) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(0));
         cardDescriptionText = ((Text) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(1));
         staticBuyButton = (Button) ((AnchorPane) root.getChildren().get(0)).getChildren().get(5);
         setGameBoardCards();
         showCards();
+        WelcomeMenuView.mainStage.setScene(scene);
     }
 
     private void showCards() {
@@ -171,23 +172,20 @@ public class ShopMenuView {
 
     public CardView getCardRectangle(Card card) {
         CardView rectangle = new CardView();
-        rectangle.setFill(card.getImage());
-        rectangle.setHeight(200);
-        rectangle.setWidth(90);
+        rectangle.setImage(card.getImage());
+        rectangle.setFitHeight(200);
+        rectangle.setFitWidth(95);
         DropShadow dropShadow = new DropShadow();
         dropShadow.setWidth(1);
         dropShadow.setHeight(1);
         rectangle.setEffect(dropShadow);
         rectangle.setI(card.getI());
         rectangle.setJ(card.getJ());
-        rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                try {
-                    selectCard(card);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        rectangle.setOnMouseClicked(mouseEvent -> {
+            try {
+                selectCard(card);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
         return rectangle;
@@ -199,7 +197,7 @@ public class ShopMenuView {
     }
 
     private void showDetails() throws IOException {
-        imageOfSelectedCard.setFill(getCardRectangle(selectedCard).getFill());
+        imageOfSelectedCard.setImage(getCardRectangle(selectedCard).getImage());
         cardDescriptionText.setText(ClientController.getDescription(selectedCard.getName()));
         String result = ClientController.buyCard(selectedCard.getName(), true);
         staticBuyButton.disableProperty().set(result.split(":")[1].equals("not enough money"));

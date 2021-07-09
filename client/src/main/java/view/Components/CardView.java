@@ -1,11 +1,10 @@
 package view.Components;
 
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 
-public class CardView extends Rectangle {
+public class CardView extends ImageView {
     private int i;
     private int j;
 
