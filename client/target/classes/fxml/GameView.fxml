@@ -29,8 +29,8 @@
     <Label text="8000" textFill="azure" translateX="430.0" translateY="-40.0" />
     <Label text="username1" textFill="azure" translateX="430.0" translateY="-113.0" />
     <Label text="username2" textFill="azure" translateX="434.0" translateY="192.0" />
-    <Label prefHeight="21.0" prefWidth="61.0" text="40" textFill="azure" translateX="535.0" translateY="-268" />
-    <Label prefHeight="21.0" prefWidth="61.0" text="40" textFill="azure" translateX="535.0" translateY="30" />
+    <Label fx:id="numberOfCardsRemainingInOpponentsDeckFXML" prefHeight="21.0" prefWidth="61.0" text="40" textFill="azure" translateX="535.0" translateY="-268" />
+    <Label fx:id="numberOfCardsRemainingInPlayersDeckFXML" prefHeight="21.0" prefWidth="61.0" text="40" textFill="azure" translateX="535.0" translateY="30" />
     <StackPane fx:id="playerDeck" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="150.0" translateX="570.0" translateY="110.0">
         <children>
             <ImageView pickOnBounds="true" preserveRatio="true" scaleX="0.15" scaleY="0.15">

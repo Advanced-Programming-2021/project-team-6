@@ -94,8 +94,8 @@ public class MainMenuView {
         playerDeckLabel = ((Label) gameView.getChildren().get(8));
         opponentLabel = ((Label) gameView.getChildren().get(6));
         opponentDeckLabel = ((Label) gameView.getChildren().get(9));
-        //constructPlayerDeck(Integer.parseInt(playerDeckSize) , gameView);
-        //constructOpponentDeck(Integer.parseInt(opponentDeckSize) , gameView , opponentDeckLabel);
+        constructPlayerDeck(Integer.parseInt(playerDeckSize) / 5 , gameView);
+        constructOpponentDeck(Integer.parseInt(opponentDeckSize) / 5, gameView , opponentDeckLabel);
         playerLabel.setText(playerName);
         opponentLabel.setText(opponentName);
         playerDeckLabel.setText(playerDeckSize);
@@ -109,7 +109,7 @@ public class MainMenuView {
         newCard.setScaleY(0.15);
         newCard.setScaleX(0.15);
         newCard.setImage(new Image(MainMenuView.class.getResource("/image/backOfCard.jpg").toExternalForm()));
-        AnimationUtility.playSimpleCardTransition(newCard , 9, 0 , deckSize , -1200 , 300 , 17);
+        AnimationUtility.playSimpleCardTransition(newCard , 9, 0 , deckSize , -1200 , 0 , 8);
     }
 
     private static void constructPlayerDeck(int deckSize, StackPane gameView) {
@@ -119,7 +119,7 @@ public class MainMenuView {
             newCard.setScaleX(0.15);
             newCard.setScaleY(0.15);
             newCard.setImage(new Image(MainMenuView.class.getResource("/image/backOfCard.jpg").toExternalForm()));
-            AnimationUtility.playSimpleCardTransition(newCard , 9, 0 , deckSize , -1200 , -900 , 5);
+            AnimationUtility.playSimpleCardTransition(newCard , 9, 0 , deckSize , -1200 , 0 , 4);
 
 
     }
