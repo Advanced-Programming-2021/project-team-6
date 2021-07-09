@@ -92,6 +92,7 @@
          <Cursor fx:constant="HAND" />
       </cursor></HBox>
     <HBox fx:id="opponentHandFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#bringOpponentDeckUp" onMouseExited="#getOpponentDeckDown" prefHeight="200.0" prefWidth="800.0" translateX="-95.0" translateY="-400.0" />
+    <VBox fx:id="fieldFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#dragDropped" onDragEntered="#dragEnter" onDragExited="#dragEXit" onDragOver="#acceptDrag" prefHeight="550.0" prefWidth="480.0" translateX="-200.0"/>
    <ImageView opacity="0.6" pickOnBounds="true" preserveRatio="true" scaleX="0.15" scaleY="0.15" styleClass="skull" translateX="180.0" translateY="-40.0">
       <image>
          <Image url="@../image/skull.gif" />

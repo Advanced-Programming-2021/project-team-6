@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#000000e0" height="680.0" stroke="BLACK" strokeType="INSIDE" width="1200.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b5b5b500" height="480.0" strokeType="INSIDE" strokeWidth="5.0" translateX="-300.0" width="330.0">
+         <stroke>
+            <RadialGradient centerX="0.5" centerY="0.5" cycleMethod="REFLECT" focusDistance="0.023809523809523725" radius="0.05952380952380952">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.018274853006005287" green="0.8092714548110962" blue="0.9868420958518982" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.6499999761581421" green="0.06499999761581421" blue="0.06499999761581421" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </stroke>
+      </Rectangle>
+      <Text fx:id="descriptionText" fill="#f2eded" stroke="#a6a6d7" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="2.0" text="If this card is destroyed by battle and sent to the GY: Destroy the monster that destroyed this card." textAlignment="JUSTIFY" translateX="201.0" translateY="-150.0" wrappingWidth="476.8828125">
+         <font>
+            <Font size="34.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Text>
+      <ImageView fx:id="cardImage" fitHeight="480.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" translateX="-300.0">
+         <image>
+            <Image url="@../image/Cards/Yomi Ship.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" translateX="200.0" translateY="200.0">
+         <image>
+            <Image url="@../image/GUI_T_Detail_TimeBase01.dds9.jpg" />
+         </image>
+      </ImageView>
+      <Label scaleX="2.5" scaleY="2.5" text="OK" textFill="WHITE" translateX="200.0" translateY="200.0" />
+   </children>
+</StackPane>

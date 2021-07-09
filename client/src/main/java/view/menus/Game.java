@@ -1,7 +1,12 @@
 package view.menus;
 import controller.AnimationUtility;
 import controller.ClientController;
+import controller.ClientController;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,10 +15,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import model.Card;
 
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Game implements Initializable {
@@ -30,26 +38,41 @@ public class Game implements Initializable {
     public static Rectangle dropReactor;
     public VBox fieldFXML;
     public static VBox field;
+    public static ArrayList<Card> cardsOfHand = new ArrayList<>();
     public Label myLPText;
     public Label LPTextOpponentFxml;
     public static Label LPTextOpponent;
 
 
     public static void drawCardForPlayer(String cardName) {
+        String address = "/image/Cards/" + cardName + ".jpg";
         ImageView newCard = new ImageView();
         newCard.setFitWidth(150);
         newCard.setFitHeight(200);
         newCard.translateXProperty().set(hand.getChildren().size() * -40);
-        Image cardImage = new Image(Game.class.getResource("/image/Cards/" + cardName + ".jpg").toExternalForm());
+        cardsOfHand.add(new Card(cardName ,address , true));
+        Image cardImage = new Image(Game.class.getResource(address).toExternalForm());
         newCard.setOnMouseEntered(mouseEvent -> AnimationUtility.playScalingAnimationOnACard(newCard , 0 , 1.2 , 1.2 , -80));
+        newCard.setOnMouseReleased(mouseEvent ->
+                {
+                    try {
+                        Card card = cardsOfHand.get(hand.getChildren().indexOf(newCard));
+                        String description = ClientController.getDescription(card.getName());
+                        String cardAddress = card.getAddress();
+                        showCardInfo(description , cardAddress);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+        );
         newCard.setOnMouseExited(mouseEvent -> AnimationUtility.playScalingAnimationOnACard(newCard , 0 , 1 , 1 , 0));
         newCard.setOnDragDetected(mouseEvent ->  {
-            Dragboard dragboard = newCard.startDragAndDrop(TransferMode.ANY);
-            ClipboardContent content = new ClipboardContent();
-            content.putImage(newCard.getImage());
-            newCard.opacityProperty().set(0);
-            dragboard.setContent(content);
-            mouseEvent.consume();
+                Dragboard dragboard = newCard.startDragAndDrop(TransferMode.ANY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(newCard.getImage());
+                newCard.opacityProperty().set(0);
+                dragboard.setContent(content);
+                mouseEvent.consume();
 
         });
         newCard.setOnDragDone(mouseEvent ->  {
@@ -58,6 +81,15 @@ public class Game implements Initializable {
         });
         newCard.setImage(cardImage);
         hand.getChildren().add(newCard);
+    }
+
+    private static void showCardInfo(String description, String cardAddress) throws IOException {
+        Parent cardInfo = FXMLLoader.load(Game.class.getResource("/fxml/CardInfo.fxml"));
+        ((StackPane) hand.getScene().getRoot()).getChildren().add(cardInfo);
+        ((StackPane)cardInfo).getChildren().get(5).setOnMouseClicked(mouseEvent -> ((StackPane) hand.getScene().getRoot()).getChildren().remove(cardInfo));
+        ((StackPane)cardInfo).getChildren().get(4).setOnMouseClicked(mouseEvent -> ((StackPane) hand.getScene().getRoot()).getChildren().remove(cardInfo));
+        ((ImageView) cardInfo.getChildrenUnmodifiable().get(3)).setImage(new Image(Game.class.getResource(cardAddress).toExternalForm()));
+        ((Text) cardInfo.getChildrenUnmodifiable().get(2)).setText(description);
     }
 
     public static void drawCardForOpponent() {
@@ -116,6 +148,12 @@ public class Game implements Initializable {
         }
         event.consume();
     }
+    public static String getCardName(ImageView card) {
+        String url = card.getImage().getUrl();
+        return url.replaceAll("file:/media/black-titan/E295-8FF4/Univertsity/In%20Progress/AP/Yu-Gi-Oh/client/target/classes/image/Cards/" , "")
+                .replaceAll(".jpg" , "").replaceAll("%20" ," ");
+    }
+
     public void cheatLP() throws IOException {
         String result = ClientController.cheatLP();
 
