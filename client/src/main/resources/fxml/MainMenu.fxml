@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,48 +18,69 @@
         </ImageView>
         <Text fill="#daa3a3" layoutX="430.0" layoutY="243.0" onMouseClicked="#openNewGame" strokeType="OUTSIDE" strokeWidth="0.0" text="New Game" textAlignment="CENTER" wrappingWidth="100.0">
            <font>
-               <Font name="NPIOuj" size="24.0" />
+               <Font name="FuturaBlack WGL4 BT" size="16.0" />
            </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
         </Text>
         <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="409.0" layoutY="293.0">
             <Image url="@../image/button.jpg" />
         </ImageView>
         <Text fill="#daa3a3" layoutX="430.0" layoutY="327.0" onMouseClicked="#openDeckMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Deck Menu" textAlignment="CENTER" wrappingWidth="100.0">
            <font>
-               <Font name="NPIOuj" size="24.0" />
+               <Font name="FuturaBlack WGL4 BT" size="17.0" />
            </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
         </Text>
         <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="409.0" layoutY="464.0">
             <Image url="@../image/button.jpg" />
         </ImageView>
-        <Text fill="#daa3a3" layoutX="430.0" layoutY="498.0" onMouseClicked="#openShopMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Sopping" textAlignment="CENTER" wrappingWidth="100.0">
+        <Text fill="#daa3a3" layoutX="430.0" layoutY="498.0" onMouseClicked="#openShopMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Shopping" textAlignment="CENTER" wrappingWidth="100.0">
            <font>
-               <Font name="NPIOuj" size="24.0" />
+               <Font name="FuturaBlack WGL4 BT" size="20.0" />
            </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
         </Text>
         <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="649.0" layoutY="209.0">
             <Image url="@../image/button.jpg" />
         </ImageView>
         <Text fill="#daa3a3" layoutX="670.0" layoutY="243.0" onMouseClicked="#openScoreboard" strokeType="OUTSIDE" strokeWidth="0.0" text="Scoreboard" textAlignment="CENTER" wrappingWidth="100.0">
            <font>
-               <Font name="NPIOuj" size="24.0" />
+               <Font name="FuturaBlack WGL4 BT" size="16.0" />
            </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
         </Text>
         <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="649.0" layoutY="293.0">
             <Image url="@../image/button.jpg" />
         </ImageView>
         <Text fill="#daa3a3" layoutX="670.0" layoutY="327.0" onMouseClicked="#openProfileMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Profile" textAlignment="CENTER" wrappingWidth="100.0">
            <font>
-               <Font name="NPIOuj" size="24.0" />
+               <Font name="FuturaBlack WGL4 BT" size="21.0" />
            </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
         </Text>
         <ImageView fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="649.0" layoutY="464.0">
             <Image url="@../image/button.jpg" />
+         <effect>
+            <Glow level="1.0" />
+         </effect>
         </ImageView>
         <Text fill="#daa3a3" layoutX="670.0" layoutY="498.0" onMouseClicked="#logout" strokeType="OUTSIDE" strokeWidth="0.0" text="LogOut" textAlignment="CENTER" wrappingWidth="100.0">
            <font>
-               <Font name="NPIOuj" size="24.0" />
+               <Font name="FuturaBlack WGL4 BT" size="21.0" />
            </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
         </Text>
       <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="409.0" layoutY="380.0">
          <image>
@@ -67,8 +89,11 @@
       </ImageView>
       <Text fill="#daa3a3" layoutX="430.0" layoutY="414.0" onMouseClicked="#openImpExpMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Imp/Exp" textAlignment="CENTER" wrappingWidth="100.0">
          <font>
-            <Font name="NPIOuj" size="24.0" />
+            <Font size="23.0" />
          </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
       </Text>
       <ImageView fx:id="backButton1" fitHeight="57.0" fitWidth="142.0" layoutX="649.0" layoutY="380.0">
          <image>
@@ -77,8 +102,16 @@
       </ImageView>
       <Text fill="#daa3a3" layoutX="670.0" layoutY="414.0" onMouseClicked="#openCreateCardMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Card" textAlignment="CENTER" wrappingWidth="100.0">
          <font>
-            <Font name="NPIOuj" size="24.0" />
+            <Font name="FuturaBlack WGL4 BT" size="16.0" />
          </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
       </Text>
+      <ImageView fitHeight="152.0" fitWidth="336.0" layoutX="440.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/label.png" />
+         </image>
+      </ImageView>
     </AnchorPane>
 </StackPane>

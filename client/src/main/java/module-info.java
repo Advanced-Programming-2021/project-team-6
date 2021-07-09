@@ -7,8 +7,9 @@ module client {
     requires org.junit.jupiter.api;
     requires javafx.media;
 
-
+    opens model to javafx.fxml;
     opens view.menus to javafx.fxml;
     exports view.menus;
+    exports model;
 
 }
