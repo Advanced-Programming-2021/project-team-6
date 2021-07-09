@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,25 +25,33 @@
                 <Image url="@../image/button.jpg" />
             </image>
         </ImageView>
-        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="100.0" layoutY="542.0" onMouseClicked="#exitClicked">
+        <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="546.0" layoutY="462.0" onMouseClicked="#exitClicked">
             <image>
                 <Image url="@../image/button.jpg" />
             </image>
         </ImageView>
+      <ImageView fitHeight="209.0" fitWidth="320.0" layoutX="457.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/label.png" />
+         </image>
+         <effect>
+            <Glow level="0.73" />
+         </effect>
+      </ImageView>
 
-        <Text fill="#daa3a3" layoutX="517.0" layoutY="277.0" onMouseClicked="#openRegisterPage" strokeType="OUTSIDE" strokeWidth="0.0" text="Register" textAlignment="CENTER" wrappingWidth="200">
+        <Text fill="#daa3a3" layoutX="517.0" layoutY="280.0" onMouseClicked="#openRegisterPage" strokeType="OUTSIDE" strokeWidth="0.0" text="Register" textAlignment="CENTER" wrappingWidth="200">
             <font>
-                <Font name="NPIOuj" size="24.0" />
+                <Font name="FuturaBlack WGL4 BT" size="22.0" />
             </font>
         </Text>
         <Text fill="#daa3a3" layoutX="517.0" layoutY="385.0" onMouseClicked="#openLoginPage" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="200">
             <font>
-                <Font name="NPIOuj" size="24.0" />
+                <Font name="FuturaBlack WGL4 BT" size="25.0" />
             </font>
         </Text>
-        <Text fill="#daa3a3" layoutX="71.0" layoutY="576.0" onMouseClicked="#exitClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit" textAlignment="CENTER" wrappingWidth="200">
+        <Text fill="#daa3a3" layoutX="517.0" layoutY="500.0" onMouseClicked="#exitClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit" textAlignment="CENTER" wrappingWidth="200">
             <font>
-                <Font name="NPIOuj" size="24.0" />
+                <Font name="FuturaBlack WGL4 BT" size="23.0" />
             </font>
         </Text>
     </AnchorPane>

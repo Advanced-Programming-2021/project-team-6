@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,9 +16,9 @@
         <ImageView fitHeight="680.0" fitWidth="1200.0">
             <Image url="@../image/menuBackground.jpg" />
         </ImageView>
-        <TextField fx:id="registerUsernameInput" alignment="CENTER" layoutX="521.0" layoutY="187.0" maxHeight="70" maxWidth="335" prefHeight="36.0" prefWidth="195.0" promptText="Username">
+        <TextField fx:id="registerUsernameInput" alignment="CENTER" layoutX="521.0" layoutY="201.0" maxHeight="70" maxWidth="335" prefHeight="36.0" prefWidth="195.0" promptText="Username">
             <font>
-                <Font name="NPIOuj" size="20.0" />
+                <Font name="FuturaBlack WGL4 BT" size="22.0" />
             </font>
             <effect>
                 <Reflection />
@@ -25,7 +26,7 @@
         </TextField>
         <TextField fx:id="registerNicknameInput" alignment="CENTER" layoutX="521.0" layoutY="283.0" maxHeight="70" maxWidth="335" prefHeight="36.0" prefWidth="195.0" promptText="Nickname">
             <font>
-                <Font name="NPIOuj" size="20.0" />
+                <Font name="FuturaBlack WGL4 BT" size="22.0" />
             </font>
             <effect>
                 <Reflection />
@@ -33,7 +34,7 @@
         </TextField>
         <TextField fx:id="registerPasswordInput" alignment="CENTER" layoutX="521.0" layoutY="373.0" maxHeight="70" maxWidth="335" prefHeight="36.0" prefWidth="195.0" promptText="Password">
             <font>
-                <Font name="NPIOuj" size="20.0" />
+                <Font name="FuturaBlack WGL4 BT" size="22.0" />
             </font>
             <effect>
                 <Reflection />
@@ -42,9 +43,9 @@
         <ImageView fitHeight="57.0" fitWidth="142.0" layoutX="548.0" layoutY="451.0" onMouseClicked="#openFirstPage">
             <Image url="@../image/button.jpg" />
         </ImageView>
-        <Text fill="#daa3a3" layoutX="577.0" layoutY="486.0" onMouseClicked="#registerUser" strokeType="OUTSIDE" strokeWidth="0.0" text="Register" textAlignment="CENTER" wrappingWidth="83.13671875">
+        <Text fill="#daa3a3" layoutX="577.0" layoutY="487.0" onMouseClicked="#registerUser" strokeType="OUTSIDE" strokeWidth="0.0" text="Register" textAlignment="CENTER" wrappingWidth="83.13671875">
             <font>
-                <Font name="NPIOuj" size="24.0" />
+                <Font name="FuturaBlack WGL4 BT" size="20.0" />
             </font>
         </Text>
         <ImageView fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="30.0" layoutY="566.0" onMouseClicked="#openFirstPage">
@@ -52,9 +53,17 @@
         </ImageView>
         <Text fill="#daa3a3" layoutX="74.0" layoutY="600.0" onMouseClicked="#openFirstPage" strokeType="OUTSIDE" strokeWidth="0.0" text="Back" textAlignment="CENTER" wrappingWidth="54.13671875">
             <font>
-                <Font name="NPIOuj" size="24.0" />
+                <Font name="FuturaBlack WGL4 BT" size="25.0" />
             </font>
         </Text>
+      <Text layoutX="529.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Signup">
+         <font>
+            <Font name="FuturaBlack WGL4 BT" size="63.0" />
+         </font>
+         <effect>
+            <DropShadow height="143.96" radius="99.24000000000001" width="255.0" />
+         </effect>
+      </Text>
     </AnchorPane>
 
 </StackPane>
