@@ -2,14 +2,13 @@ package view.menus;
 
 import controller.AnimationUtility;
 import controller.ClientController;
-import controller.ClientController;
-import javafx.event.EventHandler;
+import controller.ServerMessageHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.ImageCursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,12 +20,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import model.Card;
 import view.MusicManager;
+import view.Prompt;
+import view.PromptType;
 
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class Game implements Initializable {
     public static int duelId;
@@ -52,6 +54,9 @@ public class Game implements Initializable {
     public static Label LPTextOpponent;
     public ToggleGroup setOrSummonFXML;
     public static  ToggleGroup setOrSummon;
+    public static String phase = "DRAW";
+    public ImageView phaseBilFXML;
+    public static ImageView phaseBil;
 
 
     public static void drawCardForPlayer(String cardName, double delay) {
@@ -138,6 +143,7 @@ public class Game implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        phaseBil = phaseBilFXML;
         opponentDeck = opponentDeckFXML;
         playerDeck = playerDeckFXML;
         hand = handFXML;
@@ -155,19 +161,19 @@ public class Game implements Initializable {
     }
 
     public void getDeckDown() {
-        AnimationUtility.animateTranslateY(hand, 0, hand.translateXProperty().get(), 380, 300);
+        AnimationUtility.animateTranslatePosition(hand, 0, hand.translateXProperty().get(), 380, 300);
     }
 
     public void bringDeckUp() {
-        AnimationUtility.animateTranslateY(hand, 0, hand.translateXProperty().get(), 300, 300);
+        AnimationUtility.animateTranslatePosition(hand, 0, hand.translateXProperty().get(), 300, 300);
     }
 
     public void getOpponentDeckDown() {
-        AnimationUtility.animateTranslateY(opponentHand, 0, hand.translateXProperty().get(), -400, 300);
+        AnimationUtility.animateTranslatePosition(opponentHand, 0, hand.translateXProperty().get(), -400, 300);
     }
 
     public void bringOpponentDeckUp() {
-        AnimationUtility.animateTranslateY(opponentHand, 0, hand.translateXProperty().get(), -330, 300);
+        AnimationUtility.animateTranslatePosition(opponentHand, 0, hand.translateXProperty().get(), -330, 300);
     }
 
     public void dragEnter(DragEvent dragEvent) {
@@ -216,8 +222,41 @@ public class Game implements Initializable {
     }
 
 
-    public void cheatWin() throws IOException {
-        ClientController.cheatWin();
+    public void cheatWin() throws IOException, InterruptedException {
+        String message = ClientController.cheatWin();
+
+        Prompt.showMessage(message, PromptType.Message);
+        MusicManager.playMusic(MusicManager.winSound,false);
+
+        TimeUnit.SECONDS.sleep(3);
+        Parent root = FXMLLoader.load(ServerMessageHandler.class.getResource("/fxml/MainMenu.fxml"));
+        Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(ServerMessageHandler.class.getResource("/image/mouse.jpg").toString())));
+        WelcomeMenuView.mainStage.setScene(scene);
+    }
+    public static void changePhaseGraphically(String phase) {
+        Game.phase = phase;
+        switch (phase) {
+            case "DRAW" : AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0, -210 , 3);
+            break;
+            case "STANDBY" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , -130 , 3);
+                break;
+            case "MAIN1" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , -50 , 3);
+                break;
+            case "BATTLE" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , 35 , 3);
+                break;
+            case "MAIN2" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , 115 , 3);
+                break;
+            case "END" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0 , 200 , 3);
+                break;
+        }
     }
 
+    public void changePhase(MouseEvent mouseEvent) throws IOException {
+       String result = ClientController.changePhase();
+       if (result.startsWith("Error")) {
+           Prompt.showMessage(result.split(":")[1] , PromptType.Error);
+       }
+       else changePhaseGraphically(result.split(": ")[1]);
+    }
 }

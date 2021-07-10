@@ -151,7 +151,7 @@ public class GameInputs {
                 //onlineDuel.increaseLP(Integer.parseInt(commandMatcher.group("amount")));
                 break;
             case 22:
-                onlineDuel.cheatForWinGame(commandMatcher.group("nickname"));
+                //onlineDuel.cheatForWinGame(commandMatcher.group("nickname"));
             case 23:
                 onlineDuel.showBoard();
             case 24:

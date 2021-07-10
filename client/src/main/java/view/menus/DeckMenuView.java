@@ -64,7 +64,9 @@ public class DeckMenuView {
     public void showDeckMenu() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/DeckMenu.fxml")));
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        WelcomeMenuView.mainStage.setScene(scene);
+
         deckStyle = new ImagePattern(new Image(Objects.requireNonNull(DeckMenuView.class.getResourceAsStream("/image/backOfCard.jpg"))));
         mainDeck = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(3);
         sideDeck = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4);

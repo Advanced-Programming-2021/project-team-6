@@ -43,17 +43,19 @@ public class ServerController {
             "^deck add-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?<token>\\S+)$",
             "^deck rm-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?:--side|-s) (?<token>\\S+)$",
             "^deck rm-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?<token>\\S+)$",
-            "^deck show (?:--all|-a) (?<token>\\S+)$",
-            "^deck show (?:--deck-name|-d) (?<deckName>.+) (?:--side|-s) (?<token>\\S+)$",
-            "^deck show (?:--deck-name|-d) (?<deckName>.+) (?<token>\\S+)$",
+            "^deck show -a (?<token>\\S+)$",
+            "^deck show -d (?<deckName>.+) -s (?<token>\\S+)$",
+            "^deck show -d (?<deckName>.+) (?<token>\\S+)$",
             "^summon (?<address>\\d+) (?<token>\\S+)$",
             "^set monster (?<address>\\d+) (?<token>\\S+)$",
             "^set spell/trap (?<address>\\d+) (?<token>\\S+)$",
             "^set -p (?<mode>attack|defence) (?<address>\\d+) (?<token>\\S+)$",
-            "^duel set-winner (?<token>\\w+)$",
+            "^duel set-winner (?<token>\\S+)$",
             "^increase --LP (?<duelID>\\S+) (?<myToken>\\S+)$",
             "^get inactive cards (?<token>\\S+)$",
-            "^change phase (?<token>\\S+)$"
+            "^change phase (?<token>\\S+)$",
+            "^change turn (?<token>\\S+)$",
+            "^submission (?<token>\\S+)",
     };
     private static HashMap<String, Socket> socketHashMap = new HashMap<>();
 
@@ -198,11 +200,11 @@ public class ServerController {
                 player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(player.getDuelID() + "")
                         .setPosition(commandMatcher.group("mode"), token, commandMatcher.group("address"));
-//            case 34:
-//                token = commandMatcher.group("token");
-//                player = Database.getInstance().getPlayerByToken(token);
-//                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
-//                        .increaseLP(token);
+            case 34:
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
+                        .cheatForWinGame(token,false);
             case 35:
                 token = commandMatcher.group("myToken");
                 player = Database.getInstance().getPlayerByToken(token);
@@ -215,6 +217,17 @@ public class ServerController {
                 player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
                         .changePhase(token);
+            case 38:
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
+                        .setSecondPlayerTurn();
+            case 39:
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
+                        .cheatForWinGame(token,true);
+
         }
         return "";
     }
