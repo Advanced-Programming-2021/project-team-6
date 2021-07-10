@@ -414,8 +414,9 @@ public class Duel {
         player.getBoard().removeFromHand(selectedCard);
         player.getBoard().setSelectedCard(null);
 
-        ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(), "monster summon " + selectedCard.getName() + " in " + place, false);
-        return "Success: " + selectedCard.getName() + " summon monster zone in " + place;
+        char prefix = Board.getPrefix(selectedCard);
+        ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(), "monster summon " + prefix + ":"+   selectedCard.getName() + " in " + place, false);
+        return "Success: " +  prefix + ":"+  selectedCard.getName() + " summon monster zone in " + place;
 
     }
 
@@ -442,9 +443,9 @@ public class Duel {
         int place = player.getBoard().putCardInMonsterZone(selectedCard);
         player.getBoard().setSummonedOrSetCardInTurn(true);
         player.getBoard().removeFromHand(selectedCard);
-
-        ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(), "monster set " + selectedCard.getName() + " in " + place, false);
-        return "Success: " + selectedCard.getName() + " set in monster zone" + place;
+        char prefix = Board.getPrefix(selectedCard);
+        ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(), "monster set " + prefix + ":"+ selectedCard.getName() + " in " + place, false);
+        return "Success: " + prefix + ":"+  selectedCard.getName() + " set in monster zone" + place;
     }
 
     public void activateSpellCard() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {

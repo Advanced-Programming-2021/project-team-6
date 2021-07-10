@@ -37,12 +37,8 @@ public class ServerMessageHandler {
                 Game.drawCardForOpponent(((isFirstDraw) ? 12 : 0) + i * 0.7);
         } else if (message.startsWith("increase LP")) {
             Game.cheatLPOpponent();
-        } else if (message.startsWith("monster set")) {
-            //graphics for set monster
         } else if (message.startsWith("spell set")) {
             //graphics for set spell
-        } else if (message.startsWith("monster summon")) {
-            //graphics for summon monster
         }else if (message.startsWith("change phase")){
             Game.changePhaseGraphically(message.split(": ")[1].split(" ")[0]);
 
@@ -54,6 +50,14 @@ public class ServerMessageHandler {
             Scene scene = new Scene(root);
             scene.setCursor(new ImageCursor(new Image(ServerMessageHandler.class.getResource("/image/mouse.jpg").toString())));
             WelcomeMenuView.mainStage.setScene(scene);
+        }
+        else if(message.startsWith("monster set")) {
+            params = message.split(" ");
+            Game.setMonsterForOpponent(params[2].split(":")[1] , params[2].split(":")[0] );
+        }
+        else if(message.startsWith("monster summon")) {
+            params = message.split(" ");
+            Game.summonForOpponent(params[2].split(":")[1] , params[2].split(":")[0] );
         }
         return "";
     }

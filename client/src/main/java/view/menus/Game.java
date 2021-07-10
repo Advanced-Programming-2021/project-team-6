@@ -3,6 +3,7 @@ package view.menus;
 import controller.AnimationUtility;
 import controller.ClientController;
 import controller.ServerMessageHandler;
+import javafx.animation.RotateTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.ImageCursor;
@@ -18,6 +19,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 import model.Card;
 import view.MusicManager;
 import view.Prompt;
@@ -45,6 +48,10 @@ public class Game implements Initializable {
     public VBox fieldFXML;
     public static VBox field;
     public static ArrayList<Card> cardsOfHand = new ArrayList<>();
+    public static ArrayList<Card> cardsOfMonsterZone = new ArrayList<>();
+    public static ArrayList<Card> cardsOfOpponentMonsterZone = new ArrayList<>();
+    public static ArrayList<Card> cardsOfSpellZone = new ArrayList<>();
+    public static ArrayList<Card> cardsOfOpponentSpellZone = new ArrayList<>();
     public Label numberOfCardsRemainingInPlayersDeckFXML;
     public static Label numberOfCardsRemainingInPlayersDeck;
     public static Label numberOfCardsRemainingInOpponentsDeck;
@@ -53,7 +60,7 @@ public class Game implements Initializable {
     public Label LPTextOpponentFxml;
     public static Label LPTextOpponent;
     public ToggleGroup setOrSummonFXML;
-    public static  ToggleGroup setOrSummon;
+    public static ToggleGroup setOrSummon;
     public static String phase = "DRAW";
     public ImageView phaseBilFXML;
     public static ImageView phaseBil;
@@ -68,7 +75,7 @@ public class Game implements Initializable {
         newCard.setFitWidth(150);
         newCard.setFitHeight(200);
         newCard.translateXProperty().set(hand.getChildren().size() * -40);
-        cardsOfHand.add(new Card(cardName, address, true , type));
+        cardsOfHand.add(new Card(cardName, address, true, type));
         Image cardImage = new Image(Game.class.getResource("/image/backOfCard.jpg").toExternalForm());
         newCard.setOnMouseEntered(mouseEvent -> AnimationUtility.playScalingAnimationOnACard(newCard, 0, 1.2, 1.2, -80));
         newCard.setOnMouseReleased(mouseEvent ->
@@ -96,26 +103,100 @@ public class Game implements Initializable {
         newCard.setOnDragDone(mouseEvent -> {
             if (mouseEvent.isAccepted()) {
                 int cardAddress = hand.getChildren().indexOf(newCard);
+                String result = "";
+                Card cardModel = cardsOfHand.get(hand.getChildren().indexOf(newCard));
+                ;
                 try {
                     if (setOrSummon.getToggles().get(0).isSelected()) {
-                        if (cardsOfHand.get(cardAddress).getType().equals("m"))
-                            ClientController.setMonster(String.valueOf(cardAddress));
-                        else
-                            ClientController.setSpellAndTrap(String.valueOf(cardAddress));
-                    } else if (cardsOfHand.get(cardAddress).getType().equals("m"))
-                        ClientController.summon(String.valueOf(cardAddress));
-                    else
+                        if (cardsOfHand.get(cardAddress).getType().equals("m")) {
+                            result = ClientController.setMonster(String.valueOf(cardAddress));
+                            setMonster(result, newCard, cardModel);
+                        } else {
+                            result = ClientController.setSpellAndTrap(String.valueOf(cardAddress));
+                            setSpell(result, newCard, cardModel);
+                        }
+                    } else if (cardsOfHand.get(cardAddress).getType().equals("m")) {
+                        result = ClientController.summon(String.valueOf(cardAddress));
+                        summon(result, newCard, cardModel);
+                    } else
                         System.out.println("activate effect");
 
-                    hand.getChildren().remove(newCard);
-                }catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             }
-                newCard.opacityProperty().set(100);
+            newCard.opacityProperty().set(100);
             mouseEvent.consume();
         });
         newCard.setImage(cardImage);
         hand.getChildren().add(newCard);
         AnimationUtility.cardGoesFromPlayerDeckToTheirHand(newCard, hand, address, delay);
+    }
+
+    private static void setSpell(String result, ImageView card, Card cardModel) {
+
+    }
+
+    public static void summonForOpponent(String name, String type) {
+        String address = "/image/Cards/" + name + ".jpg";
+        ImageView card = (ImageView) opponentHand.getChildren().get(opponentHand.getChildren().size() - 1);
+        card.setImage(new Image(Game.class.getResource(address).toExternalForm()));
+        card.setFitWidth(82.5);
+        card.setFitHeight(110);
+        card.setTranslateX(0);
+        card.setTranslateY(0);
+        opponentHand.getChildren().remove(card);
+        cardsOfOpponentMonsterZone.add(new Card(name, address, false, type));
+        ((HBox) field.getChildren().get(1)).getChildren().add(card);
+    }
+
+    public static void setMonsterForOpponent(String name, String type) {
+        String address = "/image/Cards/" + name + ".jpg";
+        ImageView card = (ImageView) opponentHand.getChildren().get(opponentHand.getChildren().size() - 1);
+        cardsOfOpponentMonsterZone.add(new Card(name, address, false, type));
+        opponentHand.getChildren().remove(card);
+        ((HBox) field.getChildren().get(1)).getChildren().add(card);
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.3), card);
+        rotateTransition.setAxis(Rotate.Z_AXIS);
+        rotateTransition.setFromAngle(0);
+        rotateTransition.setFromAngle(90);
+        card.setFitWidth(82.5);
+        card.setFitHeight(110);
+        card.setTranslateX(0);
+        card.setTranslateY(0);
+        rotateTransition.play();
+    }
+
+    private static void summon(String result, ImageView card, Card cardModel) {
+        if (result.startsWith("Success")) {
+            card.setTranslateX(0);
+            card.setTranslateY(0);
+            hand.getChildren().remove(card);
+            card.setFitWidth(82.5);
+            card.setFitHeight(110);
+            ((HBox) field.getChildren().get(2)).getChildren().add(card);
+            cardsOfMonsterZone.add(cardModel);
+            cardsOfHand.remove(cardModel);
+        }
+    }
+
+    private static void setMonster(String result, ImageView card, Card cardModel) {
+        if (result.startsWith("Success")) {
+            hand.getChildren().remove(card);
+            card.setFitWidth(82.5);
+            card.setFitHeight(110);
+            card.setTranslateX(0);
+            card.setTranslateY(0);
+            ((HBox) field.getChildren().get(2)).getChildren().add(card);
+            cardsOfMonsterZone.add(cardModel);
+            cardModel.setUP(false);
+            RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.3), card);
+            rotateTransition.setAxis(Rotate.Z_AXIS);
+            rotateTransition.setFromAngle(0);
+            rotateTransition.setFromAngle(90);
+            rotateTransition.play();
+            card.setImage(new Image(Game.class.getResource("/image/backOfCard.jpg").toExternalForm()));
+            cardsOfHand.remove(cardModel);
+        }
     }
 
     private static void showCardInfo(String description, String cardAddress) throws IOException {
@@ -226,7 +307,7 @@ public class Game implements Initializable {
         String message = ClientController.cheatWin();
 
         Prompt.showMessage(message, PromptType.Message);
-        MusicManager.playMusic(MusicManager.winSound,false);
+        MusicManager.playMusic(MusicManager.winSound, false);
 
         TimeUnit.SECONDS.sleep(3);
         Parent root = FXMLLoader.load(ServerMessageHandler.class.getResource("/fxml/MainMenu.fxml"));
@@ -234,31 +315,37 @@ public class Game implements Initializable {
         scene.setCursor(new ImageCursor(new Image(ServerMessageHandler.class.getResource("/image/mouse.jpg").toString())));
         WelcomeMenuView.mainStage.setScene(scene);
     }
+
     public static void changePhaseGraphically(String phase) {
         ServerMessageHandler.isFirstDraw = false;
         Game.phase = phase;
         switch (phase) {
-            case "DRAW" : AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0, -210 , 3);
-            break;
-            case "STANDBY" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , -130 , 3);
+            case "DRAW":
+                AnimationUtility.animateTranslatingPhaseBil(phaseBil, 0, -210, 3);
                 break;
-            case "MAIN1" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , -50 , 3);
+            case "STANDBY":
+                AnimationUtility.animateTranslatingPhaseBil(phaseBil, 0, -130, 3);
                 break;
-            case "BATTLE" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , 35 , 3);
+            case "MAIN1":
+                AnimationUtility.animateTranslatingPhaseBil(phaseBil, 0, -50, 3);
                 break;
-            case "MAIN2" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , 115 , 3);
+            case "BATTLE":
+                AnimationUtility.animateTranslatingPhaseBil(phaseBil, 0, 35, 3);
                 break;
-            case "END" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0 , 200 , 3);
+            case "MAIN2":
+                AnimationUtility.animateTranslatingPhaseBil(phaseBil, 0, 115, 3);
+                break;
+            case "END":
+                AnimationUtility.animateTranslatingPhaseBil(phaseBil, 0, 200, 3);
                 break;
         }
     }
 
     public void changePhase(MouseEvent mouseEvent) throws IOException {
-       String result = ClientController.changePhase();
-       if (result.startsWith("Error")) {
-           Prompt.showMessage(result.split(":")[1] , PromptType.Error);
-       }
-       else changePhaseGraphically(result.split(": ")[1]);
+        String result = ClientController.changePhase();
+        if (result.startsWith("Error")) {
+            Prompt.showMessage(result.split(":")[1], PromptType.Error);
+        } else changePhaseGraphically(result.split(": ")[1]);
     }
 
 
@@ -280,7 +367,7 @@ public class Game implements Initializable {
                 String message = ClientController.surrender();
 
                 Prompt.showMessage(message, PromptType.Message);
-                MusicManager.playMusic(MusicManager.winSound,false);
+                MusicManager.playMusic(MusicManager.winSound, false);
 
                 TimeUnit.SECONDS.sleep(3);
                 Parent root = FXMLLoader.load(ServerMessageHandler.class.getResource("/fxml/MainMenu.fxml"));

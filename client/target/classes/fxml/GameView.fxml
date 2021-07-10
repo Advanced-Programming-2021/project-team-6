@@ -226,10 +226,10 @@
       </cursor></HBox>
     <HBox fx:id="opponentHandFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#bringOpponentDeckUp" onMouseExited="#getOpponentDeckDown" prefHeight="200.0" prefWidth="800.0" translateX="-95.0" translateY="-400.0" />
     <VBox fx:id="fieldFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#dragDropped" onDragEntered="#dragEnter" onDragExited="#dragEXit" onDragOver="#acceptDrag" prefHeight="550.0" prefWidth="480.0" translateX="-200.0">
-    <HBox fx:id="opponentSZ" prefHeight="115.0" prefWidth="490.0" translateY="15.0" />
-    <HBox fx:id="opponentMZ" prefHeight="115.0" prefWidth="490.0" translateY="20.0" />
-    <HBox fx:id="playerMZ" prefHeight="115.0" prefWidth="490.0" translateY="60.0" />
-    <HBox fx:id="playerSZ" prefHeight="115.0" prefWidth="490.0" translateY="65.0" />
+    <HBox fx:id="opponentSZ" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="419.0" spacing="10.0" translateX="30.0" translateY="15.0" />
+    <HBox fx:id="opponentMZ" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="419.0" spacing="10.0" translateX="30.0" translateY="25.0" />
+    <HBox fx:id="playerMZ" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="419.0" spacing="10.0" translateX="30.0" translateY="60.0" />
+    <HBox fx:id="playerSZ" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="419.0" spacing="10.0" translateX="30.0" translateY="82.0" />
     </VBox>
    <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="100.0" translateX="430.0">
       <children>
@@ -271,7 +271,7 @@
             </ImageView>
         </graphic>
     </ToggleButton>
-   <ImageView fitHeight="21.0" onMouseClicked="#openPause" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2" translateX="580.0" translateY="-320.0">
+   <ImageView fitHeight="21.0" fitWidth="26.0" onMouseClicked="#openPause" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2" translateX="580.0" translateY="-320.0">
       <image>
          <Image url="@../image/but.JPG" />
       </image>

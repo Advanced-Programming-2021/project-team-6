@@ -309,13 +309,7 @@ public class Board {
         for (int i =0 ; i < howMany; i++) {
             if (deckZone.mainCards.size() > 0) {
                 Card lastCardOfDeck = deckZone.mainCards.get(deckZone.mainCards.size() - 1);
-                char prefix = '!';
-                if (lastCardOfDeck instanceof Monster)
-                    prefix = 'm';
-                else if (lastCardOfDeck instanceof Spell)
-                    prefix = 's';
-                else if (lastCardOfDeck instanceof Trap)
-                    prefix = 't';
+                char prefix = getPrefix(lastCardOfDeck);
                 responseForPlayer += prefix + ":" + lastCardOfDeck.getName() + ",";
                 deckZone.moveCardToForGame(hand, lastCardOfDeck, true, true);
             }
@@ -326,6 +320,16 @@ public class Board {
         ServerController.sendMessageToSocket(opponentToken , responseForOpponent , false);
     }
 
+    public static char getPrefix(Card card) {
+        char prefix = '!';
+        if (card instanceof Monster)
+            prefix = 'm';
+        else if (card instanceof Spell)
+            prefix = 's';
+        else if (card instanceof Trap)
+            prefix = 't';
+        return prefix;
+    }
     public void shuffleDeck() {
         Collections.shuffle(deckZone.mainCards);
     }

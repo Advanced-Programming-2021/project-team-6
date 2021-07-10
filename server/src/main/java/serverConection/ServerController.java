@@ -183,11 +183,13 @@ public class ServerController {
                 return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckName"),
                         commandMatcher.group("token"), true);
             case 30:
-                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
-                        .summon(commandMatcher.group("address"), commandMatcher.group("token"));
-            case 31:
                 token = commandMatcher.group("token");
                 Player player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(player.getDuelID() + "")
+                        .summon(commandMatcher.group("address"), token);
+            case 31:
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(player.getDuelID() + "")
                         .setMonster(commandMatcher.group("address"), token);
             case 32:

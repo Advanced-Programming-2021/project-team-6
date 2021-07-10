@@ -193,7 +193,7 @@ public class ClientController {
     }
 
     public static String summon(String address) throws IOException {
-        return sendMessage("summon " + address + " " + Game.duelId + " " + token);
+        return sendMessage("summon " + address + " " + token);
     }
 
     public static String setMonster(String address) throws IOException {
