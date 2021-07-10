@@ -41,6 +41,7 @@ public class WelcomeMenuView extends Application {
         mainStage.setResizable(false);
         stage.show();
         MusicManager.playMusic(MusicManager.musicBackground, true);
+
     }
 
     public void exitClicked() {

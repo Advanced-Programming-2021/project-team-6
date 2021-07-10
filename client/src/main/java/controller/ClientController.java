@@ -205,7 +205,7 @@ public class ClientController {
     }
 
     public static String cheatWin() throws IOException {
-        return sendMessage("duel set-winner " + opponentUsername);
+        return sendMessage("duel set-winner " + token);
     }
 
     public static String cheatLP() throws IOException {
@@ -217,6 +217,8 @@ public class ClientController {
     public static String changePhase() throws IOException {
         return sendMessage("change phase " + token);
     }
-
+    public static String changeTurn() throws IOException {
+        return sendMessage("change turn " + token);
+    }
 
 }

@@ -2,8 +2,11 @@ package view.menus;
 import controller.AnimationUtility;
 import controller.ClientController;
 import controller.ClientController;
+import controller.ServerMessageHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.ImageCursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -18,12 +21,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import model.Card;
 import view.MusicManager;
+import view.Prompt;
+import view.PromptType;
 
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class Game implements Initializable {
     public static int duelId;
@@ -179,8 +185,17 @@ public class Game implements Initializable {
     }
 
 
-    public void cheatWin() throws IOException {
-        ClientController.cheatWin();
+    public void cheatWin() throws IOException, InterruptedException {
+        String message = ClientController.cheatWin();
+
+        Prompt.showMessage(message, PromptType.Message);
+        MusicManager.playMusic(MusicManager.winSound,false);
+
+        TimeUnit.SECONDS.sleep(3);
+        Parent root = FXMLLoader.load(ServerMessageHandler.class.getResource("/fxml/MainMenu.fxml"));
+        Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(ServerMessageHandler.class.getResource("/image/mouse.jpg").toString())));
+        WelcomeMenuView.mainStage.setScene(scene);
     }
 
 }

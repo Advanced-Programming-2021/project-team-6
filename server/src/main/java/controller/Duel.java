@@ -865,12 +865,15 @@ public class Duel {
         return String.valueOf(onlinePlayer.getHealth());
     }
 
-    public String cheatForWinGame(String opponentUsername) {
-        Player opponent = Database.getInstance().getPlayerByUsername(opponentUsername);
-        if (opponent == null) return "Error";
+    public String cheatForWinGame(String token) {
+        Player player = Database.getInstance().getPlayerByToken(token);
+        Player opponent = player.getBoard().getOpponent();
 
-        opponent.setHealth(0);
-        return "Success";
+        setPrize(player, opponent);
+        DuelMenuController.onlineDuels.remove(player.getDuelID());
+
+        ServerController.sendMessageToSocket(onlinePlayer.getBoard().getOpponent().getToken(), "winner is " + player.getUsername(), false);
+        return "winner is " + player.getUsername();
     }
 
     public void showBoard() {
@@ -884,5 +887,11 @@ public class Duel {
 
     public void negateSummon() {
         isSummonNegated = true;
+    }
+
+    public String setSecondPlayerTurn(){
+        onlinePlayer = secondPlayer;
+        offlinePlayer = firstPlayer;
+        return "Success";
     }
 }
