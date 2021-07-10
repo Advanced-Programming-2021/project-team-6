@@ -26,6 +26,7 @@ public class Coin {
     public ImageView coinCircle;
     public ImageView tossButton;
     private boolean isForGame = false;
+    public static String flip;
 
 
     Image imageTail = new Image(getClass().getResource("/image/tail.jpg").toString());
@@ -58,28 +59,27 @@ public class Coin {
     }
 
     public void start() {
-        if (isForGame) {
-            //start game
-        } else {
-            isForGame = true;
-            RotateTransition rotator = createRotator(coinCircle);
-            rotator.play();
-            rotator.setOnFinished(event -> {
-                if (Coin.flip().equals("head")) {
-                    coinCircle.setImage(imageHead);
-                } else {
-                    coinCircle.setImage(imageTail);
-                    try {
-                        ClientController.changeTurn();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                ScaleTransition scaleTransition = createScaleTransition();
-                scaleTransition.play();
 
-            });
-        }
+        RotateTransition rotator = createRotator(coinCircle);
+        rotator.play();
+        rotator.setOnFinished(event -> {
+            if (Coin.flip.equals("head")) {
+                coinCircle.setImage(imageHead);
+                //go to game
+            } else {
+                coinCircle.setImage(imageTail);
+                //go to game
+                try {
+                    ClientController.changeTurn();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            ScaleTransition scaleTransition = createScaleTransition();
+            scaleTransition.play();
+
+        });
+
     }
 
 
@@ -102,13 +102,5 @@ public class Coin {
         return rotator;
     }
 
-
-    public static String flip() {
-        int face = (int) (Math.random() * 2);
-        if (face == 0) {
-            return "head";
-        }
-        return "tail";
-    }
 
 }

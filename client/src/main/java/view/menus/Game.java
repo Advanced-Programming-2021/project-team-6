@@ -234,29 +234,5 @@ public class Game implements Initializable {
         scene.setCursor(new ImageCursor(new Image(ServerMessageHandler.class.getResource("/image/mouse.jpg").toString())));
         WelcomeMenuView.mainStage.setScene(scene);
     }
-    public static void changePhaseGraphically(String phase) {
-        Game.phase = phase;
-        switch (phase) {
-            case "DRAW" : AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0, -210 , 3);
-            break;
-            case "STANDBY" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , -130 , 3);
-                break;
-            case "MAIN1" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , -50 , 3);
-                break;
-            case "BATTLE" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , 35 , 3);
-                break;
-            case "MAIN2" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , 115 , 3);
-                break;
-            case "END" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0 , 200 , 3);
-                break;
-        }
-    }
 
-    public void changePhase(MouseEvent mouseEvent) throws IOException {
-       String result = ClientController.changePhase();
-       if (result.startsWith("Error")) {
-           Prompt.showMessage(result.split(":")[1] , PromptType.Error);
-       }
-       else changePhaseGraphically(result.split(": ")[1]);
-    }
 }
