@@ -2,6 +2,7 @@ package view.menus;
 import controller.AnimationUtility;
 import controller.ClientController;
 import controller.ClientController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -73,6 +74,17 @@ public class Game implements Initializable {
         newCard.setOnMouseExited(mouseEvent -> AnimationUtility.playScalingAnimationOnACard(newCard , 0 , 1 , 1 , 0));
         newCard.setOnDragDetected(mouseEvent ->  {
                 Dragboard dragboard = newCard.startDragAndDrop(TransferMode.ANY);
+                hand.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    switch (event.getCode()) {
+                        case SHIFT:
+                            System.out.println("mamannnn");
+                        case S:
+                            System.out.println("asvasvasvasvasvasvasvsaa");
+                    }
+                }
+                });
                 ClipboardContent content = new ClipboardContent();
                 content.putImage(newCard.getImage());
                 newCard.opacityProperty().set(0);
