@@ -214,6 +214,9 @@ public class ClientController {
     public static String inactiveCards() throws IOException{
         return sendMessage("get inactive cards "+ token);
     }
+    public static String changePhase() throws IOException {
+        return sendMessage("change phase " + token);
+    }
 
 
 }

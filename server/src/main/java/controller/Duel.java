@@ -39,7 +39,6 @@ public class Duel {
         this.secondPlayer = secondPlayer;
         this.onlinePlayer = firstPlayer;
         this.offlinePlayer = secondPlayer;
-        this.offlinePlayer = secondPlayer;
         this.ID = ID;
         DuelMenuController.onlineDuels.put(ID, this);
         firstPlayer.setHealth(8000);
@@ -94,76 +93,85 @@ public class Duel {
         this.phase = phase;
     }
 
-    public void changePhase(String duelID) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public String changePhase(String token) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        Player player = Database.getInstance().getPlayerByUsername(token);
+        if(!player.getUsername().equals(onlinePlayer.getUsername())) return "";
+        String duelID = String.valueOf(player.getDuelID());
         showBoard();
         if (phase.equals(Phases.DRAW)) {
             phase = Phases.STANDBY;
             if (isPhaseSkipped) {
-                changePhase(duelID);
+                changePhase(token);
                 isPhaseSkipped = false;
-                return;
+                return "skipped Standby";
             }
             actionInStandbyPhase();
-            Output.getInstance().showMessage("phase: " + phase);
-            return;
+            ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(),
+                    "change phase: " + phase, false);
+            return "change phase: " + phase;
         }
         if (phase.equals(Phases.STANDBY)) {
             phase = Phases.MAIN1;
             if (isPhaseSkipped) {
-                changePhase(duelID);
+                changePhase(token);
                 isPhaseSkipped = false;
-                return;
+                return "skipped Main";
             }
             actionsInMainPhase();
-            Output.getInstance().showMessage("phase: " + phase);
-            return;
+            ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(),
+                    "change phase: " + phase, false);
+            return "change phase: " + phase;
         }
         if (phase.equals(Phases.MAIN1)) {
             phase = Phases.BATTLE;
             if (isPhaseSkipped) {
-                changePhase(duelID);
+                changePhase(token);
                 isPhaseSkipped = false;
-                return;
+                return "skipped Battle";
             }
             actionsInBattlePhase();
-            Output.getInstance().showMessage("phase: " + phase);
-            return;
+            ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(),
+                    "change phase: " + phase, false);
+            return "change phase: " + phase;
         }
         if (phase.equals(Phases.BATTLE)) {
             phase = Phases.MAIN2;
             if (isPhaseSkipped) {
-                changePhase(duelID);
+                changePhase(token);
                 isPhaseSkipped = false;
-                return;
+                return "skipped Main";
             }
             actionsInMainPhase();
-            Output.getInstance().showMessage("phase: " + phase);
-            return;
+            return "change phase: " + phase;
         }
         if (phase.equals(Phases.MAIN2)) {
             phase = Phases.END;
             EventHandler.triggerEndPhase(onlinePlayer);
             if (isPhaseSkipped) {
-                changePhase(duelID);
+                changePhase(token);
                 isPhaseSkipped = false;
-                return;
+                return "skipped End";
             }
-            Output.getInstance().showMessage("phase: " + phase);
             actionsInEndPhase();
-            return;
+            ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(),
+                    "change phase: " + phase, false);
+            return "change phase: " + phase;
         }
         if (phase.equals(Phases.END)) {
             phase = Phases.DRAW;
             changeTurn();
             EventHandler.triggerDrawPhase(onlinePlayer);
             if (isPhaseSkipped) {
-                changePhase(duelID);
+                changePhase(token);
                 isPhaseSkipped = false;
-                return;
+                return "skipped Draw";
             }
             actionsInDrawPhase(duelID);
-            Output.getInstance().showMessage("phase: " + phase);
+            ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(),
+                    "change phase: " + phase, false);
+            return "change phase: " + phase;
         }
+        return "";
     }
 
     public void actionsInDrawPhase(String duelID) {

@@ -31,6 +31,8 @@ public class ServerMessageHandler {
             //graphics for set spell
         }else if(message.startsWith("monster summon")){
             //graphics for summon monster
+        }else if (message.startsWith("change phase")){
+            //graphics for change phase
         }
         return "";
     }
