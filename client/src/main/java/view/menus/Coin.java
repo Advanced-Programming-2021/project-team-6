@@ -24,7 +24,6 @@ import java.io.IOException;
 public class Coin {
 
 
-    private final Scene scene;
     public ImageView coinCircle;
     public ImageView tossButton;
     private boolean isForGame = false;
@@ -32,15 +31,12 @@ public class Coin {
 
     Image imageTail = new Image(getClass().getResource("/image/tail.jpg").toString());
     Image imageHead = new Image(getClass().getResource("/image/head.jpg").toString());
-    Runnable afterDetermined;
 
-    public Coin(Scene scene, Runnable afterDetermined) {
-        this.scene = scene;
-        this.afterDetermined = afterDetermined;
 
-    }
     public void showCoin() throws IOException {
         AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/CoinPage.fxml"));
+        Scene scene = new Scene(root);
+
         Text username1 = new Text(ClientController.username);
         username1.setFont(new Font(18));
         username1.setEffect(new Glow());
@@ -58,33 +54,31 @@ public class Coin {
         root.getChildren().add(username1);
         root.getChildren().add(username2);
 
-        ((StackPane) scene.getRoot()).getChildren().add(root);
+        WelcomeMenuView.mainStage.setScene(scene);
 
     }
 
     public void start() {
-        if (isForGame) {
-            afterDetermined.run();
-        } else {
-            isForGame = true;
-            RotateTransition rotator = createRotator(coinCircle);
-            rotator.play();
-            rotator.setOnFinished(event -> {
-                if (Coin.flip().equals("head")) {
-                    coinCircle.setImage(imageHead);
-                } else {
-                    coinCircle.setImage(imageTail);
-                    try {
-                        ClientController.changeTurn();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        RotateTransition rotator = createRotator(coinCircle);
+        rotator.play();
+        rotator.setOnFinished(event -> {
+            if (Coin.flip().equals("head")) {
+                coinCircle.setImage(imageHead);
+                //go to game
+            } else {
+                coinCircle.setImage(imageTail);
+                //go to game
+                try {
+                    ClientController.changeTurn();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                ScaleTransition scaleTransition = createScaleTransition();
-                scaleTransition.play();
+            }
+            ScaleTransition scaleTransition = createScaleTransition();
+            scaleTransition.play();
 
-            });
-        }
+        });
+
     }
 
 
