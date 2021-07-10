@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import model.Card;
+import view.MusicManager;
 
 
 import java.io.IOException;
@@ -170,9 +171,11 @@ public class Game implements Initializable {
         if (result.startsWith("Error")) return;
 
         myLPText.setText(result);
+        MusicManager.playMusic(MusicManager.LPSound, false);
     }
     public static void cheatLPOpponent(){
         LPTextOpponent.setText(String.valueOf(Integer.parseInt(LPTextOpponent.getText()) + 1));
+        MusicManager.playMusic(MusicManager.LPSound, false);
     }
 
 

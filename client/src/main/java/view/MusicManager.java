@@ -11,6 +11,7 @@ public class MusicManager {
     public static MediaPlayer musicBackground;
     public static MediaPlayer gameMusic;
     public static MediaPlayer mouseClick;
+    public static MediaPlayer LPSound;
 
     static {
         URL url = MusicManager.class.getResource("/music/Seven Days Walking (Day 5) CD 1 TRACK 6 (320).mp3");
@@ -19,6 +20,8 @@ public class MusicManager {
         gameMusic = new MediaPlayer(new Media(url.toString()));
         url = MusicManager.class.getResource("/music/Mouse-Click.mp3");
         mouseClick = new MediaPlayer(new Media(url.toString()));
+        url = MusicManager.class.getResource("/music/mixkit-tropical-forest-bird-chirp-22.wav");
+        LPSound = new MediaPlayer(new Media(url.toString()));
 
     }
 

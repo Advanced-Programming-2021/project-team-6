@@ -27,8 +27,10 @@ public class ServerMessageHandler {
             Game.cheatLPOpponent();
         }else if (message.startsWith("monster set")){
             //graphics for set monster
-        }else if ((message.startsWith("spell set"))){
+        }else if (message.startsWith("spell set")){
             //graphics for set spell
+        }else if(message.startsWith("monster summon")){
+            //graphics for summon monster
         }
         return "";
     }

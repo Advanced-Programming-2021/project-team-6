@@ -44,7 +44,7 @@ public class CreateCardMenuController {
     }
 
     public static String createCard(String name, String attackPower, String defencePower, String level,
-                                           String description, String action, String token,boolean isMonster) {
+                                           String description, String action, String token,String price, boolean isMonster) {
         Player player = MainMenuController.getInstance().loggedInUsers.get(token);
         if (player == null) return "";
 
@@ -61,6 +61,7 @@ public class CreateCardMenuController {
                 allActions += monsterActions.get(actionsName[i]).substring(13);
             System.out.println(allActions);
             Monster monster = new Monster(name, attackPower, defencePower, description, level, allActions);
+            monster.setPrice(Integer.parseInt(price));
             Database.allCards.add(monster);
             Database.allMonsters.add(monster);
             FileWorker.getInstance().writeFileTo("./src/main/resources/Database/card-information/monsters/" + monster.getName() + ".json", monster);
@@ -69,10 +70,12 @@ public class CreateCardMenuController {
             for (int i = 1; i < actionsName.length; i++)
                 allActions += spellActions.get(actionsName[i]).substring(18);
             Spell spell = new Spell(name, description, allActions);
+            spell.setPrice(Integer.parseInt(price));
             Database.allCards.add(spell);
             Database.allSpells.add(spell);
             FileWorker.getInstance().writeFileTo("./src/main/resources/Database/card-information/spells/" + spell.getName() + ".json",spell);
         }
+        player.setMoney(player.getMoney() - Integer.parseInt(price)/10);
         return "Success: card create successfully!";
     }
 

@@ -14,20 +14,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
+import view.MusicManager;
 import view.Prompt;
 import view.PromptType;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.FileAlreadyExistsException;
 
 public class MainMenuView {
 
@@ -229,5 +228,13 @@ public class MainMenuView {
         stackPaneOfMainMenu = stackPane;
         if (ClientController.cancelGameRequest().equals("Success"))
             stackPane.getChildren().remove(1);
+    }
+
+    public void changeMute() {
+        MusicManager.isMusicOn *= -1;
+        if (MusicManager.isMusicOn == 1)
+            MusicManager.musicBackground.play();
+        else
+            MusicManager.musicBackground.stop();
     }
 }

@@ -39,8 +39,8 @@ public class ServerController {
             "^get description (?<name>.+)$",
             "^shop can buy (?<cardName>.+) (?<token>\\S+)$",
             "^cancel game (?<token>\\S+)$",
-            "^create monster card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<action>.+) (?<level>\\d+) (?<description>.+) (?<token>\\S+)$",
-            "^create spell card (?<name>\\w+) \"(?<description>.+)\" (?<token>\\S+) \"(?<action>.+)\"$",
+            "^create monster card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<action>.+) (?<level>\\d+) (?<description>.+) (?<price>\\d+) (?<token>\\S+)$",
+            "^create spell card (?<name>\\w+) \"(?<description>.+)\" (?<token>\\S+) \"(?<action>.+)\" (?<price>\\d+)$",
             "^deck create (?<name>\\w+) (?<token>\\S+)$",
             "^deck delete (?<name>\\w+) $",
             "^deck set-activate (?<name>\\w+) (?<token>\\S+)$",
@@ -155,10 +155,12 @@ public class ServerController {
             case 18:
                 return CreateCardMenuController.createCard(commandMatcher.group("name"), commandMatcher.group("attack"),
                         commandMatcher.group("defence"), commandMatcher.group("level"),
-                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"), true);
+                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"),
+                        commandMatcher.group("price"), true);
             case 19:
                 return CreateCardMenuController.createCard(commandMatcher.group("name"), "", "", "",
-                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"), false);
+                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"),
+                        commandMatcher.group("price"), false);
             case 20:
                 return DeckMenuController.getInstance().createDeck(commandMatcher.group("name"), commandMatcher.group("token"));
             case 21:
@@ -181,9 +183,9 @@ public class ServerController {
             case 29:
                 return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckname"),
                         commandMatcher.group("token"), true);
-//            case 30:
-//                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
-//                        .summon(commandMatcher.group("address"), commandMatcher.group("token"));
+            case 30:
+                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
+                        .summon(commandMatcher.group("address"), commandMatcher.group("token"));
             case 31:
                 return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
                         .setMonster(commandMatcher.group("address"), commandMatcher.group("token"));
