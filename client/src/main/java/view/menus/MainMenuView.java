@@ -167,7 +167,7 @@ public class MainMenuView {
 
     public void openScoreboard() throws IOException {
         MusicManager.playMusic(MusicManager.mouseClick, false);
-        new ScoreBoardView().showScoreboard();
+        new ScoreBoardView().scoreBoard();
 
     }
 

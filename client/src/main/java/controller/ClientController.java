@@ -211,6 +211,9 @@ public class ClientController {
     public static String cheatLP() throws IOException {
         return sendMessage("increase --LP " + Game.duelId + " " + token);
     }
+    public static String inactiveCards() throws IOException{
+        return sendMessage("get inactive cards "+ token);
+    }
 
 
 }

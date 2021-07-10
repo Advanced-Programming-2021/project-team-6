@@ -56,6 +56,8 @@ public class MainMenuController {
                 String response = "GameOn" + " " + foundedOpponent.getNickname() + " " + foundedOpponent.getPicture() + " " + player.getNickname() + " " + player.getPicture() + " "
                         + playerDeckSize+" " + opponentDeckSize + " ";
                 int duelId = Integer.parseInt(DuelMenuController.getInstance().startGame(player.getUsername(), foundedOpponent.getUsername(), 3 + "", false , response));
+                foundedOpponent.setDuelID(duelId);
+                player.setDuelID(duelId);
                 return response + duelId;
             }
         }

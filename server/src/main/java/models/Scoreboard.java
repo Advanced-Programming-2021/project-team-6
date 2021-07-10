@@ -35,7 +35,7 @@ public class Scoreboard {
                 index += counter;
                 counter = 1;
             } else counter++;
-            output.append(index).append(". ").append(player.getUsername()).append(":   ").append(player.getScore()).append("\n");
+            output.append(index).append(".").append(player.getNickname()).append(".").append(player.getScore()).append("\n");
             previousScore = player.getScore();
 
         }

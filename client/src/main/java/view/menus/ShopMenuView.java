@@ -7,16 +7,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import model.Card;
 import view.Components.CardView;
@@ -26,27 +23,26 @@ import view.PromptType;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class ShopMenuView {
-    @FXML
-    static ScrollPane scrollPane;
+    @FXML static ScrollPane scrollPane;
     static Card selectedCard;
-    public ImageView backButton;
-    @FXML
-    public Button buyButton;
-    private Button staticBuyButton;
-    @FXML
-    Text cardDescription;
     static Text cardDescriptionText;
-    @FXML
-    Rectangle imageOfSelectedCard;
+    static HashMap<Card, Integer> boughtCards = new HashMap<>();
+    public ImageView backButton;
+    @FXML public Button buyButton;
+    @FXML Text cardDescription;
+    @FXML ImageView imageOfSelectedCard;
+    private Button staticBuyButton;
     private Card[][] board;
     private CardView[][] cards;
+    //@FXML public Button increaseMoney;
 
     public void backToMainMenu() throws IOException {
-        MusicManager.playMusic(MusicManager.mouseClick,false);
+        MusicManager.playMusic(MusicManager.mouseClick, false);
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
         Scene scene = new Scene(root);
         scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
@@ -57,13 +53,14 @@ public class ShopMenuView {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/ShopMenu.fxml"));
         Scene scene = new Scene(root);
         scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
-        WelcomeMenuView.mainStage.setScene(scene);
         scrollPane = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(3);
-        imageOfSelectedCard = ((Rectangle) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(0));
+        imageOfSelectedCard = ((ImageView) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(0));
         cardDescriptionText = ((Text) ((HBox) ((Pane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4)).getChildren().get(0)).getChildren().get(1));
         staticBuyButton = (Button) ((AnchorPane) root.getChildren().get(0)).getChildren().get(5);
+        //increaseMoney = (Button) ((AnchorPane) root.getChildren().get(0)).getChildren().get(6);
         setGameBoardCards();
         showCards();
+        WelcomeMenuView.mainStage.setScene(scene);
     }
 
     private void showCards() {
@@ -72,7 +69,7 @@ public class ShopMenuView {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 CardView rectangle = getCardRectangle(board[i][j]);
-                gameBoard.add(rectangle, i, j);
+                gameBoard.add(getCardVbox(board[i][j], rectangle), i, j);
                 cards[i][j] = rectangle;
             }
         }
@@ -171,16 +168,28 @@ public class ShopMenuView {
 
     public CardView getCardRectangle(Card card) {
         CardView rectangle = new CardView();
-        rectangle.setFill(card.getImage());
-        rectangle.setHeight(200);
-        rectangle.setWidth(90);
+        rectangle.setImage(card.getImage());
+        rectangle.setFitHeight(200);
+        rectangle.setFitWidth(95);
         DropShadow dropShadow = new DropShadow();
-        dropShadow.setWidth(1);
-        dropShadow.setHeight(1);
+        dropShadow.setWidth(10);
+        dropShadow.setHeight(10);
         rectangle.setEffect(dropShadow);
         rectangle.setI(card.getI());
         rectangle.setJ(card.getJ());
-        rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        return rectangle;
+    }
+
+    public VBox getCardVbox(Card card, CardView rectangle) {
+        VBox vBox = new VBox();
+        Label name = new Label(card.getName());
+        name.setMaxWidth(80);
+        Label count;
+        if (boughtCards.containsKey(card)) count = new Label(boughtCards.get(card).toString());
+        else count = new Label("0");
+        vBox.getChildren().addAll(rectangle, name, count);
+        vBox.setMinSize(120, 180);
+        vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
@@ -190,7 +199,7 @@ public class ShopMenuView {
                 }
             }
         });
-        return rectangle;
+        return vBox;
     }
 
     private void selectCard(Card card) throws IOException {
@@ -199,7 +208,7 @@ public class ShopMenuView {
     }
 
     private void showDetails() throws IOException {
-        imageOfSelectedCard.setFill(getCardRectangle(selectedCard).getFill());
+        imageOfSelectedCard.setImage(getCardRectangle(selectedCard).getImage());
         cardDescriptionText.setText(ClientController.getDescription(selectedCard.getName()));
         String result = ClientController.buyCard(selectedCard.getName(), true);
         staticBuyButton.disableProperty().set(result.split(":")[1].equals("not enough money"));
@@ -207,16 +216,33 @@ public class ShopMenuView {
     }
 
     public void buy() {
-        MusicManager.playMusic(MusicManager.mouseClick,false);
+        MusicManager.playMusic(MusicManager.mouseClick, false);
         try {
             String result = ClientController.buyCard(selectedCard.getName(), false);
-            if (result.split(":")[0].equals("not enough money"))
+            if (!result.split(":")[0].equals("not enough money")) {
+                boughtCards.putIfAbsent(selectedCard, 1);
+                if (boughtCards.containsKey(selectedCard)) {
+                    Integer count = boughtCards.get(selectedCard) + 1;
+                    boughtCards.replace(selectedCard, count);
+                }
                 Prompt.showMessage("Card Purchased Successfully", PromptType.Success);
-            else
-                Prompt.showMessage("You Don't Have Enough Money" , PromptType.Error);
+            } else
+                Prompt.showMessage("You Don't Have Enough Money", PromptType.Error);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
+//    public void increaseMoney(){
+//        MusicManager.playMusic(MusicManager.mouseClick, false);
+//        try {
+//            String result = ClientController.increaseMoney("1000");
+//            if (result.split(":")[0].equals("Success")) {
+//                Prompt.showMessage("Money Increased!", PromptType.Success);
+//            } else
+//                Prompt.showMessage("Error", PromptType.Error);
+//        } catch (IOException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
 }

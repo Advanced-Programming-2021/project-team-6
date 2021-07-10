@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
@@ -55,16 +56,16 @@ public class DeckMenuView {
         FXMLLoader loader = new FXMLLoader();
         Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/DeckMenu.fxml")));
         WelcomeMenuView.mainStage.setScene(new Scene(root));
-        deckStyle = new ImagePattern(new Image(Objects.requireNonNull(DeckMenuView.class.getResourceAsStream("image/backOfCard.jpg"))));
-        mainDeck = (ScrollPane) root.getChildren().get(3);
-        sideDeck = (ScrollPane) root.getChildren().get(4);
-        inactiveCards = (ScrollPane) root.getChildren().get(5);
-        decks = (ScrollPane) root.getChildren().get(6);
-        deleteDeckButton = (Button) ((HBox) root.getChildren().get(7)).getChildren().get(2);
-        addCardButton = (Button) ((HBox) root.getChildren().get(7)).getChildren().get(3);
-        removeCardButton = (Button) ((HBox) root.getChildren().get(7)).getChildren().get(4);
-        mainSwitch = (ToggleButton) ((HBox) root.getChildren().get(7)).getChildren().get(0);
-        sideSwitch = (ToggleButton) ((HBox) root.getChildren().get(7)).getChildren().get(1);
+        deckStyle = new ImagePattern(new Image(Objects.requireNonNull(DeckMenuView.class.getResourceAsStream("/image/backOfCard.jpg"))));
+        mainDeck = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(3);
+        sideDeck = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(4);
+        inactiveCards = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(5);
+        decks = (ScrollPane) ((AnchorPane) root.getChildren().get(0)).getChildren().get(6);
+        deleteDeckButton = (Button) ((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(2);
+        addCardButton = (Button) ((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(3);
+        removeCardButton = (Button) ((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(4);
+        mainSwitch = (ToggleButton)((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(0);
+        sideSwitch = (ToggleButton)((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(1);
         mainSwitch.setToggleGroup(toggleGroup);
         sideSwitch.setToggleGroup(toggleGroup);
         resetDecks();
@@ -73,6 +74,12 @@ public class DeckMenuView {
     public void backToMainMenu() throws IOException {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
         WelcomeMenuView.mainStage.setScene(new Scene(root));
+    }
+    public void addCard(){
+
+    }
+    public void removeCard(){
+
     }
 
 
@@ -183,7 +190,9 @@ public class DeckMenuView {
         GridPane pane = new GridPane();
         pane.setVgap(10);
         pane.setHgap(10);
-        pane.setMinWidth(Integer.parseInt(ClientController.showMainDeck(selectedDeck.getName())) * 80);
+        if(selectedDeck != null) {
+            pane.setMinWidth(Integer.parseInt(ClientController.showMainDeck(selectedDeck.getName())) * 80);
+        }
         int i = 0;
         String[] allDecksNames = ClientController.showAllDecks().split(":");
 
@@ -199,7 +208,7 @@ public class DeckMenuView {
 
     public VBox getCardView(Card card, int i, Boolean position) {
         VBox vBox = new VBox();
-        Rectangle cardView = new Rectangle(70, 100, getCardRectangle(card).getFill());
+        ImageView cardView = getCardRectangle(card);
         Label name = new Label(card.getName());
         name.setMaxWidth(70);
         cardView.getStyleClass().add("cardItems");
@@ -275,9 +284,9 @@ public class DeckMenuView {
 
     public CardView getCardRectangle(Card card) {
         CardView rectangle = new CardView();
-        rectangle.setFill(card.getImage());
-        rectangle.setHeight(200);
-        rectangle.setWidth(90);
+        rectangle.setImage(card.getImage());
+        rectangle.setFitHeight(200);
+        rectangle.setFitWidth(90);
         DropShadow dropShadow = new DropShadow();
         dropShadow.setWidth(1);
         dropShadow.setHeight(1);
@@ -299,3 +308,4 @@ public class DeckMenuView {
 
 
 }
+
