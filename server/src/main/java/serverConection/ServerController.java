@@ -55,6 +55,7 @@ public class ServerController {
             "^get inactive cards (?<token>\\S+)$",
             "^change phase (?<token>\\S+)$",
             "^change turn (?<token>\\S+)$",
+            "^submission (?<token>\\S+)",
     };
     private static HashMap<String, Socket> socketHashMap = new HashMap<>();
 
@@ -203,7 +204,7 @@ public class ServerController {
                 token = commandMatcher.group("token");
                 player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
-                        .cheatForWinGame(token);
+                        .cheatForWinGame(token,false);
             case 35:
                 token = commandMatcher.group("myToken");
                 player = Database.getInstance().getPlayerByToken(token);
@@ -221,6 +222,11 @@ public class ServerController {
                 player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
                         .setSecondPlayerTurn();
+            case 39:
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
+                        .cheatForWinGame(token,true);
 
         }
         return "";
