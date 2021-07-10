@@ -2,6 +2,8 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -113,4 +115,28 @@
          <Text fill="WHITE" onMouseClicked="#cheatWin" strokeType="OUTSIDE" strokeWidth="0.0" text="win" translateX="20.0" wrappingWidth="28.0" />
       </children>
    </StackPane>
+    <ToggleButton contentDisplay="CENTER" scaleY="1.1" translateX="-570.0" translateY="270.0">
+        <graphic>
+            <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../image/set.png" />
+                </image>
+            </ImageView>
+        </graphic>
+      <toggleGroup>
+         <ToggleGroup fx:id="setOrSummonFXML" />
+      </toggleGroup>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+    </ToggleButton>
+    <ToggleButton scaleX="1.2" selected="true" toggleGroup="$setOrSummonFXML" translateX="-570.0" translateY="300.0">
+        <graphic>
+            <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../image/Cards/Dark Magician.jpg" />
+                </image>
+            </ImageView>
+        </graphic>
+    </ToggleButton>
 </StackPane>

@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -48,6 +49,7 @@ public class Game implements Initializable {
     public Label myLPText;
     public Label LPTextOpponentFxml;
     public static Label LPTextOpponent;
+    public ToggleGroup setOrSummonFXML;
 
 
     public static void drawCardForPlayer(String cardName , double delay) {
@@ -136,6 +138,10 @@ public class Game implements Initializable {
         LPTextOpponent = LPTextOpponentFxml;
         numberOfCardsRemainingInOpponentsDeck = numberOfCardsRemainingInOpponentsDeckFXML;
         numberOfCardsRemainingInPlayersDeck = numberOfCardsRemainingInPlayersDeckFXML;
+        setOrSummonFXML.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
     }
 
     public void getDeckDown() {
