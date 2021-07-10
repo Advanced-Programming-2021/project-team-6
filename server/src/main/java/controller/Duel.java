@@ -94,16 +94,15 @@ public class Duel {
     }
 
     public String changePhase(String token) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        Player player = Database.getInstance().getPlayerByUsername(token);
-        if(!player.getUsername().equals(onlinePlayer.getUsername())) return "";
+        Player player = Database.getInstance().getPlayerByToken(token);
+        if(!player.getUsername().equals(onlinePlayer.getUsername())) return "Error: not your turn";
         String duelID = String.valueOf(player.getDuelID());
         showBoard();
         if (phase.equals(Phases.DRAW)) {
             phase = Phases.STANDBY;
             if (isPhaseSkipped) {
-                changePhase(token);
                 isPhaseSkipped = false;
-                return "skipped Standby";
+                return changePhase(token);
             }
             actionInStandbyPhase();
             ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(),
@@ -113,9 +112,8 @@ public class Duel {
         if (phase.equals(Phases.STANDBY)) {
             phase = Phases.MAIN1;
             if (isPhaseSkipped) {
-                changePhase(token);
                 isPhaseSkipped = false;
-                return "skipped Main";
+                return changePhase(token);
             }
             actionsInMainPhase();
             ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(),
@@ -125,9 +123,8 @@ public class Duel {
         if (phase.equals(Phases.MAIN1)) {
             phase = Phases.BATTLE;
             if (isPhaseSkipped) {
-                changePhase(token);
                 isPhaseSkipped = false;
-                return "skipped Battle";
+                return changePhase(token);
             }
             actionsInBattlePhase();
             ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(),
@@ -142,6 +139,8 @@ public class Duel {
                 return "skipped Main";
             }
             actionsInMainPhase();
+            ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(),
+                    "change phase: " + phase, false);
             return "change phase: " + phase;
         }
         if (phase.equals(Phases.MAIN2)) {

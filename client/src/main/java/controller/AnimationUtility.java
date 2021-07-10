@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.animation.*;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -70,7 +71,7 @@ public class AnimationUtility {
         cardXTimeLine.play();
     }
 
-    public static void animateTranslateY(Parent object, int delay, double destX ,double destY , int duration) {
+    public static void animateTranslatePosition(Parent object, int delay, double destX , double destY , int duration) {
         KeyValue cardYValue = new KeyValue(object.translateYProperty() , destY , Interpolator.EASE_OUT) , cardXValue = new KeyValue(object.translateXProperty(), destX , Interpolator.EASE_OUT );
         KeyFrame cardYFrame = new KeyFrame(Duration.millis(duration) , cardYValue) , cardXFrame = new KeyFrame(Duration.millis(duration) , cardXValue);
         Timeline cardXTimeLine = new Timeline(cardXFrame),
@@ -79,6 +80,13 @@ public class AnimationUtility {
         cardXTimeLine.setDelay(Duration.seconds(delay));
         cardYTimeLine.play();
         cardXTimeLine.play();
+    }
+    public static void animateTranslatingPhaseBil(ImageView phaseBil, int delay , double destY , int duration) {
+        KeyValue cardYValue = new KeyValue(phaseBil.translateYProperty() , destY , Interpolator.LINEAR);
+        KeyFrame cardYFrame = new KeyFrame(Duration.millis(duration) , cardYValue);
+        Timeline cardYTimeLine = new Timeline(cardYFrame);
+        cardYTimeLine.setDelay(Duration.seconds(delay));
+        cardYTimeLine.play();
     }
 
     public static void cardGoesFromOpponentDeckToTheirHand(ImageView newCard , HBox opponentHand , double delay) {
