@@ -33,6 +33,8 @@ public class Duel {
     private String ID;
 
     public Duel(Player firstPlayer, Player secondPlayer, String ID) throws CloneNotSupportedException {
+        firstPlayer.setHealth(8000);
+        secondPlayer.setHealth(8000);
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         this.onlinePlayer = firstPlayer;
@@ -341,33 +343,35 @@ public class Duel {
         changeDeck(card, card, destination);
     }
 
-//    public String summon(String cardAddress, String token) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-//        Player onlinePlayer = MainMenuController.getInstance().loggedInUsers.get(token);
-//        if (onlinePlayer == null) return "Error";
-//
-//        Card selectedCard = onlinePlayer.getBoard().getHandZoneCards().get(Integer.parseInt(cardAddress));
-//
-//        ArrayList<Card> monsterZone = onlinePlayer.getBoard().getMonsterZoneCards();
-//        EventHandler.triggerOpponentMonsterSummon(selectedCard);
-//        EventHandler.triggerMonsterSummon(selectedCard);
-//        if (isSummonNegated) {
-//            return "Error: summon is negated";
-//            isSummonNegated = false;
-//        }
-//        if (!ErrorChecker.isCardInPlayerHand(selectedCard, onlinePlayer) ||
-//                !ErrorChecker.isMonsterCard(selectedCard))
-//            return "Error: you can't summon this card";
-//
-//        if (!ErrorChecker.isMainPhase(phase)) return "Error: this is not main phase";
-//        if (ErrorChecker.isMonsterCardZoneFull(monsterZone)) return "Error: monster zone is full";
-//        if (onlinePlayer.getBoard().isSummonedOrSetCardInTurn())
-//            return "Error: you already summoned/set on this turn";
-//
-//
-//        if (selectedCard.getType() == CardType.ritual)
-//            return "Error: you can't normal summon a ritual monster";
-//
-//
+    public String summon(String cardAddress, String token) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        Player onlinePlayer = MainMenuController.getInstance().loggedInUsers.get(token);
+        if (onlinePlayer == null)
+            return "Error";
+
+        Card selectedCard = onlinePlayer.getBoard().getHandZoneCards().get(Integer.parseInt(cardAddress));
+
+        ArrayList<Card> monsterZone = onlinePlayer.getBoard().getMonsterZoneCards();
+        EventHandler.triggerOpponentMonsterSummon(selectedCard);
+        EventHandler.triggerMonsterSummon(selectedCard);
+        if (isSummonNegated) {
+            isSummonNegated = false;
+            return "Error: summon is negated";
+
+        }
+        if (!ErrorChecker.isCardInPlayerHand(selectedCard, onlinePlayer) ||
+                !ErrorChecker.isMonsterCard(selectedCard))
+            return "Error: you can't summon this card";
+
+        if (!ErrorChecker.isMainPhase(phase))
+            return "Error: this is not main phase";
+        if (ErrorChecker.isMonsterCardZoneFull(monsterZone))
+            return "Error: monster zone is full";
+        if (onlinePlayer.getBoard().isSummonedOrSetCardInTurn())
+            return "Error: you already summoned/set on this turn";
+        if (selectedCard.getType() == CardType.ritual)
+            return "Error: you can't normal summon a ritual monster";
+
+
 //        if (((Monster) selectedCard).getLEVEL() == 5 || ((Monster) selectedCard).getLEVEL() == 6) {
 //            if (!ErrorChecker.isThereOneMonsterForTribute(monsterZone))
 //                return "Error: you can't summon this card";
@@ -378,7 +382,7 @@ public class Duel {
 //            onlinePlayer.getBoard().removeFromMonsterZone(monsterZone.get(address));
 //            onlinePlayer.getBoard().removeFromHand(selectedCard);
 //        }
-//
+
 //        if (((Monster) selectedCard).getLEVEL() == 7 || ((Monster) selectedCard).getLEVEL() == 8) {
 //            if (!ErrorChecker.isThereTwoMonsterForTribute(onlinePlayer.getBoard().getMonsterZoneCards()))
 //                return "Error: you can't summon this card";
@@ -393,17 +397,19 @@ public class Duel {
 //            onlinePlayer.getBoard().removeFromMonsterZone(monsterZone.get(address1));
 //            onlinePlayer.getBoard().removeFromMonsterZone(monsterZone.get(address2));
 //        }
-//
-//        selectedCard.setCardPlacement(CardPlacement.faceUp);
-//        ((Monster) selectedCard).setMonsterMode(MonsterMode.attack);
-//        onlinePlayer.getBoard().putCardInMonsterZone(selectedCard);
-//        ((Monster) selectedCard).summon();
-//        onlinePlayer.getBoard().setSummonedOrSetCardInTurn(true);
-//        onlinePlayer.getBoard().removeFromHand(selectedCard);
-//        onlinePlayer.getBoard().setSelectedCard(null);
-//        return "success";
-//
-//    }
+
+        selectedCard.setCardPlacement(CardPlacement.faceUp);
+        ((Monster) selectedCard).setMonsterMode(MonsterMode.attack);
+        int place = onlinePlayer.getBoard().putCardInMonsterZone(selectedCard);
+        ((Monster) selectedCard).summon();
+        onlinePlayer.getBoard().setSummonedOrSetCardInTurn(true);
+        onlinePlayer.getBoard().removeFromHand(selectedCard);
+        onlinePlayer.getBoard().setSelectedCard(null);
+
+        ServerController.sendMessageToSocket(onlinePlayer.getBoard().getOpponent().getToken(), "monster summon " + selectedCard.getName() + " in " + place, false);
+        return "Success: "+selectedCard.getName() + " summon monster zone in " + place;
+
+    }
 
     public String setMonster(String cardAddress, String token) {
         Player onlinePlayer = MainMenuController.getInstance().loggedInUsers.get(token);

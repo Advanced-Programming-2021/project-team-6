@@ -36,7 +36,9 @@ public class ScoreBoardView {
     }
     public void scoreBoard() throws IOException {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/ScoreBoard.fxml"));
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
+        WelcomeMenuView.mainStage.setScene(scene);
         scrollPane = (ScrollPane) root.getChildren().get(4);
         showScoreboard();
     }
@@ -52,14 +54,14 @@ public class ScoreBoardView {
         table.setPrefWidth(500);
         TableColumn index = new TableColumn("Index");
         index.setCellValueFactory(new PropertyValueFactory<>("index"));
-        TableColumn name = new TableColumn("Username");
-        name.setCellValueFactory(new PropertyValueFactory<>("username"));
+        TableColumn nickname = new TableColumn("Nickname");
+        nickname.setCellValueFactory(new PropertyValueFactory<>("nickname"));
         TableColumn point = new TableColumn("Point");
         point.setCellValueFactory(new PropertyValueFactory<>("point"));
         point.setSortable(false);
         index.setSortable(false);
-        name.setSortable(false);
-        table.getColumns().addAll(index ,name, point);
+        nickname.setSortable(false);
+        table.getColumns().addAll(index ,nickname, point);
         table.getSortOrder().add(point);
         for (User user1 : User.Users) {
             table.getItems().add(user1);

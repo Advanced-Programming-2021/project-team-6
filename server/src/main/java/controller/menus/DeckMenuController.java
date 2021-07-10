@@ -3,6 +3,7 @@ package controller.menus;
 import controller.ErrorChecker;
 import models.Database;
 import models.Deck;
+import models.Player;
 import models.cards.Card;
 import serverConection.Output;
 
@@ -93,6 +94,14 @@ public class DeckMenuController {
             return "Error";
         StringBuilder string  = new StringBuilder();
         for(Card card : deck.getMainCards()){
+            string.append(card.getName()).append(":");
+        }
+        return String.valueOf(string);
+    }
+    public String showInactiveCards(String token){
+        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
+        StringBuilder string  = new StringBuilder();
+        for(Card card : player.getInactiveCards()){
             string.append(card.getName()).append(":");
         }
         return String.valueOf(string);

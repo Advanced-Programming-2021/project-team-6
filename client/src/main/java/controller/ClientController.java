@@ -142,18 +142,18 @@ public class ClientController {
     }
 
     public static String createMonsterCard(String name, String attackPower, String defencePower, String description,
-                                           String level, String action) throws IOException {
+                                           String level, String action, String price) throws IOException {
         return sendMessage("create monster card " + name + " " + attackPower + " " + defencePower + " " + action + " " + level + " "
-                + description + " " + token);
+                + description + " " + price + " " + token);
     }
 
     public static String createDeck(String name) throws IOException {
         return sendMessage("deck create " + name + " " + token);
     }
 
-    public static String createSpellCard(String name, String description, String action) throws IOException {
+    public static String createSpellCard(String name, String description, String action, String price) throws IOException {
         return sendMessage("create spell card " + name + " \""
-                + description + "\" " + token + " \"" + action + "\"");
+                + description + "\" " + token + " \"" + action + "\" " + price);
     }
 
     public static String deleteDeck(String name) throws IOException {
@@ -210,6 +210,9 @@ public class ClientController {
 
     public static String cheatLP() throws IOException {
         return sendMessage("increase --LP " + Game.duelId + " " + token);
+    }
+    public static String inactiveCards() throws IOException{
+        return sendMessage("get inactive cards "+ token);
     }
 
 

@@ -108,6 +108,11 @@
             <Glow level="1.0" />
          </effect>
       </Text>
+      <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="1143.0" layoutY="14.0" onMouseClicked="#changeMute">
+         <image>
+            <Image url="@../image/voiseoff.png" />
+         </image>
+      </ImageView>
       <ImageView fitHeight="152.0" fitWidth="336.0" layoutX="440.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../image/label.png" />

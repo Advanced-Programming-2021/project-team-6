@@ -2,6 +2,7 @@ package view.menus;
 
 import controller.ClientController;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -30,6 +31,7 @@ public class ProfileMenuView {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
 
         Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
         WelcomeMenuView.mainStage.setScene(scene);
     }
 
@@ -64,6 +66,7 @@ public class ProfileMenuView {
         root.getChildren().add(photo);
 
         Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
         WelcomeMenuView.mainStage.setScene(scene);
 
     }

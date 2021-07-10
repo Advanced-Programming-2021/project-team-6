@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class User {
     public int index;
-    public String username;
+    public String nickname;
     public int point;
     static public ArrayList<User> Users;
     static {
         Users = new ArrayList<>();
     }
-    public User(int index, String username, int point) {
+    public User(int index, String nickname, int point) {
         this.index = index;
-        this.username = username;
+        this.nickname = nickname;
         this.point = point;
         Users.add(this);
     }
@@ -25,12 +25,12 @@ public class User {
         this.point = point;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public int getIndex() {

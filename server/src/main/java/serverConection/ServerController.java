@@ -1,17 +1,13 @@
 package serverConection;
 
-import controller.Duel;
 import controller.menus.*;
 import models.Database;
 import models.Player;
 import models.Scoreboard;
 import models.cards.Card;
 
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -19,7 +15,6 @@ import java.util.regex.Pattern;
 
 public class ServerController {
 
-    private static HashMap<String, Socket> socketHashMap = new HashMap<>();
     private static final String[] regexes = {
             "^user create (--username|-u) (?<username>\\w+) (--password|-p) (?<password>\\w+) (--nickname|-n) (?<nickname>\\w+)$",
             "^user login (--username|-u) (?<username>\\w+) (--password|-p) (?<password>\\w+)$",
@@ -39,8 +34,8 @@ public class ServerController {
             "^get description (?<name>.+)$",
             "^shop can buy (?<cardName>.+) (?<token>\\S+)$",
             "^cancel game (?<token>\\S+)$",
-            "^create monster card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<action>.+) (?<level>\\d+) (?<description>.+) (?<token>\\S+)$",
-            "^create spell card (?<name>\\w+) \"(?<description>.+)\" (?<token>\\S+) \"(?<action>.+)\"$",
+            "^create monster card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<action>.+) (?<level>\\d+) (?<description>.+) (?<price>\\d+) (?<token>\\S+)$",
+            "^create spell card (?<name>\\w+) \"(?<description>.+)\" (?<token>\\S+) \"(?<action>.+)\" (?<price>\\d+)$",
             "^deck create (?<name>\\w+) (?<token>\\S+)$",
             "^deck delete (?<name>\\w+) $",
             "^deck set-activate (?<name>\\w+) (?<token>\\S+)$",
@@ -57,8 +52,9 @@ public class ServerController {
             "^set -p (?<mode>attack|defence) (?<address>\\d+) (?<token>\\S+)$",
             "^duel set-winner (?<opponentUsername>\\w+)$",
             "^increase --LP (?<duelID>\\S+) (?<myToken>\\S+)$",
-
+            "^get inactive cards (?<token>\\S+)$"
     };
+    private static HashMap<String, Socket> socketHashMap = new HashMap<>();
 
     public static void registerSocket(Socket socket, String token) {
         socketHashMap.put(token, socket);
@@ -155,10 +151,12 @@ public class ServerController {
             case 18:
                 return CreateCardMenuController.createCard(commandMatcher.group("name"), commandMatcher.group("attack"),
                         commandMatcher.group("defence"), commandMatcher.group("level"),
-                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"), true);
+                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"),
+                        commandMatcher.group("price"), true);
             case 19:
                 return CreateCardMenuController.createCard(commandMatcher.group("name"), "", "", "",
-                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"), false);
+                        commandMatcher.group("description"), commandMatcher.group("action"), commandMatcher.group("token"),
+                        commandMatcher.group("price"), false);
             case 20:
                 return DeckMenuController.getInstance().createDeck(commandMatcher.group("name"), commandMatcher.group("token"));
             case 21:
@@ -181,14 +179,14 @@ public class ServerController {
             case 29:
                 return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckname"),
                         commandMatcher.group("token"), true);
-//            case 30:
-//                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
-//                        .summon(commandMatcher.group("address"), commandMatcher.group("token"));
+            case 30:
+                return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
+                        .summon(commandMatcher.group("address"), commandMatcher.group("token"));
             case 31:
                 token = commandMatcher.group("token");
                 Player player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(player.getDuelID() + "")
-                        .setMonster(commandMatcher.group("address"), token );
+                        .setMonster(commandMatcher.group("address"), token);
             case 32:
                 token = commandMatcher.group("token");
                 player = Database.getInstance().getPlayerByToken(token);
@@ -206,7 +204,8 @@ public class ServerController {
                 player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(player.getDuelID() + "")
                         .increaseLP(token);
-
+            case 36:
+                return DeckMenuController.getInstance().showInactiveCards(commandMatcher.group("token"));
         }
         return "";
     }
