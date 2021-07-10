@@ -16,6 +16,11 @@ public class Card {
         this.j = j;
     }
 
+    public Card(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
+
     public Card(String name , String address , boolean isUp) {
         this.name = name;
         this.isUP = isUp;

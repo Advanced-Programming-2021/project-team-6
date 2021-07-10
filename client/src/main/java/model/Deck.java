@@ -1,5 +1,8 @@
 package model;
 
+import controller.ClientController;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Deck {
@@ -9,9 +12,16 @@ public class Deck {
     String name;
     Boolean IsValid;
 
-    public Deck(String name) {
+    public Deck(String name) throws IOException {
         this.name = name;
-        sideCards = null;
+        String[] main = ClientController.showMainDeck(name).split(":");
+        String[] side = ClientController.showSideDeck(name).split(":");
+        for(String string : main){
+            mainCards.add(new Card(string,"/image/Cards/" + string + ".jpg" ));
+        }
+        for(String string : side){
+            sideCards.add(new Card(string,"/image/Cards/" + string + ".jpg" ));
+        }
     }
 
     public ArrayList<Card> getMainCards() {

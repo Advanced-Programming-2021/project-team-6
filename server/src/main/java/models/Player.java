@@ -2,13 +2,14 @@ package models;
 
 import com.google.gson.*;
 import models.cards.Card;
-import org.junit.jupiter.api.MethodOrderer;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Player implements Comparable<Player> {
+    public static PlayerSerializerForDeckDatabase playerSerializerForDeckDatabase = new PlayerSerializerForDeckDatabase();
+    public static PlayerDeserializerForDeckDatabase playerDeserializerForDeckDatabase = null;
     private String username;
     private String password;
     private String nickname;
@@ -20,6 +21,7 @@ public class Player implements Comparable<Player> {
     private transient ArrayList<Deck> allDeck = new ArrayList<>();
     private transient ArrayList<Deck> gameDecks = new ArrayList<>();
     private transient Deck activeDeck;
+    private transient ArrayList<Card> inactiveCards = new ArrayList<>();
     private int money;
     private transient Board board = null;
     private transient String token;
@@ -33,20 +35,16 @@ public class Player implements Comparable<Player> {
         this.score = 0;
         this.health = 8000;
         this.money = 32000000;
+        setInactiveCards();
         allPlayerCard = new Deck(username + ".purchased-cards", this, false, true);
         Database.allPlayers.add(this);
     }
-
-
-    public static PlayerSerializerForDeckDatabase playerSerializerForDeckDatabase = new PlayerSerializerForDeckDatabase();
 
     public static PlayerSerializerForDeckDatabase getPlayerSerializerForDeck() {
         if (playerSerializerForDeckDatabase == null)
             playerSerializerForDeckDatabase = new PlayerSerializerForDeckDatabase();
         return playerSerializerForDeckDatabase;
     }
-
-    public static PlayerDeserializerForDeckDatabase playerDeserializerForDeckDatabase = null;
 
     public static PlayerDeserializerForDeckDatabase getPlayerDeserializerForDeck() {
         if (playerDeserializerForDeckDatabase == null)
@@ -56,6 +54,10 @@ public class Player implements Comparable<Player> {
 
     public int getHealth() {
         return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public ArrayList<Deck> getGameDecks() {
@@ -74,8 +76,16 @@ public class Player implements Comparable<Player> {
         return this.username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getNickname() {
         return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public int getPicture() {
@@ -86,16 +96,8 @@ public class Player implements Comparable<Player> {
         return score;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     public int getRank() {
@@ -104,10 +106,6 @@ public class Player implements Comparable<Player> {
 
     public void setRank(int rank) {
         this.rank = rank;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public Deck getActiveDeck() {
@@ -143,16 +141,16 @@ public class Player implements Comparable<Player> {
         return allPlayerCard;
     }
 
+    public void setAllPlayerCard(Deck allPlayerCard) {
+        this.allPlayerCard = allPlayerCard;
+    }
+
     public void addCardToAllPlayerCard(Card card) {
         this.allPlayerCard.getMainCards().add(card);
     }
 
     public int getMoney() {
         return money;
-    }
-
-    public void setAllPlayerCard(Deck allPlayerCard) {
-        this.allPlayerCard = allPlayerCard;
     }
 
     public void setMoney(int money) {
@@ -201,12 +199,27 @@ public class Player implements Comparable<Player> {
         this.token = token;
     }
 
+    public int getDuelID() {
+        return duelID;
+    }
+
     public void setDuelID(int duelId) {
         this.duelID = duelId;
     }
 
-    public int getDuelID() {
-        return duelID;
+    public ArrayList<Card> getInactiveCards() {
+        return inactiveCards;
+    }
+
+    public void setInactiveCards() {
+        int sign = 0;
+        for(Card card : allPlayerCard.mainCards){
+            sign = 0;
+            for(Deck deck : allDeck){
+                if(deck.mainCards.contains(card) || deck.sideCards.contains(card)) sign = 1;
+            }
+            if(sign == 0) inactiveCards.add(card);
+        }
     }
 }
 

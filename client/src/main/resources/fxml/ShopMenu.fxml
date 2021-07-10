@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.Glow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.ShopMenuView">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.ShopMenuView">
     <AnchorPane prefHeight="680.0" prefWidth="1200.0">
         <ImageView fitHeight="680.0" fitWidth="1200.0">
             <Image url="@../image/1300545.jpg" />
@@ -28,37 +20,40 @@
                 <Font name="NPIOuj" size="24.0" />
             </font>
         </Text>
-        <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="16.0" prefHeight="628.0" prefWidth="392.0" style="-fx-border-color: #e72d2d; -fx-background-color: #eeee28;">
-         <effect>
-            <DropShadow>
-               <color>
-                  <Color red="0.8526315689086914" green="0.053684212267398834" blue="0.053684212267398834" />
-               </color>
-            </DropShadow>
-         </effect></ScrollPane>
+        <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="16.0" prefHeight="628.0" prefWidth="480.0" style="-fx-border-color: #e72d2d; -fx-background-color: #eeee28;">
+            <effect>
+                <DropShadow>
+                    <color>
+                        <Color red="0.8526315689086914" green="0.053684212267398834" blue="0.053684212267398834" />
+                    </color>
+                </DropShadow>
+            </effect>
+        </ScrollPane>
 
-        <Pane fx:id="pane" layoutX="432.0" layoutY="14.0" prefHeight="422.0" prefWidth="452.0">
+        <Pane fx:id="pane" layoutX="494.0" layoutY="16.0" prefHeight="422.0" prefWidth="452.0">
             <HBox layoutY="14.0" prefHeight="454.0" prefWidth="357.0">
-                <ImageView fx:id="imageOfSelectedCard" fitHeight="331.0" fitWidth="210.0" />
-                <Text fx:id="cardDescription" styleClass="description" translateX="20" wrappingWidth="225.199951171875">
-               <font>
-                  <Font name="FuturaBlack WGL4 BT" size="18.0" />
-               </font></Text>
+                <ImageView fx:id="imageOfSelectedCard" fitHeight="331.0" fitWidth="257.0" />
+                <Text fx:id="cardDescription" fill="WHITE" styleClass="description" translateX="20" wrappingWidth="514.1999206542969">
+                    <font>
+                        <Font name="FuturaBlack WGL4 BT" size="12.0" />
+                    </font>
+                </Text>
             </HBox>
         </Pane>
-          <Button fx:id="buyButton" disable="true" layoutX="1069.0" layoutY="587.0" minWidth="120" onMouseClicked="#buy" prefHeight="40" styleClass="buyButton" text="Buy" textFill="WHITE">
-         <font>
-            <Font name="FuturaBlack WGL4 BT" size="30.0" />
-         </font>
-      </Button>
-      <Button layoutX="851.0" layoutY="583.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="134.0" style="-fx-background-color: gray;" text="Increase Money">
-         <font>
-            <Font name="FuturaBlack WGL4 BT" size="18.0" />
-         </font>
-         <effect>
-            <Glow level="0.69" />
-         </effect>
-      </Button>
+        <Button fx:id="buyButton" disable="true" layoutX="1069.0" layoutY="587.0" minWidth="120" onMouseClicked="#buy" prefHeight="40" styleClass="buyButton" text="Buy" textFill="WHITE">
+            <font>
+                <Font name="FuturaBlack WGL4 BT" size="30.0" />
+            </font>
+        </Button>
+<!--        <Button fx:id="increaseMoney" layoutX="851.0" layoutY="583.0" mnemonicParsing="false" prefHeight="46.0"-->
+<!--                prefWidth="134.0" onMouseClicked="increaseMoney" style="-fx-background-color: gray;" text="Increase Money">-->
+<!--            <font>-->
+<!--                <Font name="FuturaBlack WGL4 BT" size="18.0"/>-->
+<!--            </font>-->
+<!--            <effect>-->
+<!--                <Glow level="0.69"/>-->
+<!--            </effect>-->
+<!--        </Button>-->
 
     </AnchorPane>
 

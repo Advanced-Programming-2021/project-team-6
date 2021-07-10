@@ -52,14 +52,14 @@ public class ScoreBoardView {
         table.setPrefWidth(500);
         TableColumn index = new TableColumn("Index");
         index.setCellValueFactory(new PropertyValueFactory<>("index"));
-        TableColumn name = new TableColumn("Username");
-        name.setCellValueFactory(new PropertyValueFactory<>("username"));
+        TableColumn nickname = new TableColumn("Nickname");
+        nickname.setCellValueFactory(new PropertyValueFactory<>("nickname"));
         TableColumn point = new TableColumn("Point");
         point.setCellValueFactory(new PropertyValueFactory<>("point"));
         point.setSortable(false);
         index.setSortable(false);
-        name.setSortable(false);
-        table.getColumns().addAll(index ,name, point);
+        nickname.setSortable(false);
+        table.getColumns().addAll(index ,nickname, point);
         table.getSortOrder().add(point);
         for (User user1 : User.Users) {
             table.getItems().add(user1);

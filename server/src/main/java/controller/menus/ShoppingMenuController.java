@@ -54,7 +54,7 @@ public class ShoppingMenuController {
     public String showMoney(String token) {
         Player player = MainMenuController.getInstance().loggedInUsers.get(token);
         if (player == null) return "Error";
-        return ("money: " + MainMenuController.getInstance().loggedInUsers.get(token).getMoney());
+        return ("money:" + MainMenuController.getInstance().loggedInUsers.get(token).getMoney());
     }
 
     public String increaseMoney(String token, int amount) {
