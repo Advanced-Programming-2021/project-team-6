@@ -197,11 +197,11 @@ public class ClientController {
     }
 
     public static String setMonster(String address) throws IOException {
-        return sendMessage("set monster " + address + " " + Game.duelId + " " + token);
+        return sendMessage("set monster " + address + " " + token);
     }
 
     public static String setSpellAndTrap(String address) throws IOException {
-        return sendMessage("set spell/trap " + address + " " + Game.duelId + " " + token);
+        return sendMessage("set spell/trap " + address + " " + token);
     }
 
     public static String cheatWin() throws IOException {

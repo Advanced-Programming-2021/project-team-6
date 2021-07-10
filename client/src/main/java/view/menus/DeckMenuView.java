@@ -4,6 +4,7 @@ import controller.ClientController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
@@ -16,6 +17,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import model.Card;
 import model.Deck;
+import model.User;
 import view.Components.CardView;
 import view.Prompt;
 import view.PromptType;
@@ -25,31 +27,22 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class DeckMenuView {
-    private static ImagePattern deckStyle;
     private static final ToggleGroup toggleGroup = new ToggleGroup();
-    @FXML
-    private ScrollPane mainDeck;
-    @FXML
-    private ScrollPane sideDeck;
-    @FXML
-    private ScrollPane inactiveCards;
-    @FXML
-    private ScrollPane decks;
-    @FXML
-    private Button deleteDeckButton;
-    @FXML
-    private Button addCardButton;
-    @FXML
-    private Button removeCardButton;
-    @FXML
-    private ToggleButton mainSwitch;
-    @FXML
-    private ToggleButton sideSwitch;
-    @FXML
-    private Button activateDeckButton;
-    Deck selectedDeck;
-    Card selectedCard;
-    Boolean isCardInMain = false;
+    private static ImagePattern deckStyle;
+    @FXML private ScrollPane mainDeck;
+    @FXML private ScrollPane sideDeck;
+    @FXML private ScrollPane inactiveCards;
+    @FXML private ScrollPane decks;
+    @FXML private Button deleteDeckButton;
+    @FXML private Button addCardButton;
+    @FXML private Button removeCardButton;
+    @FXML private ToggleButton mainSwitch;
+    @FXML private ToggleButton sideSwitch;
+    @FXML private Button activateDeckButton;
+    private Deck selectedDeck;
+    private Card selectedCard;
+    private Boolean isCardInMain = false;
+    private Boolean isMain;
     private boolean cardIsInDeck;
 
     public void showDeckMenu() throws IOException {
@@ -66,8 +59,9 @@ public class DeckMenuView {
         deleteDeckButton = (Button) ((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(2);
         addCardButton = (Button) ((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(3);
         removeCardButton = (Button) ((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(4);
-        mainSwitch = (ToggleButton)((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(0);
-        sideSwitch = (ToggleButton)((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(1);
+        mainSwitch = (ToggleButton) ((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(0);
+        sideSwitch = (ToggleButton) ((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(1);
+        activateDeckButton = (Button) ((HBox) ((AnchorPane) root.getChildren().get(0)).getChildren().get(7)).getChildren().get(5);
         mainSwitch.setToggleGroup(toggleGroup);
         sideSwitch.setToggleGroup(toggleGroup);
         resetDecks();
@@ -77,25 +71,62 @@ public class DeckMenuView {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
         WelcomeMenuView.mainStage.setScene(new Scene(root));
     }
-    public void addCard(){
 
+    public void addCard() {
+
+        if (isMain == null) try {
+            Prompt.showMessage("please select main deck or side deck to add card to", PromptType.Error);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            if (selectedDeck == null) Prompt.showMessage("please select a deck", PromptType.Error);
+            if (isMain) ClientController.addCardToMainDeck(selectedDeck.getName(), selectedCard.getName());
+            else ClientController.addCardToSideDeck(selectedDeck.getName(), selectedCard.getName());
+            //selectedCard = null;
+            resetButtons();
+            resetDecks();
+            resetSideDeck();
+            resetMainDeck();
+            resetInactiveCards();
+        } catch (Exception e) {
+            Prompt.showMessage("Error", PromptType.Error);
+        }
     }
-    public void removeCard(){
 
+    public void removeCard(MouseEvent mouseEvent) throws Exception {
+        try {
+            if (selectedDeck == null) Prompt.showMessage("Please select a deck to add card to first" , PromptType.Error);
+            if (selectedCard == null) Prompt.showMessage("please select a card to remove", PromptType.Error);
+            if (isMain) ClientController.removeCardFromMainDeck(selectedDeck.getName(), selectedCard.getName());
+            else ClientController.removeCardFromSideDeck(selectedDeck.getName(), selectedCard.getName());
+            //selectedCard = null;
+            resetButtons();
+            resetDecks();
+            resetSideDeck();
+            resetMainDeck();
+            resetInactiveCards();
+        } catch (IOException e) {
+            Prompt.showMessage("Error", PromptType.Error);
+        }
     }
 
 
     public void activateDeck(MouseEvent mouseEvent) throws IOException {
         try {
+            if(selectedDeck == null) return;
             ClientController.activateDeck(selectedDeck.getName());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        selectedCard = null;
+        //selectedCard = null;
         resetButtons();
         resetMainDeck();
         resetDecks();
         resetSideDeck();
+        resetInactiveCards();
     }
 
     public VBox getCreateDeckButton(int i) {
@@ -103,9 +134,6 @@ public class DeckMenuView {
         StackPane deckView = new StackPane();
         deckView.setMinSize(70, 100);
         Rectangle cardPicture = new Rectangle(70, 100, deckStyle);
-        ColorAdjust colorAdjust = new ColorAdjust();
-        colorAdjust.setBrightness(0.7);
-        cardPicture.setEffect(colorAdjust);
         deckView.getChildren().add(cardPicture);
         deckView.getChildren().add(new Label("+"));
         deckView.getStyleClass().add("createDeckButton");
@@ -140,12 +168,58 @@ public class DeckMenuView {
                 resetMainDeck();
                 resetDecks();
                 resetSideDeck();
+                resetInactiveCards();
                 Prompt.showMessage("deck created successfully!", PromptType.Success);
             } catch (Exception e) {
                 Prompt.showMessage(e.getMessage(), PromptType.Error);
             }
         }
 
+    }
+
+    public void resetInactiveCards() {
+        VBox outside = new VBox();
+        outside.setSpacing(10);
+        outside.alignmentProperty().set(Pos.CENTER);
+        for (Card card : User.inactiveCards) {
+            outside.getChildren().add(getInactiveCardView(card));
+        }
+        inactiveCards.setContent(outside);
+    }
+    public CardView getCardRectangle(Card card) {
+        CardView rectangle = new CardView();
+        rectangle.setImage(card.getImage());
+        rectangle.setFitHeight(200);
+        rectangle.setFitWidth(95);
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setWidth(10);
+        dropShadow.setHeight(10);
+        rectangle.setEffect(dropShadow);
+        rectangle.setI(card.getI());
+        rectangle.setJ(card.getJ());
+        return rectangle;
+    }
+
+    public VBox getInactiveCardView(Card card) {
+        VBox vBox = new VBox();
+        CardView cardView = getCardRectangle(card);
+        Label name = new Label(card.getName());
+        name.setMaxWidth(70);
+        cardView.getStyleClass().add("cardItems");
+        vBox.getChildren().addAll(cardView, name);
+        vBox.setMinSize(70, 100);
+        vBox.setTranslateX(10);
+        vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try {
+                    selectCard(card);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return vBox;
     }
 
     public void resetMainDeck() {
@@ -192,8 +266,8 @@ public class DeckMenuView {
         GridPane pane = new GridPane();
         pane.setVgap(10);
         pane.setHgap(10);
-        if(selectedDeck != null) {
-            pane.setMinWidth(Integer.parseInt(ClientController.showMainDeck(selectedDeck.getName())) * 80);
+        if (selectedDeck != null) {
+            pane.setMinWidth((ClientController.showMainDeck(selectedDeck.getName()).split(":").length) * 80);
         }
         int i = 0;
         String[] allDecksNames = ClientController.showAllDecks().split(":");
@@ -260,6 +334,7 @@ public class DeckMenuView {
         resetButtons();
         resetMainDeck();
         resetSideDeck();
+        resetInactiveCards();
     }
 
     private void selectCard(Card card) throws IOException {
@@ -268,44 +343,22 @@ public class DeckMenuView {
         resetMainDeck();
         resetDecks();
         resetSideDeck();
+        resetInactiveCards();
     }
 
     public void deleteDeck(MouseEvent mouseEvent) {
         try {
             ClientController.deleteDeck(selectedDeck.getName());
-            selectedDeck = null;
-            selectedCard = null;
+            //selectedDeck = null;
+            //selectedCard = null;
             resetButtons();
             resetMainDeck();
             resetDecks();
             resetSideDeck();
+            resetInactiveCards();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public CardView getCardRectangle(Card card) {
-        CardView rectangle = new CardView();
-        rectangle.setImage(card.getImage());
-        rectangle.setFitHeight(200);
-        rectangle.setFitWidth(90);
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setWidth(1);
-        dropShadow.setHeight(1);
-        rectangle.setEffect(dropShadow);
-        rectangle.setI(card.getI());
-        rectangle.setJ(card.getJ());
-        rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                try {
-                    selectCard(card);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        return rectangle;
     }
 
 

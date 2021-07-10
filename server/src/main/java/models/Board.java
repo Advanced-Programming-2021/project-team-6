@@ -5,6 +5,7 @@ import controller.menus.DuelMenuController;
 import models.cards.*;
 import serverConection.ServerController;
 
+import javax.swing.table.TableRowSorter;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -308,7 +309,14 @@ public class Board {
         for (int i =0 ; i < howMany; i++) {
             if (deckZone.mainCards.size() > 0) {
                 Card lastCardOfDeck = deckZone.mainCards.get(deckZone.mainCards.size() - 1);
-                responseForPlayer +=  lastCardOfDeck.getName() + ",";
+                char prefix = '!';
+                if (lastCardOfDeck instanceof Monster)
+                    prefix = 'm';
+                else if (lastCardOfDeck instanceof Spell)
+                    prefix = 's';
+                else if (lastCardOfDeck instanceof Trap)
+                    prefix = 't';
+                responseForPlayer += prefix + ":" + lastCardOfDeck.getName() + ",";
                 deckZone.moveCardToForGame(hand, lastCardOfDeck, true, true);
             }
         }

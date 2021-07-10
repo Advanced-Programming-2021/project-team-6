@@ -30,6 +30,7 @@ public class ServerMessageHandler {
                 String[] cardNames = message.substring(9).split(",");
                 Game.drawCardForPlayer(cardNames[i], ((isFirstDraw) ? 20 : 0) + i * 0.7);
             }
+            isFirstDraw = false;
         } else if (message.startsWith("draw-o")) {
             int howManyCards = Integer.parseInt(params[1]);
             for (int i = 0; i < howManyCards; i++)
@@ -42,8 +43,9 @@ public class ServerMessageHandler {
             //graphics for set spell
         } else if (message.startsWith("monster summon")) {
             //graphics for summon monster
-        } else if (message.startsWith("change phase")) {
-            //graphics for change phase
+        }else if (message.startsWith("change phase")){
+            Game.changePhaseGraphically(message.split(": ")[1].split(" ")[0]);
+
         } else if (message.startsWith("winner is")) {
             Prompt.showMessage(message, PromptType.Message);
             MusicManager.playMusic(MusicManager.winSound, false);
