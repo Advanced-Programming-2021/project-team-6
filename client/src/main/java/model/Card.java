@@ -3,6 +3,8 @@ package model;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
+import java.util.Objects;
+
 public class Card {
     private int i;
     private int j;
@@ -29,7 +31,7 @@ public class Card {
 
 
     public Image getImage() {
-        return new Image(address);
+        return new Image(Objects.requireNonNull(getClass().getResource(address)).toExternalForm());
     }
 
     public boolean isUP() {

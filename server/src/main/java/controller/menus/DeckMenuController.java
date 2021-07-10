@@ -93,8 +93,17 @@ public class DeckMenuController {
         if (!ErrorChecker.doesDeckBelongToPlayer(deck, MainMenuController.getInstance().loggedInUsers.get(token)))
             return "Error";
         StringBuilder string  = new StringBuilder();
-        for(Card card : deck.getMainCards()){
-            string.append(card.getName()).append(":");
+        if(isMain) {
+            for (Card card : deck.getMainCards()) {
+                if (card == null) continue;
+                string.append(card.getName()).append(":");
+            }
+        }
+        else {
+            for (Card card : deck.getSideCards()) {
+                if (card == null) continue;
+                string.append(card.getName()).append(":");
+            }
         }
         return String.valueOf(string);
     }

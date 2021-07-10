@@ -165,20 +165,20 @@ public class ServerController {
             case 22:
                 return DeckMenuController.getInstance().setActiveDeck(commandMatcher.group("name"), commandMatcher.group("token"));
             case 23:
-                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), false);
+                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckName"), commandMatcher.group("token"), false);
             case 24:
-                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), true);
+                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckName"), commandMatcher.group("token"), true);
             case 25:
-                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), false);
+                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckName"), commandMatcher.group("token"), false);
             case 26:
-                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckname"), commandMatcher.group("token"), true);
+                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckName"), commandMatcher.group("token"), true);
             case 27:
                 return DeckMenuController.getInstance().showAllDecks(commandMatcher.group("token"));
             case 28:
-                return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckname"),
+                return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckName"),
                         commandMatcher.group("token"), false);
             case 29:
-                return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckname"),
+                return DeckMenuController.getInstance().showDeck(commandMatcher.group("deckName"),
                         commandMatcher.group("token"), true);
             case 30:
                 return DuelMenuController.getDuelById(commandMatcher.group("duelID"))
