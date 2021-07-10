@@ -53,7 +53,7 @@ public class ServerController {
             "^duel set-winner (?<token>\\w+)$",
             "^increase --LP (?<duelID>\\S+) (?<myToken>\\S+)$",
             "^get inactive cards (?<token>\\S+)$",
-            "^change phase (?<duelID>\\d+) (?<token>\\S+)$"
+            "^change phase (?<token>\\S+)$"
     };
     private static HashMap<String, Socket> socketHashMap = new HashMap<>();
 
