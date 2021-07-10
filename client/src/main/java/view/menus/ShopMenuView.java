@@ -28,18 +28,22 @@ import java.util.List;
 
 
 public class ShopMenuView {
-    @FXML static ScrollPane scrollPane;
+    @FXML
+    static ScrollPane scrollPane;
     static Card selectedCard;
     static Text cardDescriptionText;
     static HashMap<Card, Integer> boughtCards = new HashMap<>();
     public ImageView backButton;
-    @FXML public Button buyButton;
-    @FXML Text cardDescription;
-    @FXML ImageView imageOfSelectedCard;
+    @FXML
+    public Button buyButton;
+    @FXML
+    Text cardDescription;
+    @FXML
+    ImageView imageOfSelectedCard;
     private Button staticBuyButton;
     private Card[][] board;
     private CardView[][] cards;
-    //@FXML public Button increaseMoney;
+    @FXML public Button increaseMoney;
 
     public void backToMainMenu() throws IOException {
         MusicManager.playMusic(MusicManager.mouseClick, false);
@@ -232,17 +236,18 @@ public class ShopMenuView {
             System.out.println(e.getMessage());
         }
     }
-//    public void increaseMoney(){
-//        MusicManager.playMusic(MusicManager.mouseClick, false);
-//        try {
-//            String result = ClientController.increaseMoney("1000");
-//            if (result.split(":")[0].equals("Success")) {
-//                Prompt.showMessage("Money Increased!", PromptType.Success);
-//            } else
-//                Prompt.showMessage("Error", PromptType.Error);
-//        } catch (IOException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
+
+    public void increaseMoney() {
+        MusicManager.playMusic(MusicManager.mouseClick, false);
+        try {
+            String result = ClientController.increaseMoney("1000");
+            if (result.split(":")[0].equals("Success")) {
+                Prompt.showMessage("Money Increased!", PromptType.Success);
+            } else
+                Prompt.showMessage("Error", PromptType.Error);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

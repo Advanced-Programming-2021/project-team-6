@@ -118,7 +118,7 @@ public class ClientController {
     }
 
     public static String showMoney() throws IOException {
-        return sendMessage("shop show money " + token);
+            return sendMessage("shop show money " + token);
     }
 
     public static String increaseMoney(String amount) throws IOException {
