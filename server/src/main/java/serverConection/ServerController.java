@@ -50,9 +50,10 @@ public class ServerController {
             "^set monster (?<address>\\d+) (?<token>\\S+)$",
             "^set spell/trap (?<address>\\d+) (?<token>\\S+)$",
             "^set -p (?<mode>attack|defence) (?<address>\\d+) (?<token>\\S+)$",
-            "^duel set-winner (?<opponentUsername>\\w+)$",
+            "^duel set-winner (?<token>\\w+)$",
             "^increase --LP (?<duelID>\\S+) (?<myToken>\\S+)$",
-            "^get inactive cards (?<token>\\S+)$"
+            "^get inactive cards (?<token>\\S+)$",
+            "^change phase (?<duelID>\\d+) (?<token>\\S+)$"
     };
     private static HashMap<String, Socket> socketHashMap = new HashMap<>();
 
@@ -197,15 +198,23 @@ public class ServerController {
                 player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(player.getDuelID() + "")
                         .setPosition(commandMatcher.group("mode"), token, commandMatcher.group("address"));
-            case 34:
-                return "";
+//            case 34:
+//                token = commandMatcher.group("token");
+//                player = Database.getInstance().getPlayerByToken(token);
+//                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
+//                        .increaseLP(token);
             case 35:
                 token = commandMatcher.group("myToken");
                 player = Database.getInstance().getPlayerByToken(token);
-                return DuelMenuController.getDuelById(player.getDuelID() + "")
+                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
                         .increaseLP(token);
             case 36:
                 return DeckMenuController.getInstance().showInactiveCards(commandMatcher.group("token"));
+            case 37:
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
+                        .changePhase(token);
         }
         return "";
     }
