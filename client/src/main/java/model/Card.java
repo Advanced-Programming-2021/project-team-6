@@ -32,8 +32,12 @@ public class Card {
     }
 
 
+    public Image getImageForDeck() {
+        return new Image((getClass().getResource(address)).toExternalForm());
+    }
+
     public Image getImage() {
-        return new Image(Objects.requireNonNull(getClass().getResource(address)).toExternalForm());
+        return new Image(address);
     }
 
     public String getType() {

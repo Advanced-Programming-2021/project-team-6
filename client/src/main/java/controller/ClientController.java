@@ -118,7 +118,7 @@ public class ClientController {
     }
 
     public static String showMoney() throws IOException {
-        return sendMessage("shop show money " + token);
+            return sendMessage("shop show money " + token);
     }
 
     public static String increaseMoney(String amount) throws IOException {
@@ -208,6 +208,9 @@ public class ClientController {
         return sendMessage("duel set-winner " + token);
     }
 
+    public static String surrender() throws IOException {
+        return sendMessage("submission " + token);
+    }
     public static String cheatLP() throws IOException {
         return sendMessage("increase --LP " + Game.duelId + " " + token);
     }

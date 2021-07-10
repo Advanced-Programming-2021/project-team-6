@@ -21,7 +21,7 @@
     <ImageView fitHeight="680" fitWidth="1200">
         <Image url="@../image/fieldS.jpg" />
     </ImageView>
-    <ImageView fitHeight="103" fitWidth="109" fx:id="phaseBilFXML" onMouseClicked="#changePhase" styleClass="changePhaseIcon" translateX="-540" translateY="-210.0">
+    <ImageView fx:id="phaseBilFXML" fitHeight="103" fitWidth="109" onMouseClicked="#changePhase" styleClass="changePhaseIcon" translateX="-540" translateY="-210.0">
         <Image url="@../image/bilbolak.jpg" />
     </ImageView>
     <ImageView fitHeight="90" fitWidth="90" translateX="430" translateY="108">
@@ -31,7 +31,7 @@
         <Image url="@../image/profilePicture/1.jpg" />
     </ImageView>
     <Label fx:id="myLPText" text="8000" textFill="azure" translateX="432.0" translateY="250.0" />
-    <Label fx:id="LPTextOpponentFxml" text="8000" textFill="azure" translateX="430.0" translateY="-40.0" />
+    <Label fx:id="LPTextOpponentFxml" text="8000" textFill="azure" translateX="430.0" translateY="-50.0" />
     <Label text="username1" textFill="azure" translateX="430.0" translateY="-113.0" />
     <Label text="username2" textFill="azure" translateX="434.0" translateY="192.0" />
     <Label fx:id="numberOfCardsRemainingInOpponentsDeckFXML" prefHeight="21.0" prefWidth="61.0" text="40" textFill="azure" translateX="535.0" translateY="-268" />
@@ -90,57 +90,6 @@
          </RadialGradient>
       </stroke>
    </Rectangle>
-    <HBox fx:id="handFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#bringDeckUp" onMouseExited="#getDeckDown" prefHeight="200.0" prefWidth="800.0" translateX="-95.0" translateY="380.0">
-      <cursor>
-         <Cursor fx:constant="HAND" />
-      </cursor></HBox>
-    <HBox fx:id="opponentHandFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#bringOpponentDeckUp" onMouseExited="#getOpponentDeckDown" prefHeight="200.0" prefWidth="800.0" translateX="-95.0" translateY="-400.0" />
-    <VBox fx:id="fieldFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#dragDropped" onDragEntered="#dragEnter" onDragExited="#dragEXit" onDragOver="#acceptDrag" prefHeight="550.0" prefWidth="480.0" translateX="-200.0">
-    <HBox fx:id="opponentSZ" prefHeight="115.0" prefWidth="490.0" translateY="15.0" />
-    <HBox fx:id="opponentMZ" prefHeight="115.0" prefWidth="490.0" translateY="20.0" />
-    <HBox fx:id="playerMZ" prefHeight="115.0" prefWidth="490.0" translateY="60.0" />
-    <HBox fx:id="playerSZ" prefHeight="115.0" prefWidth="490.0" translateY="65.0" />
-    </VBox>
-   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="100.0" translateX="430.0">
-      <children>
-         <ImageView fitHeight="21.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
-            <image>
-               <Image url="@../image/but.JPG" />
-            </image>
-         </ImageView>
-         <Text fill="WHITE" onMouseClicked="#cheatLP" strokeType="OUTSIDE" strokeWidth="0.0" text="LP" translateX="-20.0" />
-         <ImageView fitHeight="21.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="20.0">
-            <image>
-               <Image url="@../image/but.JPG" />
-            </image>
-         </ImageView>
-         <Text fill="WHITE" onMouseClicked="#cheatWin" strokeType="OUTSIDE" strokeWidth="0.0" text="win" translateX="20.0" wrappingWidth="28.0" />
-      </children>
-   </StackPane>
-    <ToggleButton contentDisplay="CENTER" scaleY="1.1" translateX="-570.0" translateY="270.0">
-        <graphic>
-            <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@../image/set.png" />
-                </image>
-            </ImageView>
-        </graphic>
-      <toggleGroup>
-         <ToggleGroup fx:id="setOrSummonFXML" />
-      </toggleGroup>
-      <cursor>
-         <Cursor fx:constant="HAND" />
-      </cursor>
-    </ToggleButton>
-    <ToggleButton scaleX="1.2" selected="true" toggleGroup="$setOrSummonFXML" translateX="-570.0" translateY="300.0">
-        <graphic>
-            <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@../image/Cards/Dark Magician.jpg" />
-                </image>
-            </ImageView>
-        </graphic>
-    </ToggleButton>
    <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="442.0" prefWidth="40.0" spacing="50.0" translateX="-455.0">
       <children>
          <Text stroke="#752801" strokeType="OUTSIDE" strokeWidth="2.0" text="DP" wrappingWidth="49.15494728088379">
@@ -271,4 +220,61 @@
          </Text>
       </children>
    </VBox>
+    <HBox fx:id="handFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#bringDeckUp" onMouseExited="#getDeckDown" prefHeight="200.0" prefWidth="800.0" translateX="-95.0" translateY="380.0">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor></HBox>
+    <HBox fx:id="opponentHandFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#bringOpponentDeckUp" onMouseExited="#getOpponentDeckDown" prefHeight="200.0" prefWidth="800.0" translateX="-95.0" translateY="-400.0" />
+    <VBox fx:id="fieldFXML" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#dragDropped" onDragEntered="#dragEnter" onDragExited="#dragEXit" onDragOver="#acceptDrag" prefHeight="550.0" prefWidth="480.0" translateX="-200.0">
+    <HBox fx:id="opponentSZ" prefHeight="115.0" prefWidth="490.0" translateY="15.0" />
+    <HBox fx:id="opponentMZ" prefHeight="115.0" prefWidth="490.0" translateY="20.0" />
+    <HBox fx:id="playerMZ" prefHeight="115.0" prefWidth="490.0" translateY="60.0" />
+    <HBox fx:id="playerSZ" prefHeight="115.0" prefWidth="490.0" translateY="65.0" />
+    </VBox>
+   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="100.0" translateX="430.0">
+      <children>
+         <ImageView fitHeight="21.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
+            <image>
+               <Image url="@../image/but.JPG" />
+            </image>
+         </ImageView>
+         <Text fill="WHITE" onMouseClicked="#cheatLP" strokeType="OUTSIDE" strokeWidth="0.0" text="LP" translateX="-20.0" />
+         <ImageView fitHeight="21.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="20.0">
+            <image>
+               <Image url="@../image/but.JPG" />
+            </image>
+         </ImageView>
+         <Text fill="WHITE" onMouseClicked="#cheatWin" strokeType="OUTSIDE" strokeWidth="0.0" text="win" translateX="20.0" wrappingWidth="28.0" />
+      </children>
+   </StackPane>
+    <ToggleButton contentDisplay="CENTER" scaleY="1.1" translateX="-570.0" translateY="270.0">
+        <graphic>
+            <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../image/set.png" />
+                </image>
+            </ImageView>
+        </graphic>
+      <toggleGroup>
+         <ToggleGroup fx:id="setOrSummonFXML" />
+      </toggleGroup>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+    </ToggleButton>
+    <ToggleButton scaleX="1.2" selected="true" toggleGroup="$setOrSummonFXML" translateX="-570.0" translateY="300.0">
+        <graphic>
+            <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../image/Cards/Dark Magician.jpg" />
+                </image>
+            </ImageView>
+        </graphic>
+    </ToggleButton>
+   <ImageView fitHeight="21.0" onMouseClicked="#openPause" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2" translateX="580.0" translateY="-320.0">
+      <image>
+         <Image url="@../image/but.JPG" />
+      </image>
+   </ImageView>
+   <Text fill="WHITE" onMouseClicked="#openPause" strokeType="OUTSIDE" strokeWidth="0.0" text="pause" translateX="580.0" translateY="-320.0" wrappingWidth="40.0" />
 </StackPane>

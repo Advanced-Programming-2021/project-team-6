@@ -234,5 +234,62 @@ public class Game implements Initializable {
         scene.setCursor(new ImageCursor(new Image(ServerMessageHandler.class.getResource("/image/mouse.jpg").toString())));
         WelcomeMenuView.mainStage.setScene(scene);
     }
+    public static void changePhaseGraphically(String phase) {
+        ServerMessageHandler.isFirstDraw = false;
+        Game.phase = phase;
+        switch (phase) {
+            case "DRAW" : AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0, -210 , 3);
+            break;
+            case "STANDBY" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , -130 , 3);
+                break;
+            case "MAIN1" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , -50 , 3);
+                break;
+            case "BATTLE" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , 35 , 3);
+                break;
+            case "MAIN2" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0  , 115 , 3);
+                break;
+            case "END" :AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0 , 200 , 3);
+                break;
+        }
+    }
 
+    public void changePhase(MouseEvent mouseEvent) throws IOException {
+       String result = ClientController.changePhase();
+       if (result.startsWith("Error")) {
+           Prompt.showMessage(result.split(":")[1] , PromptType.Error);
+       }
+       else changePhaseGraphically(result.split(": ")[1]);
+    }
+
+
+    public void openPause() throws IOException {
+        Parent cardInfo = FXMLLoader.load(Game.class.getResource("/fxml/Pause.fxml"));
+        ((StackPane) hand.getScene().getRoot()).getChildren().add(cardInfo);
+        ((StackPane) cardInfo).getChildren().get(5).setOnMouseClicked(mouseEvent -> ((StackPane) hand.getScene().getRoot()).getChildren().remove(cardInfo));
+        ((StackPane) cardInfo).getChildren().get(2).setOnMouseClicked(mouseEvent -> ((StackPane) hand.getScene().getRoot()).getChildren().remove(cardInfo));
+        ((StackPane) cardInfo).getChildren().get(3).setOnMouseClicked(mouseEvent -> {
+            try {
+                ClientController.surrender();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
+        ((StackPane) cardInfo).getChildren().get(4).setOnMouseClicked(mouseEvent -> {
+            try {
+
+                String message = ClientController.surrender();
+
+                Prompt.showMessage(message, PromptType.Message);
+                MusicManager.playMusic(MusicManager.winSound,false);
+
+                TimeUnit.SECONDS.sleep(3);
+                Parent root = FXMLLoader.load(ServerMessageHandler.class.getResource("/fxml/MainMenu.fxml"));
+                Scene scene = new Scene(root);
+                scene.setCursor(new ImageCursor(new Image(ServerMessageHandler.class.getResource("/image/mouse.jpg").toString())));
+                WelcomeMenuView.mainStage.setScene(scene);
+            } catch (IOException | InterruptedException ioException) {
+                ioException.printStackTrace();
+            }
+        });
+    }
 }

@@ -11,6 +11,7 @@ import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -26,7 +27,6 @@ public class Coin {
     public ImageView coinCircle;
     public ImageView tossButton;
     private boolean isForGame = false;
-    public static String flip;
 
 
     Image imageTail = new Image(getClass().getResource("/image/tail.jpg").toString());
@@ -59,11 +59,10 @@ public class Coin {
     }
 
     public void start() {
-
         RotateTransition rotator = createRotator(coinCircle);
         rotator.play();
         rotator.setOnFinished(event -> {
-            if (Coin.flip.equals("head")) {
+            if (Coin.flip().equals("head")) {
                 coinCircle.setImage(imageHead);
                 //go to game
             } else {
@@ -102,5 +101,13 @@ public class Coin {
         return rotator;
     }
 
+
+    public static String flip() {
+        int face = (int) (Math.random() * 2);
+        if (face == 0) {
+            return "head";
+        }
+        return "tail";
+    }
 
 }

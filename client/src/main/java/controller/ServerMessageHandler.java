@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import view.MusicManager;
 import view.Prompt;
 import view.PromptType;
+import view.menus.Coin;
 import view.menus.Game;
 import view.menus.MainMenuView;
 import view.menus.WelcomeMenuView;
@@ -30,7 +31,6 @@ public class ServerMessageHandler {
                 String[] cardNames = message.substring(9).split(",");
                 Game.drawCardForPlayer(cardNames[i], ((isFirstDraw) ? 20 : 0) + i * 0.7);
             }
-            isFirstDraw = false;
         } else if (message.startsWith("draw-o")) {
             int howManyCards = Integer.parseInt(params[1]);
             for (int i = 0; i < howManyCards; i++)

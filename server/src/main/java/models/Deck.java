@@ -216,17 +216,21 @@ public class Deck {
     public int getNumberOfCardsInDeck(Card card) {
         int count = 0;
         for (Card cardInDeck : mainCards) {
-            if (cardInDeck.getName().equals(card.getName()))
-                count++;
+            if(card!= null && cardInDeck != null) {
+                if (cardInDeck.getName().equals(card.getName()))
+                    count++;
+            }
         }
         for (Card cardInDeck : sideCards) {
-            if (cardInDeck.getName().equals(card.getName()))
-                count++;
+            if(card!= null && cardInDeck!=null) {
+                if (cardInDeck.getName().equals(card.getName()))
+                    count++;
+            }
         }
         return count;
     }
 
-    public int getNumberOfCardsInMainDeck() {
+    public int getNumberOfCardsInMainDeck(){
         return mainCards.size();
     }
 
