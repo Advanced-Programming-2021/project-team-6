@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.ProfileMenuView">
+   <ImageView fitHeight="680.0" fitWidth="1208.0" layoutX="-4.0">
+      <Image url="@../image/1300545.jpg" />
+   </ImageView>
+   <ImageView fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="30.0" layoutY="566.0">
+      <Image url="@../image/button.jpg" />
+   </ImageView>
+   <Text fill="#daa3a3" layoutX="74.0" layoutY="600.0" onMouseClicked="#backToMainMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Back" textAlignment="CENTER" wrappingWidth="54.13671875">
+      <font>
+         <Font name="FuturaBlack WGL4 BT" size="23.0" />
+      </font>
+   </Text>
+   <ImageView fx:id="backButton1" fitHeight="78.0" fitWidth="191.0" layoutX="318.0" layoutY="360.0">
+      <Image url="@../image/GUI_T_Detail_TimeBase01.dds9.jpg" />
+   </ImageView>
+   <Text fill="#daa3a3" layoutX="358.0" layoutY="391.0" onMouseClicked="#changePassword" strokeType="OUTSIDE" strokeWidth="0.0" text="Change Password" textAlignment="CENTER" wrappingWidth="114.0">
+      <font>
+         <Font name="FuturaBlack WGL4 BT" size="16.0" />
+      </font>
+      <effect>
+         <Glow level="1.0" />
+      </effect>
+   </Text>
+   <ImageView fx:id="backButton11" fitHeight="78.0" fitWidth="191.0" layoutX="320.0" layoutY="477.0">
+      <Image url="@../image/GUI_T_Detail_TimeBase01.dds9.jpg" />
+   </ImageView>
+   <Text fill="#daa3a3" layoutX="360.0" layoutY="508.0" onMouseClicked="#changeNickname" strokeType="OUTSIDE" strokeWidth="0.0" text="Change Nickname" textAlignment="CENTER" wrappingWidth="114.0">
+      <font>
+         <Font name="FuturaBlack WGL4 BT" size="19.0" />
+      </font>
+      <effect>
+         <Glow level="1.0" />
+      </effect>
+   </Text>
+   <ImageView fitHeight="57.0" fitWidth="283.0" layoutX="410.0" layoutY="71.0">
+      <Image url="@../image/GUI_T_Detail_TimeBase01.dds9.jpg" />
+   </ImageView>
+   <ImageView fitHeight="57.0" fitWidth="283.0" layoutX="410.0" layoutY="162.0">
+      <Image url="@../image/GUI_T_Detail_TimeBase01.dds9.jpg" />
+   </ImageView>
+   <TextField fx:id="oldPassword" accessibleRole="BUTTON" layoutX="525.0" layoutY="340.0" prefHeight="36.0" prefWidth="168.0" text="Old Password">
+      <font>
+         <Font size="18.0" />
+      </font>
+      <effect>
+         <Reflection />
+      </effect>
+   </TextField>
+   <TextField fx:id="newNickname" accessibleRole="BUTTON" layoutX="525.0" layoutY="495.0" prefHeight="36.0" prefWidth="168.0" text="New Nickname">
+      <font>
+         <Font size="17.0" />
+      </font>
+      <effect>
+         <Reflection />
+      </effect>
+   </TextField>
+   <TextField fx:id="newPassword" accessibleRole="BUTTON" layoutX="525.0" layoutY="418.0" prefHeight="36.0" prefWidth="168.0" text="new Password">
+      <font>
+         <Font size="18.0" />
+      </font>
+      <effect>
+         <Reflection />
+      </effect>
+   </TextField>
+   <ImageView fitHeight="180.0" fitWidth="370.0" layoutX="772.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../image/prof.png" />
+      </image>
+      <effect>
+         <Bloom threshold="0.41" />
+      </effect>
+   </ImageView>
+</AnchorPane>

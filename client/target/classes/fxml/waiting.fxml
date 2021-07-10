@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.MainMenuView">
+
+    <Rectangle height="680" width="1200" />
+   <ImageView fitHeight="685.0" fitWidth="1202.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../image/wp5433286.jpg" />
+      </image>
+   </ImageView>
+    <VBox prefHeight="696.0" prefWidth="1160.0">
+    <Text fill="#daa3a3" layoutX="730.0" layoutY="167.0" onMouseClicked="#cancelGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting for opponent..." textAlignment="CENTER" wrappingWidth="400.0">
+        <font>
+            <Font name="Futura XBlkIt BT Extra Black Italic" size="24.0" />
+        </font>
+    </Text>
+    <StackPane>
+    <ImageView fx:id="backButton" fitHeight="81.0" fitWidth="265.0" layoutX="468.0" layoutY="531.0" onMouseClicked="#cancelGame">
+        <Image url="@../image/button.jpg" />
+    </ImageView>
+    <Text fill="#daa3a3" layoutX="730.0" layoutY="367.0" onMouseClicked="#cancelGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Cancel" textAlignment="CENTER" wrappingWidth="100.0">
+        <font>
+            <Font name="FuturaBlack WGL4 BT" size="30.0" />
+        </font>
+    </Text>
+        </StackPane>
+    </VBox>
+</StackPane>

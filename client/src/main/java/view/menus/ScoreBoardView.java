@@ -36,7 +36,9 @@ public class ScoreBoardView {
     }
     public void scoreBoard() throws IOException {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/ScoreBoard.fxml"));
-        WelcomeMenuView.mainStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
+        WelcomeMenuView.mainStage.setScene(scene);
         scrollPane = (ScrollPane) root.getChildren().get(4);
         showScoreboard();
     }
