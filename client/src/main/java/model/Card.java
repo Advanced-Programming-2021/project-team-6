@@ -8,6 +8,7 @@ public class Card {
     private int j;
     private String address;
     private String name;
+    private String type;
     private boolean isUP;
     public Card(String name, String address, int i, int j) {
         this.name = name;
@@ -21,15 +22,20 @@ public class Card {
         this.address = address;
     }
 
-    public Card(String name , String address , boolean isUp) {
+    public Card(String name , String address , boolean isUp , String type) {
         this.name = name;
         this.isUP = isUp;
         this.address = address;
+        this.type = type;
     }
 
 
     public Image getImage() {
         return new Image(address);
+    }
+
+    public String getType() {
+        return type;
     }
 
     public boolean isUP() {
