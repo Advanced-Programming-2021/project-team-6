@@ -235,6 +235,7 @@ public class Game implements Initializable {
         WelcomeMenuView.mainStage.setScene(scene);
     }
     public static void changePhaseGraphically(String phase) {
+        ServerMessageHandler.isFirstDraw = false;
         Game.phase = phase;
         switch (phase) {
             case "DRAW" : AnimationUtility.animateTranslatingPhaseBil(phaseBil , 0, -210 , 3);

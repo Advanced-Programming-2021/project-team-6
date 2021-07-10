@@ -11,6 +11,7 @@ import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -23,6 +24,7 @@ import java.io.IOException;
 public class Coin {
 
 
+    private final Scene scene;
     public ImageView coinCircle;
     public ImageView tossButton;
     private boolean isForGame = false;
@@ -30,12 +32,15 @@ public class Coin {
 
     Image imageTail = new Image(getClass().getResource("/image/tail.jpg").toString());
     Image imageHead = new Image(getClass().getResource("/image/head.jpg").toString());
+    Runnable afterDetermined;
 
+    public Coin(Scene scene, Runnable afterDetermined) {
+        this.scene = scene;
+        this.afterDetermined = afterDetermined;
 
+    }
     public void showCoin() throws IOException {
         AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/CoinPage.fxml"));
-        Scene scene = new Scene(root);
-
         Text username1 = new Text(ClientController.username);
         username1.setFont(new Font(18));
         username1.setEffect(new Glow());
@@ -53,13 +58,13 @@ public class Coin {
         root.getChildren().add(username1);
         root.getChildren().add(username2);
 
-        WelcomeMenuView.mainStage.setScene(scene);
+        ((StackPane) scene.getRoot()).getChildren().add(root);
 
     }
 
     public void start() {
         if (isForGame) {
-            //start game
+            afterDetermined.run();
         } else {
             isForGame = true;
             RotateTransition rotator = createRotator(coinCircle);

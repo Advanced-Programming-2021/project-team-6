@@ -85,7 +85,8 @@ public class AnimationUtility {
         KeyValue cardYValue = new KeyValue(phaseBil.translateYProperty() , destY , Interpolator.LINEAR);
         KeyFrame cardYFrame = new KeyFrame(Duration.millis(duration) , cardYValue);
         Timeline cardYTimeLine = new Timeline(cardYFrame);
-        cardYTimeLine.setDelay(Duration.seconds(delay));
+        if (delay != 0)
+            cardYTimeLine.setDelay(Duration.seconds(delay));
         cardYTimeLine.play();
     }
 
