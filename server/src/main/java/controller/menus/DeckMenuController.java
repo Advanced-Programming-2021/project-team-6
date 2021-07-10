@@ -7,6 +7,7 @@ import models.Player;
 import models.cards.Card;
 import serverConection.Output;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class DeckMenuController {
@@ -31,7 +32,6 @@ public class DeckMenuController {
     public String deleteDeck(String name) {
         if (ErrorChecker.isDeckNameUnique(name))
             return "Error";
-
         Database.removeDeck(name);
         return ("deck deleted successfully!");
     }
@@ -81,6 +81,8 @@ public class DeckMenuController {
 
     public String showAllDecks(String token) {
         StringBuilder string = new StringBuilder();
+        ArrayList<Deck> decks = Database.getInstance().getPlayerByToken(token).getAllDeck();
+        if(decks == null) return "Error";
         for (Deck deck : MainMenuController.getInstance().loggedInUsers.get(token).getAllDeck())
             string.append(deck.getName()).append(":");
         return String.valueOf(string);
@@ -92,27 +94,33 @@ public class DeckMenuController {
         Deck deck = Database.getInstance().getDeckByName(name);
         if (!ErrorChecker.doesDeckBelongToPlayer(deck, MainMenuController.getInstance().loggedInUsers.get(token)))
             return "Error";
-        StringBuilder string  = new StringBuilder();
-        if(isMain) {
+        StringBuilder string = new StringBuilder();
+        if (isMain) {
             for (Card card : deck.getMainCards()) {
                 if (card == null) continue;
                 string.append(card.getName()).append(":");
             }
-        }
-        else {
+        } else {
             for (Card card : deck.getSideCards()) {
                 if (card == null) continue;
                 string.append(card.getName()).append(":");
             }
         }
+        if(deck.mainCards.size() == 0 && deck.sideCards.size() == 0) return "Error";
         return String.valueOf(string);
     }
-    public String showInactiveCards(String token){
-        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
-        StringBuilder string  = new StringBuilder();
-        for(Card card : player.getInactiveCards()){
-            string.append(card.getName()).append(":");
+
+    public String showInactiveCards(String token) {
+        System.out.println(token);
+        Player player = Database.getInstance().getPlayerByToken(token);
+        System.out.println(player.getUsername());
+        if (ErrorChecker.doesUsernameExist(player.getUsername())){
+            StringBuilder string = new StringBuilder();
+            for (Card card : player.getAllPlayerCard().mainCards) {
+                string.append(card.getName()).append(":");
+            }
+            return String.valueOf(string);
         }
-        return String.valueOf(string);
+        return "Error";
     }
 }

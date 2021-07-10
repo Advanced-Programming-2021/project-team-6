@@ -6,23 +6,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class User {
-    public int index;
-    public String nickname;
-    public int point;
     static public ArrayList<User> Users;
     static public ArrayList<Card> inactiveCards;
+
     static {
         Users = new ArrayList<>();
         inactiveCards = new ArrayList<>();
     }
+
+    public int index;
+    public String nickname;
+    public int point;
+
     public User(int index, String nickname, int point) throws IOException {
         this.index = index;
         this.nickname = nickname;
         this.point = point;
         Users.add(this);
+    }
+
+    public static void setInactiveCards() throws IOException {
         String[] string = ClientController.inactiveCards().split(":");
-        for(String str : string){
-            inactiveCards.add(new Card(str , "/image/Cards/" + str + ".jpg"));
+        for (String str : string) {
+            inactiveCards.add(new Card(str, "/image/Cards/" + str + ".jpg"));
         }
     }
 

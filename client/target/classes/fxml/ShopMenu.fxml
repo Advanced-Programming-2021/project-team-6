@@ -45,15 +45,14 @@
                 <Font name="FuturaBlack WGL4 BT" size="30.0" />
             </font>
         </Button>
-<!--        <Button fx:id="increaseMoney" layoutX="851.0" layoutY="583.0" mnemonicParsing="false" prefHeight="46.0"-->
-<!--                prefWidth="134.0" onMouseClicked="increaseMoney" style="-fx-background-color: gray;" text="Increase Money">-->
-<!--            <font>-->
-<!--                <Font name="FuturaBlack WGL4 BT" size="18.0"/>-->
-<!--            </font>-->
-<!--            <effect>-->
-<!--                <Glow level="0.69"/>-->
-<!--            </effect>-->
-<!--        </Button>-->
+        <Button fx:id="increaseMoney" layoutX="832.0" layoutY="586.0" mnemonicParsing="false" onMouseClicked="#increaseMoney" prefHeight="64.0" prefWidth="210.0" style="-fx-background-color: gray;" text="Increase Money">
+            <font>
+                <Font name="FuturaBlack WGL4 BT" size="18.0" />
+            </font>
+            <effect>
+                <Glow level="0.69" />
+            </effect>
+        </Button>
 
     </AnchorPane>
 

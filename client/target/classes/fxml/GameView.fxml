@@ -271,10 +271,10 @@
             </ImageView>
         </graphic>
     </ToggleButton>
-   <ImageView fitHeight="21.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2" translateX="580.0" translateY="-320.0">
+   <ImageView fitHeight="21.0" onMouseClicked="#openPause" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2" translateX="580.0" translateY="-320.0">
       <image>
          <Image url="@../image/but.JPG" />
       </image>
    </ImageView>
-   <Text fill="WHITE" onMouseClicked="#cheatWin" strokeType="OUTSIDE" strokeWidth="0.0" text="pause" translateX="580.0" translateY="-320.0" wrappingWidth="40.0" />
+   <Text fill="WHITE" onMouseClicked="#openPause" strokeType="OUTSIDE" strokeWidth="0.0" text="pause" translateX="580.0" translateY="-320.0" wrappingWidth="40.0" />
 </StackPane>

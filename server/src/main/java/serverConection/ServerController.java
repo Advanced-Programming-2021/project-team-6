@@ -37,7 +37,7 @@ public class ServerController {
             "^create monster card (?<name>.+) (?<attack>\\d+) (?<defence>\\d+) (?<action>.+) (?<level>\\d+) (?<description>.+) (?<price>\\d+) (?<token>\\S+)$",
             "^create spell card (?<name>\\w+) \"(?<description>.+)\" (?<token>\\S+) \"(?<action>.+)\" (?<price>\\d+)$",
             "^deck create (?<name>\\w+) (?<token>\\S+)$",
-            "^deck delete (?<name>\\w+) $",
+            "^deck delete (?<name>\\w+)$",
             "^deck set-activate (?<name>\\w+) (?<token>\\S+)$",
             "^deck add-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?:--side|-s) (?<token>\\S+)$",
             "^deck add-card (?:--card|-c) (?<cardName>.+) (?:--deck|-d) (?<deckName>.+) (?<token>\\S+)$",
@@ -55,6 +55,7 @@ public class ServerController {
             "^get inactive cards (?<token>\\S+)$",
             "^change phase (?<token>\\S+)$",
             "^change turn (?<token>\\S+)$",
+            "^submission (?<token>\\S+)",
     };
     private static HashMap<String, Socket> socketHashMap = new HashMap<>();
 
@@ -135,9 +136,9 @@ public class ServerController {
             case 10:
                 return (ShoppingMenuController.getInstance().showAllCard());
             case 11:
-                return (ShoppingMenuController.getInstance().showMoney("playerLoggedIn"));
+                return (ShoppingMenuController.getInstance().showMoney(commandMatcher.group("token")));
             case 12:
-                return ShoppingMenuController.getInstance().increaseMoney("playerLoggedIn", Integer.parseInt(commandMatcher.group("amount")));
+                return ShoppingMenuController.getInstance().increaseMoney(commandMatcher.group("token"), Integer.parseInt(commandMatcher.group("amount")));
             case 13:
                 return ImpExpMenuController.getInstance().importFromFile(commandMatcher.group("name"), commandMatcher.group("token"));
             case 14:
@@ -166,13 +167,13 @@ public class ServerController {
             case 22:
                 return DeckMenuController.getInstance().setActiveDeck(commandMatcher.group("name"), commandMatcher.group("token"));
             case 23:
-                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckName"), commandMatcher.group("token"), false);
+                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("cardName"), commandMatcher.group("deckName"), commandMatcher.group("token"), false);
             case 24:
-                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("card"), commandMatcher.group("deckName"), commandMatcher.group("token"), true);
+                return DeckMenuController.getInstance().addCardToDeck(commandMatcher.group("cardName"), commandMatcher.group("deckName"), commandMatcher.group("token"), true);
             case 25:
-                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckName"), commandMatcher.group("token"), false);
+                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("cardName"), commandMatcher.group("deckName"), commandMatcher.group("token"), false);
             case 26:
-                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("card"), commandMatcher.group("deckName"), commandMatcher.group("token"), true);
+                return DeckMenuController.getInstance().removeCardFromDeck(commandMatcher.group("cardName"), commandMatcher.group("deckName"), commandMatcher.group("token"), true);
             case 27:
                 return DeckMenuController.getInstance().showAllDecks(commandMatcher.group("token"));
             case 28:
@@ -203,7 +204,7 @@ public class ServerController {
                 token = commandMatcher.group("token");
                 player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
-                        .cheatForWinGame(token);
+                        .cheatForWinGame(token,false);
             case 35:
                 token = commandMatcher.group("myToken");
                 player = Database.getInstance().getPlayerByToken(token);
@@ -221,6 +222,11 @@ public class ServerController {
                 player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
                         .setSecondPlayerTurn();
+            case 39:
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
+                        .cheatForWinGame(token,true);
 
         }
         return "";
