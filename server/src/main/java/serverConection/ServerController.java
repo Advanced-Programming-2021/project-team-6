@@ -2,6 +2,7 @@ package serverConection;
 
 import controller.menus.*;
 import models.Database;
+import models.Messenger;
 import models.Player;
 import models.Scoreboard;
 import models.cards.Card;
@@ -56,6 +57,11 @@ public class ServerController {
             "^change phase (?<token>\\S+)$",
             "^change turn (?<token>\\S+)$",
             "^submission (?<token>\\S+)",
+            "^get all messages (?<token>\\S+)$",
+            "^send message \"(?<message>.+)\" (?<token>\\S+)$",
+            "^attack from (?<fromCard>\\d+) to (?<toCard>\\d+) by (?<token>\\S+)$",
+            "^attack direct from (?<fromCard>\\d+) by (?<token>\\S+)$",
+
     };
     private static HashMap<String, Socket> socketHashMap = new HashMap<>();
 
@@ -229,6 +235,20 @@ public class ServerController {
                 player = Database.getInstance().getPlayerByToken(token);
                 return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
                         .cheatForWinGame(token,true);
+            case 40:
+                return Messenger.getInstance().getAllMessage(commandMatcher.group("token"));
+            case 41:
+                return Messenger.getInstance().addMessage(commandMatcher.group("token"),commandMatcher.group("message"));
+            case 42:
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
+                        .attack(commandMatcher.group("fromCard"),commandMatcher.group("toCard"), token);
+            case 43:
+                token = commandMatcher.group("token");
+                player = Database.getInstance().getPlayerByToken(token);
+                return DuelMenuController.getDuelById(String.valueOf(player.getDuelID()))
+                        .attackDirect(commandMatcher.group("fromCard"), token);
 
         }
         return "";
