@@ -213,7 +213,10 @@ public class Player implements Comparable<Player> {
 
     public void setInactiveCards() {
         int sign = 0;
+        if (allPlayerCard == null)
+            return;
         for(Card card : allPlayerCard.mainCards){
+
             sign = 0;
             for(Deck deck : allDeck){
                 if(deck.mainCards.contains(card) || deck.sideCards.contains(card)) sign = 1;

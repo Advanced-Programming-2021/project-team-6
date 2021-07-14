@@ -40,7 +40,7 @@ public class WelcomeMenuView extends Application {
         mainStage = stage;
         mainStage.setResizable(false);
         stage.show();
-        MusicManager.playMusic(MusicManager.musicBackground, true);
+//        MusicManager.playMusic(MusicManager.musicBackground, true);
 //        mainStage = stage;
 //        new Coin().showCoin();
 //
