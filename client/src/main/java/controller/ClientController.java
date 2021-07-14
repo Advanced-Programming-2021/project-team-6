@@ -118,7 +118,7 @@ public class ClientController {
     }
 
     public static String showMoney() throws IOException {
-            return sendMessage("shop show money " + token);
+        return sendMessage("shop show money " + token);
     }
 
     public static String increaseMoney(String amount) throws IOException {
@@ -211,17 +211,38 @@ public class ClientController {
     public static String surrender() throws IOException {
         return sendMessage("submission " + token);
     }
+
     public static String cheatLP() throws IOException {
         return sendMessage("increase --LP " + Game.duelId + " " + token);
     }
-    public static String inactiveCards() throws IOException{
-        return sendMessage("get inactive cards "+ token);
+
+    public static String inactiveCards() throws IOException {
+        return sendMessage("get inactive cards " + token);
     }
+
     public static String changePhase() throws IOException {
         return sendMessage("change phase " + token);
     }
+
     public static String changeTurn() throws IOException {
         return sendMessage("change turn " + token);
+    }
+
+    public static String getAllMessages() throws IOException {
+        return sendMessage("get all messages " + token);
+    }
+
+    public static String sendNewMessage(String message) throws IOException {
+        return sendMessage("send message \"" + message + "\" " + token);
+    }
+
+    public static String attack(String myCardAddress, String cardForAttack) throws IOException {
+        return sendMessage("attack from " + myCardAddress + " to " + cardForAttack + " by " + token);
+    }
+
+    public static String attackDirect(String myCardAddress) throws IOException {
+        return sendMessage("attack direct from " + myCardAddress + " by " + token);
+
     }
 
 }

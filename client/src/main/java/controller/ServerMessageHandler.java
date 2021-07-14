@@ -58,6 +58,8 @@ public class ServerMessageHandler {
         else if(message.startsWith("monster summon")) {
             params = message.split(" ");
             Game.summonForOpponent(params[2].split(":")[1] , params[2].split(":")[0] );
+        }else if (message.startsWith("new message")){
+            //update messages
         }
         return "";
     }

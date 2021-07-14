@@ -55,11 +55,11 @@ public class RegisterMenuController {
     public String login(String username, String password) {
 
         if (!ErrorChecker.doesUsernameExist(username))
-            return "username and password didn't match!";
+            return "Error: username and password didn't match!";
 
         Player player = Database.getInstance().getPlayerByUsername(username);
         if (!ErrorChecker.isPasswordCorrect(player, password))
-            return "username and password didn't match!";
+            return "Error: username and password didn't match!";
 
         MainMenuController.getInstance().setPlayerLoggedIn(player);
         String token = UUID.randomUUID().toString();

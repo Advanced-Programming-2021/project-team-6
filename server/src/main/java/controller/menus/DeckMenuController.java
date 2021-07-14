@@ -33,6 +33,8 @@ public class DeckMenuController {
         if (ErrorChecker.isDeckNameUnique(name))
             return "Error";
         Database.removeDeck(name);
+//        Database.
+//        Database.getInstance().setDecks();
         return ("deck deleted successfully!");
     }
 

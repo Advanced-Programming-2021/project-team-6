@@ -30,6 +30,7 @@ public class Duel {
     private Monster attackingMonster, targetMonster;
     private boolean isFirstTurn = true;
     private String ID;
+    public static String randomTurn;
 
     public Duel(Player firstPlayer, Player secondPlayer, String ID) throws CloneNotSupportedException {
         firstPlayer.setHealth(8000);
@@ -415,8 +416,8 @@ public class Duel {
         player.getBoard().setSelectedCard(null);
 
         char prefix = Board.getPrefix(selectedCard);
-        ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(), "monster summon " + prefix + ":"+   selectedCard.getName() + " in " + place, false);
-        return "Success: " +  prefix + ":"+  selectedCard.getName() + " summon monster zone in " + place;
+        ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(), "monster summon " + prefix + ":" + selectedCard.getName() + " in " + place, false);
+        return "Success: " + prefix + ":" + selectedCard.getName() + " summon monster zone in " + place;
 
     }
 
@@ -444,8 +445,8 @@ public class Duel {
         player.getBoard().setSummonedOrSetCardInTurn(true);
         player.getBoard().removeFromHand(selectedCard);
         char prefix = Board.getPrefix(selectedCard);
-        ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(), "monster set " + prefix + ":"+ selectedCard.getName() + " in " + place, false);
-        return "Success: " + prefix + ":"+  selectedCard.getName() + " set in monster zone" + place;
+        ServerController.sendMessageToSocket(player.getBoard().getOpponent().getToken(), "monster set " + prefix + ":" + selectedCard.getName() + " in " + place, false);
+        return "Success: " + prefix + ":" + selectedCard.getName() + " set in monster zone" + place;
     }
 
     public void activateSpellCard() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -647,109 +648,110 @@ public class Duel {
         Output.getInstance().showMessage("Ritual Summoned successfully");
     }
 
-    public void attack(String address) throws
+    public String attack(String myCardAddress, String addressForAttack, String token) throws
             InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        if (isFirstTurn) {
-            Output.getInstance().showMessage("this is first turn and you can't attack the opponent!");
-            return;
-        }
-        if (!ErrorChecker.isValidAddress(address, "m")) return;
-        int cardPosition = setCardAddressInOpponentBoard(Integer.parseInt(address));
-        Card selectedCard = onlinePlayer.getBoard().getSelectedCard();
-        if (!ErrorChecker.isCardSelected(onlinePlayer)) return;
-        if (attackErrors(selectedCard)) return;
-        if (((Monster) selectedCard).isHaveBeenAttackedWithMonsterInTurn()) {
-            Output.getInstance().showMessage("this card already attacked");
-            return;
-        }
-        if (ErrorChecker.istTheSeatVacant(offlinePlayer.getBoard(), cardPosition, "m") == null) return;
-        runAttack(cardPosition, (Monster) selectedCard);
+        Player player = MainMenuController.getInstance().loggedInUsers.get(token);
+        onlinePlayer = player;
+        offlinePlayer = player.getBoard().getOpponent();
+
+        if (player == null)
+            return "Error";
+
+        if (!player.getUsername().equals(onlinePlayer.getUsername())) return "Error: not your turn";
+        if (isFirstTurn)
+            return "Error: this is first turn and you can't attack the opponent!";
+
+        Card selectedCard = player.getBoard().getHandZoneCards().get(Integer.parseInt(myCardAddress));
+
+        if (!onlinePlayer.getBoard().isInMonsterZone(selectedCard))
+            return "Error: you can't attack with this card";
+        if (((Monster) selectedCard).getMonsterMode().equals(MonsterMode.defence))
+            return "Error: This model is a defense card";
+        if (!ErrorChecker.isBattlePhase(phase))
+            return "Error: this is not battle phase";
+        if (((Monster) selectedCard).isHaveBeenAttackedWithMonsterInTurn())
+            return "Error: this card already attacked";
+
+        attackingMonster = (Monster) selectedCard;
+
         ((Monster) selectedCard).setHaveBeenAttackedWithMonsterInTurn(true);
+        return runAttack(Integer.parseInt(addressForAttack), (Monster) selectedCard,token);
+
 
     }
 
-    private boolean attackErrors(Card selectedCard) {
-        if (!onlinePlayer.getBoard().isInMonsterZone(selectedCard)) {
-            Output.getInstance().showMessage("you can't attack with this card");
-            return true;
-        }
-        if (((Monster) selectedCard).getMonsterMode().equals(MonsterMode.defence)) {
-            Output.getInstance().showMessage("This model is a defense card");
-            return true;
-        }
-        return !ErrorChecker.isBattlePhase(phase);
-    }
 
-    public void runAttack(int address, Monster selectedCard) throws
+    public String runAttack(int address, Monster selectedCard, String token) throws
             InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         EventHandler.triggerMonsterAttack(selectedCard);
         EventHandler.triggerOpponentMonsterAttack(selectedCard);
         if (!isAttackNegated) {
-            attackingMonster = selectedCard;
+            Player offlinePlayer = MainMenuController.getInstance().loggedInUsers.get(token);
             targetMonster = (Monster) offlinePlayer.getBoard().getMonsterZoneCards().get(address);
             MonsterMode monsterMode = targetMonster.getMonsterMode();
             CardPlacement monsterPlacement = targetMonster.getCardPlacement();
-            if (!targetMonster.isAttackAble()) {
-                Output.getInstance().showMessage("you can't attack " + targetMonster.getName() + " because of its effect");
-                return;
-            }
+            if (!targetMonster.isAttackAble())
+                return "you can't attack " + targetMonster.getName() + " because of its effect";
+
             targetMonster.getRaid();
             if (monsterPlacement.equals(CardPlacement.faceUp) && monsterMode.equals(MonsterMode.attack))
-                monsterAttackToAttack(targetMonster, selectedCard);
+                return monsterAttackToAttack(targetMonster, selectedCard);
 
-            if (monsterPlacement.equals(CardPlacement.faceUp) && monsterMode.equals(MonsterMode.defence))
-                monsterAttackToDefenseFaceUp(targetMonster, selectedCard);
+            else if (monsterPlacement.equals(CardPlacement.faceUp) && monsterMode.equals(MonsterMode.defence))
+                return monsterAttackToDefenseFaceUp(targetMonster, selectedCard);
 
-            if (monsterPlacement.equals(CardPlacement.faceDown) && monsterMode.equals(MonsterMode.defence))
-                monsterAttackToDefenseFaceDown(targetMonster, selectedCard);
+            else if (monsterPlacement.equals(CardPlacement.faceDown) && monsterMode.equals(MonsterMode.defence))
+                return monsterAttackToDefenseFaceDown(targetMonster, selectedCard);
             isAttackNegated = false;
-        } else {
-            Output.getInstance().showMessage(selectedCard.getName() + " attack negated");
-        }
-        attackingMonster = null;
-        targetMonster = null;
+        } else
+            return selectedCard.getName() + " attack negated";
+
+        return "";
     }
 
-    private void monsterAttackToAttack(Monster targetMonster, Monster selectedCard) throws
+    private String monsterAttackToAttack(Monster targetMonster, Monster selectedCard) throws
             InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         if (selectedCard.getTotalAttackPower() > targetMonster.getTotalAttackPower()) {
             int damage = selectedCard.getTotalAttackPower() - targetMonster.getTotalAttackPower();
             offlinePlayer.setHealth(offlinePlayer.getHealth() - damage);
             kill(offlinePlayer, targetMonster);
-            Output.getInstance().showMessage("your opponent's monster is destroyed and your opponent receives " +
-                    damage + " battle damage");
+            return "your opponent's monster is destroyed and your opponent receives " +
+                    damage + " battle damage";
         }
         if (selectedCard.getTotalAttackPower() == targetMonster.getTotalAttackPower()) {
             kill(offlinePlayer, targetMonster);
             kill(onlinePlayer, selectedCard);
             targetMonster.die();
             attackingMonster.die();
-            Output.getInstance().showMessage("both you and your opponent monster cards are destroyed and no one receives damage");
+            return "both you and your opponent monster cards are destroyed and no one receives damage";
         }
         if (selectedCard.getTotalAttackPower() < targetMonster.getTotalAttackPower()) {
             kill(onlinePlayer, selectedCard);
             int damage = targetMonster.getTotalAttackPower() - selectedCard.getTotalAttackPower();
             onlinePlayer.setHealth(offlinePlayer.getHealth() - damage);
             attackingMonster.die();
-            Output.getInstance().showMessage("your monster card is destroyed and you received " + damage + " battle damage");
+            return "your monster card is destroyed and you received " + damage + " battle damage";
         }
+        return "";
     }
 
-    private void monsterAttackToDefenseFaceUp(Monster targetMonster, Monster selectedCard) {
+    private String monsterAttackToDefenseFaceUp(Monster targetMonster, Monster selectedCard) {
+        targetMonster.setCardPlacement(CardPlacement.faceUp);
         if (selectedCard.getTotalAttackPower() > targetMonster.getTotalDefencePower()) {
             offlinePlayer.getBoard().putInGraveyard(targetMonster);
             offlinePlayer.getBoard().removeFromMonsterZone(targetMonster);
-            Output.getInstance().showMessage("the defense position monster is destroyed");
+            return "the defense position monster is destroyed";
         }
         if (selectedCard.getTotalAttackPower() == targetMonster.getTotalDefencePower())
-            Output.getInstance().showMessage("no card destroyed");
+            return "no card destroyed";
 
         if (selectedCard.getTotalAttackPower() < targetMonster.getTotalDefencePower()) {
             int damage = targetMonster.getTotalDefencePower() - selectedCard.getTotalAttackPower();
             onlinePlayer.setHealth(offlinePlayer.getHealth() - damage);
-            Output.getInstance().showMessage("no card is destroyed and you received " + damage + " battle damage");
+            return "no card is destroyed and you received " + damage + " battle damage";
         }
-        targetMonster.setCardPlacement(CardPlacement.faceUp);
+
+        return "";
     }
 
     public void kill(Player player, Monster monster) throws
@@ -767,47 +769,59 @@ public class Duel {
         monster.die();
     }
 
-    private void monsterAttackToDefenseFaceDown(Monster targetMonster, Monster selectedCard) {
+    private String monsterAttackToDefenseFaceDown(Monster targetMonster, Monster selectedCard) {
+        targetMonster.setCardPlacement(CardPlacement.faceUp);
         if (selectedCard.getAttackPower() > targetMonster.getDefencePower()) {
             offlinePlayer.getBoard().putInGraveyard(targetMonster);
             offlinePlayer.getBoard().removeFromMonsterZone(targetMonster);
-            Output.getInstance().showMessage("opponent's monster card was " + targetMonster.getName() +
-                    "and the defense position monster is destroyed");
+            return "opponent's monster card was " + targetMonster.getName() +
+                    "and the defense position monster is destroyed";
         }
         if (selectedCard.getAttackPower() == targetMonster.getDefencePower())
-            Output.getInstance().showMessage("opponent's monster card was " + targetMonster.getName() +
-                    "and no card destroyed");
+            return "opponent's monster card was " + targetMonster.getName() +
+                    "and no card destroyed";
 
         if (selectedCard.getAttackPower() < targetMonster.getDefencePower()) {
             int damage = targetMonster.getDefencePower() - selectedCard.getAttackPower();
             onlinePlayer.setHealth(offlinePlayer.getHealth() - damage);
-            Output.getInstance().showMessage("opponent's monster card was " + targetMonster.getName() +
-                    "and no card is destroyed and you received " + damage + " battle damage");
+            return "opponent's monster card was " + targetMonster.getName() +
+                    "and no card is destroyed and you received " + damage + " battle damage";
         }
-        targetMonster.setCardPlacement(CardPlacement.faceUp);
+        return "";
     }
 
-    public void attackDirect() {
-        Card selectedCard = onlinePlayer.getBoard().getSelectedCard();
-        if (isFirstTurn) {
-            Output.getInstance().showMessage("this is first turn and you can't attack the opponent directly!");
-            return;
-        }
-        if (!ErrorChecker.isCardSelected(onlinePlayer)) return;
-        if (attackErrors(selectedCard)) return;
-        if (!ErrorChecker.isMonsterZoneEmpty(offlinePlayer.getBoard().getMonsterZoneCards())) {
-            Output.getInstance().showMessage("you can't attack the opponent directly");
-            return;
-        }
-        if (((Monster) selectedCard).isHaveBeenAttackedWithMonsterInTurn()) {
-            Output.getInstance().showMessage("this card already attacked");
-            return;
-        }
+    public String attackDirect(String myCardAddress,String token) {
+        onlinePlayer = MainMenuController.getInstance().loggedInUsers.get(token);
+        offlinePlayer = onlinePlayer.getBoard().getOpponent();
+
+        if (onlinePlayer == null)
+            return "Error";
+
+        if (!onlinePlayer.getUsername().equals(onlinePlayer.getUsername())) return "Error: not your turn";
+        if (isFirstTurn)
+            return "Error: this is first turn and you can't attack the opponent!";
+
+        Card selectedCard = onlinePlayer.getBoard().getHandZoneCards().get(Integer.parseInt(myCardAddress));
+
+        if (isFirstTurn)
+            return "this is first turn and you can't attack the opponent directly!";
+
+        if (!onlinePlayer.getBoard().isInMonsterZone(selectedCard))
+            return "Error: you can't attack with this card";
+        if (((Monster) selectedCard).getMonsterMode().equals(MonsterMode.defence))
+            return "Error: This model is a defense card";
+        if (!ErrorChecker.isBattlePhase(phase))
+            return "Error: this is not battle phase";
+        if (!ErrorChecker.isMonsterZoneEmpty(offlinePlayer.getBoard().getMonsterZoneCards()))
+            return "you can't attack the opponent directly";
+
+
+        if (((Monster) selectedCard).isHaveBeenAttackedWithMonsterInTurn())
+            return "this card already attacked";
 
         offlinePlayer.setHealth(offlinePlayer.getHealth() - ((Monster) selectedCard).getAttackPower());
         ((Monster) selectedCard).setHaveBeenAttackedWithMonsterInTurn(true);
-        Output.getInstance().showMessage("you opponent receives " + ((Monster) selectedCard).getAttackPower()
-                + " battle damage");
+        return "you opponent receives " + ((Monster) selectedCard).getAttackPower() + " battle damage";
     }
 
     public void showGraveyard() {
@@ -881,7 +895,7 @@ public class Duel {
             ServerController.sendMessageToSocket(onlinePlayer.getBoard().getOpponent().getToken(), "winner is " + player.getUsername()
                     + "\n loser is " + opponent.getUsername(), false);
             return "winner is " + player.getUsername();
-        }else {
+        } else {
             setPrize(opponent, player);
 
             ServerController.sendMessageToSocket(onlinePlayer.getBoard().getOpponent().getToken(), "winner is " + opponent.getUsername()
@@ -916,6 +930,15 @@ public class Duel {
         onlinePlayer = secondPlayer;
         offlinePlayer = firstPlayer;
         return "Success";
+    }
+
+    public static void flip() {
+        int face = (int) (Math.random() * 2);
+        if (face == 0)
+            randomTurn = "head";
+
+        randomTurn = "tail";
+
     }
 
 }

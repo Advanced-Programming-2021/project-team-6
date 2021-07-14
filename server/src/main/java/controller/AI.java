@@ -77,7 +77,7 @@ public class AI {
             //onlineDuel.select(String.valueOf(correctPositions(aiPlayer.getBoard().getMonsterZone().mainCards.indexOf(monster))), true, "m","");
             int cardPosition = (singlePlayer.getBoard().getMonsterZone().mainCards.indexOf(tale));
             Card selectedCard = aiPlayer.getBoard().getSelectedCard();
-            onlineDuel.runAttack(cardPosition, (Monster) selectedCard);
+            //onlineDuel.runAttack(cardPosition, (Monster) selectedCard);
             ((Monster) selectedCard).setHaveBeenAttackedWithMonsterInTurn(true);
             System.out.println(monster.getName() + " attacked " + tale.getName());
         }

@@ -133,10 +133,10 @@ public class GameInputs {
                 onlineDuel.flipSummon();
                 break;
             case 16:
-                onlineDuel.attack(commandMatcher.group("address"));
+                //onlineDuel.attack(commandMatcher.group("address"));
                 break;
             case 17:
-                onlineDuel.attackDirect();
+                //onlineDuel.attackDirect();
                 break;
             case 18:
                 onlineDuel.activateSpellCard();

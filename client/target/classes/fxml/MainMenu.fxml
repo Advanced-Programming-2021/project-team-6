@@ -118,5 +118,11 @@
             <Image url="@../image/label.png" />
          </image>
       </ImageView>
+      <ImageView fitHeight="43.0" fitWidth="60.0" layoutY="14.0">
+         <image>
+            <Image url="@../image/chaticon.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IIIIII" wrappingWidth="33.0" onMouseClicked="#openChatRoom"/>
     </AnchorPane>
 </StackPane>

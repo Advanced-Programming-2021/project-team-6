@@ -35,6 +35,12 @@ public class MainMenuView {
     public ImageView backButton;
     StackPane waiting;
 
+    ChatView chatBox;
+
+    public MainMenuView() throws IOException {
+    }
+
+
     public static String startNewGame(String playerName, String opponentName, String playerProfile, String opponentProfile, String playerDeckSize, String opponentDeckSize
             , int duelId, boolean isFirstPlayer) throws IOException {
         Game.duelId = duelId;
@@ -186,6 +192,12 @@ public class MainMenuView {
         MusicManager.playMusic(MusicManager.mouseClick, false);
         new CreateCardMenuView().showCreateCardMenu();
     }
+
+    public void openChatRoom() throws IOException {
+        chatBox = new ChatView();
+        chatBox.showChat();
+    }
+
 
     public void logout() throws IOException {
         MusicManager.playMusic(MusicManager.mouseClick, false);
