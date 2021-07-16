@@ -12,6 +12,7 @@ public class Messenger {
 
     private ArrayList<Message> allMessage = new ArrayList<>();
 
+
     private Messenger() {
     }
 
@@ -34,9 +35,11 @@ public class Messenger {
     }
 
     public String getAllMessage(String token) {
+        if (Database.getInstance().getPlayerByToken(token) == null)
+            return "";
         String messages = "";
         for (Message message : allMessage)
-            messages += message.getSender() + ": " + message.getContent() + "\n";
+            messages += message.getSender() + "\":\"" + message.getContent() + "\n";
         return messages;
     }
 
@@ -46,7 +49,7 @@ public class Messenger {
         allMessage.add(new Message(player.getUsername(), content, token));
         for (Map.Entry<String, Player> entry : MainMenuController.getInstance().loggedInUsers.entrySet())
             ServerController.sendMessageToSocket(entry.getKey(),
-                    "new message " + entry.getValue().getUsername() + ": \"" + content + "\"", false);
+                    "new message " + player.getUsername() + "\":\"" + content , false);
 
         return "Success";
     }

@@ -8,10 +8,7 @@ import javafx.scene.image.Image;
 import view.MusicManager;
 import view.Prompt;
 import view.PromptType;
-import view.menus.Coin;
-import view.menus.Game;
-import view.menus.MainMenuView;
-import view.menus.WelcomeMenuView;
+import view.menus.*;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -59,7 +56,9 @@ public class ServerMessageHandler {
             params = message.split(" ");
             Game.summonForOpponent(params[2].split(":")[1] , params[2].split(":")[0] );
         }else if (message.startsWith("new message")){
-            //update messages
+            message.substring(12);
+            params = message.split("\":\"");
+            MainMenuView.getChat().addNewMessage(params[0],params[1]);
         }
         return "";
     }

@@ -35,7 +35,7 @@ public class MainMenuView {
     public ImageView backButton;
     StackPane waiting;
 
-    ChatView chatBox;
+    static ChatView chatBox;
 
     public MainMenuView() throws IOException {
     }
@@ -195,7 +195,7 @@ public class MainMenuView {
 
     public void openChatRoom() throws IOException {
         chatBox = new ChatView();
-        chatBox.showChat();
+        chatBox.initializeChat();
     }
 
 
@@ -248,5 +248,9 @@ public class MainMenuView {
             MusicManager.musicBackground.play();
         else
             MusicManager.musicBackground.stop();
+    }
+
+    public static ChatView getChat(){
+        return chatBox;
     }
 }
