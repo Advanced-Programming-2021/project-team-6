@@ -38,8 +38,8 @@
             <Image url="@../image/button.jpg"/>
         </image>
     </ImageView>
-    <Text fill="#daa3a3" layoutX="74.0" layoutY="604.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Back"
-          textAlignment="CENTER" wrappingWidth="54.13671875" onMouseClicked="#backToMainMenu">
+    <Text fill="#daa3a3" layoutX="74.0" layoutY="604.0" onMouseClicked="#backToMainMenu" strokeType="OUTSIDE"
+          strokeWidth="0.0" text="Back" textAlignment="CENTER" wrappingWidth="54.13671875">
         <font>
             <Font name="FuturaBlack WGL4 BT" size="25.0"/>
         </font>
@@ -54,4 +54,5 @@
         </effect>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="370.0"/>
     </ScrollPane>
+
 </AnchorPane>

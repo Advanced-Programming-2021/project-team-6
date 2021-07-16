@@ -56,10 +56,9 @@ public class ServerMessageHandler {
             String param = message.substring(15);
             Game.summonForOpponent(param.split(":")[1].split("in")[0].trim() , param.split(":")[0] );
         }else if (message.startsWith("new message")){
-            message.substring(12);
-            params = message.split("\":\"");
-            MainMenuView.getChat().addNewMessage(params[0],params[1]);
+            MainMenuView.getChat().addNewMessage(message);
         }
+
         return "";
     }
 }

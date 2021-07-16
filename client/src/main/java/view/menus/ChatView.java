@@ -12,17 +12,22 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import model.Message;
 import view.Prompt;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChatView {
-    @FXML
+
     public ScrollPane scrollPane;
-    private TableView table  = new TableView();
+    private TableView table;
     public TextArea message;
-    public Pane root;
+
 
     public void backToMainMenu() throws IOException {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
@@ -35,9 +40,10 @@ public class ChatView {
         Pane root = FXMLLoader.load(getClass().getResource("/fxml/ChatBox.fxml"));
         Scene scene = new Scene(root);
         scene.setCursor(new ImageCursor(new Image(getClass().getResource("/image/mouse.jpg").toString())));
-        WelcomeMenuView.mainStage.setScene(scene);
         scrollPane = (ScrollPane) root.getChildren().get(6);
+        WelcomeMenuView.mainStage.setScene(scene);
         showChat();
+
     }
 
     public void sendMessage() throws IOException {
@@ -50,11 +56,18 @@ public class ChatView {
 
 
     public void showChat() throws IOException {
-        table.getColumns().removeAll();
+        Message.allMessages.clear();
+        System.out.println(Message.allMessages.size());
+
+        table = new TableView();
+
+
         String result = ClientController.getAllMessages();
-        String[] messages = result.split("\n");
-        for (String s : messages)
-            new Message(s.split("\":\"")[0],s.split("\":\"")[1]);
+        if (!result.equals("null")) {
+            String[] messages = result.split("\n");
+            for (String s : messages)
+                new Message(s.split("\":\"")[0], s.split("\":\"")[1]);
+        }
 
         table.setPrefHeight(450);
         table.setPrefWidth(369);
@@ -63,9 +76,11 @@ public class ChatView {
         username.setCellValueFactory(new PropertyValueFactory<>("username"));
         TableColumn content = new TableColumn("Content");
         content.setCellValueFactory(new PropertyValueFactory<>("content"));
+        content.setMaxWidth(1000);
+        content.setMinWidth(1000);
         content.setSortable(false);
         username.setSortable(false);
-        table.getColumns().addAll(username,content);
+        table.getColumns().addAll(username, content);
 
         for (Message message : Message.allMessages)
             table.getItems().add(message);
@@ -77,10 +92,21 @@ public class ChatView {
 
     }
 
-    public void addNewMessage(String username,String content){
-        Message message = new Message(username,content);
+    public void addNewMessage(String messageFromServer) {
+        Matcher messageMatcher = findMatcher(messageFromServer, "^new message (?<username>\\S+):" +
+                "(?<content>.+) false$");
+        if (!messageMatcher.find()) return;
+        String username = messageMatcher.group("username");
+        String content = messageMatcher.group("content");
+        Message message = new Message(username, content);
         table.getItems().add(message);
 
+    }
+
+    private Matcher findMatcher(String input, String regex) {
+
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(input);
     }
 
 

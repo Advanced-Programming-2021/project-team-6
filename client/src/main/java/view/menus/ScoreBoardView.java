@@ -44,7 +44,8 @@ public class ScoreBoardView {
     }
 
     public void showScoreboard() throws IOException {
-        table.getColumns().removeAll();
+        table = new TableView();
+        User.Users.clear();
         String result = ClientController.scoreboard();
         String[] players = result.split("\n");
         for(String string : players){
