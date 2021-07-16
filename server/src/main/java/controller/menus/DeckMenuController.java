@@ -7,6 +7,7 @@ import models.Player;
 import models.cards.Card;
 import serverConection.Output;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -33,8 +34,8 @@ public class DeckMenuController {
         if (ErrorChecker.isDeckNameUnique(name))
             return "Error";
         Database.removeDeck(name);
-//        Database.
-//        Database.getInstance().setDecks();
+        File file = new File("./src/resources/Database/Decks/" + name +".json");
+        file.delete();
         return ("deck deleted successfully!");
     }
 

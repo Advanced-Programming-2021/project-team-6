@@ -49,12 +49,12 @@ public class ServerMessageHandler {
             WelcomeMenuView.mainStage.setScene(scene);
         }
         else if(message.startsWith("monster set")) {
-            params = message.split(" ");
-            Game.setMonsterForOpponent(params[2].split(":")[1] , params[2].split(":")[0] );
+            String param = message.substring(12);
+            Game.setMonsterForOpponent(param.split(":")[1].split("in")[0].trim() , param.split(":")[0] );
         }
         else if(message.startsWith("monster summon")) {
-            params = message.split(" ");
-            Game.summonForOpponent(params[2].split(":")[1] , params[2].split(":")[0] );
+            String param = message.substring(15);
+            Game.summonForOpponent(param.split(":")[1].split("in")[0].trim() , param.split(":")[0] );
         }else if (message.startsWith("new message")){
             message.substring(12);
             params = message.split("\":\"");
