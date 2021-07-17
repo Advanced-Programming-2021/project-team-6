@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.ScoreBoardView">
+<AnchorPane prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.ScoreBoardView">
     <ImageView fitHeight="687.0" fitWidth="1207.0" layoutX="-2.0" layoutY="-1.0">
         <image>
             <Image url="@../image/STL187108_418x1000.jpg" />
@@ -27,11 +29,15 @@
           <Font name="FuturaBlack WGL4 BT" size="76.0" />
         </font>
     </Text>
-    <ScrollPane fx:id="scrollPane" layoutX="346.0" layoutY="32.0" prefHeight="627.0" prefWidth="544.0"
-                style="-fx-background-color: pink; -fx-border-color: Yellow;">
+    <ScrollPane fx:id="scrollPane" layoutX="346.0" layoutY="32.0" prefHeight="627.0" prefWidth="544.0" style="-fx-background-color: pink; -fx-border-color: Yellow;">
         <effect>
-            <DropShadow radius="35.0225" width="121.09"/>
+            <DropShadow radius="35.0225" width="121.09" />
         </effect>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0"/>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
     </ScrollPane>
+   <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1153.0" layoutY="13.0" onMouseClicked="#scoreBoard">
+      <image>
+         <Image url="@../image/refresh.jpg" />
+      </image>
+   </ImageView>
 </AnchorPane>
