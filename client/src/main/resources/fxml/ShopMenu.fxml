@@ -20,7 +20,7 @@
                 <Font name="NPIOuj" size="24.0" />
             </font>
         </Text>
-        <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="16.0" prefHeight="628.0" prefWidth="480.0" style="-fx-border-color: #e72d2d; -fx-background-color: #eeee28;">
+        <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="16.0" prefHeight="628.0" prefWidth="480.0" style="-fx-background-color: rgba(255,255,255,0.3); -fx-background: rgba(255,255,255,0.3);">
             <effect>
                 <DropShadow>
                     <color>

@@ -103,6 +103,7 @@ public class DeckMenuView {
             resetSideDeck();
             resetMainDeck();
             resetInactiveCards();
+            Prompt.showMessage("Card added successfully!", PromptType.Success);
         } catch (Exception e) {
             Prompt.showMessage("Error", PromptType.Error);
         }
@@ -120,6 +121,7 @@ public class DeckMenuView {
             resetSideDeck();
             resetMainDeck();
             resetInactiveCards();
+            Prompt.showMessage("Card removed successfully!", PromptType.Success);
         } catch (IOException e) {
             Prompt.showMessage("Error", PromptType.Error);
         }
@@ -130,6 +132,7 @@ public class DeckMenuView {
         try {
             if (selectedDeck == null) return;
             ClientController.activateDeck(selectedDeck.getName());
+            Prompt.showMessage("deck activated!", PromptType.Success);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -174,7 +177,7 @@ public class DeckMenuView {
         Optional<String> deckName = inputDialog.showAndWait();
         if (deckName.isPresent()) {
             try {
-                if (deckName.get().isEmpty()) throw new Exception("this is not a valid deck name");
+                if (deckName.get().isEmpty()) Prompt.showMessage("this is not a valid deck name", PromptType.Error);
                 ClientController.createDeck(deckName.get());
                 resetButtons();
                 resetMainDeck();
@@ -284,7 +287,6 @@ public class DeckMenuView {
         }
         int i = 0;
         String[] allDecksNames = ClientController.showAllDecks().split(":");
-        System.out.println(allDecksNames.length);
         for (String deckName : allDecksNames) {
             Deck deck = new Deck(deckName);
             pane.getChildren().add(getDeckView(deck, i++));
@@ -370,6 +372,7 @@ public class DeckMenuView {
             resetDecks();
             resetSideDeck();
             resetInactiveCards();
+            Prompt.showMessage("deck deleted!", PromptType.Success);
 
         } catch (IOException e) {
             e.printStackTrace();

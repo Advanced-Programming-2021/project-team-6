@@ -37,13 +37,14 @@ public class ShopMenuView {
     @FXML
     public Button buyButton;
     @FXML
+    public Button increaseMoney;
+    @FXML
     Text cardDescription;
     @FXML
     ImageView imageOfSelectedCard;
     private Button staticBuyButton;
     private Card[][] board;
     private CardView[][] cards;
-    @FXML public Button increaseMoney;
 
     public void backToMainMenu() throws IOException {
         MusicManager.playMusic(MusicManager.mouseClick, false);
@@ -72,6 +73,7 @@ public class ShopMenuView {
         GridPane gameBoard = new GridPane();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
+                boughtCards.putIfAbsent(board[i][j], 20);
                 CardView rectangle = getCardRectangle(board[i][j]);
                 gameBoard.add(getCardVbox(board[i][j], rectangle), i, j);
                 cards[i][j] = rectangle;
@@ -189,7 +191,9 @@ public class ShopMenuView {
         Label name = new Label(card.getName());
         name.setMaxWidth(80);
         Label count;
-        if (boughtCards.containsKey(card)) count = new Label(boughtCards.get(card).toString());
+        if(boughtCards.containsKey(card)) {
+            count = new Label(boughtCards.get(card).toString());
+        }
         else count = new Label("0");
         vBox.getChildren().addAll(rectangle, name, count);
         vBox.setMinSize(120, 180);
@@ -224,12 +228,9 @@ public class ShopMenuView {
         try {
             String result = ClientController.buyCard(selectedCard.getName(), false);
             if (!result.split(":")[0].equals("not enough money")) {
-                boughtCards.putIfAbsent(selectedCard, 1);
-                if (boughtCards.containsKey(selectedCard)) {
-                    Integer count = boughtCards.get(selectedCard) + 1;
-                    boughtCards.replace(selectedCard, count);
-                }
                 Prompt.showMessage("Card Purchased Successfully", PromptType.Success);
+                Integer counter = boughtCards.get(selectedCard);
+                boughtCards.replace(selectedCard , counter, counter-1);
             } else
                 Prompt.showMessage("You Don't Have Enough Money", PromptType.Error);
         } catch (IOException e) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,12 +10,12 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.CreateCardMenuView">
 
     <ImageView fitHeight="680.0" fitWidth="1230.0">
-        <Image url="@../image/field.png" />
+        <Image url="@../image/1300545.jpg" />
     </ImageView>
 
-    <ImageView  fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="30.0" layoutY="566.0" onMouseClicked="#backToMainMenu">
+    <ImageView fx:id="backButton" fitHeight="57.0" fitWidth="142.0" layoutX="30.0" layoutY="566.0" onMouseClicked="#backToMainMenu">
         <image>
-            <Image url="@../image/button.jpg" />
+            <Image url="@../image/GUI_T_Detail_TimeBase01.dds9.jpg" />
         </image>
     </ImageView>
     <Text fill="#daa3a3" layoutX="74.0" layoutY="600.0" onMouseClicked="#backToMainMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Back" textAlignment="CENTER" wrappingWidth="54.13671875">
@@ -24,23 +25,31 @@
     </Text>
     <ImageView fitHeight="77.0" fitWidth="182.0" layoutX="529.0" layoutY="244.0">
         <image>
-            <Image url="@../image/button.jpg" />
+            <Image url="@../image/GUI_T_Detail_TimeBase01.dds9.jpg" />
         </image>
     </ImageView>
-    <Text fill="#daa3a3" layoutX="585.0" layoutY="271.0" onMouseClicked="#showCreateMonsterCardMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Monster" textAlignment="CENTER" wrappingWidth="70.13671875">
+    <Text fill="#daa3a3" layoutX="585.0" layoutY="277.0" onMouseClicked="#showCreateMonsterCardMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Monster" textAlignment="CENTER" wrappingWidth="70.13671875">
         <font>
-            <Font name="NPIOuj" size="24.0" />
+            <Font name="FuturaBlack WGL4 BT" size="18.0" />
         </font>
     </Text>
-    <ImageView fitHeight="77.0" fitWidth="182.0" layoutX="529.0" layoutY="355.0" >
+    <ImageView fitHeight="77.0" fitWidth="182.0" layoutX="529.0" layoutY="355.0">
         <image>
-            <Image url="@../image/button.jpg" />
+            <Image url="@../image/GUI_T_Detail_TimeBase01.dds9.jpg" />
         </image>
     </ImageView>
-    <Text fill="#daa3a3" layoutX="585.0" layoutY="382.0" onMouseClicked="#showCreateSpellCardMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Spell" textAlignment="CENTER" wrappingWidth="70.13671875">
+    <Text fill="#daa3a3" layoutX="585.0" layoutY="388.0" onMouseClicked="#showCreateSpellCardMenu" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Spell" textAlignment="CENTER" wrappingWidth="70.13671875">
         <font>
-            <Font name="NPIOuj" size="24.0" />
+            <Font name="FuturaBlack WGL4 BT" size="20.0" />
         </font>
     </Text>
+   <Text fill="#7105fa" layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Card" wrappingWidth="408.78480529785156">
+      <font>
+         <Font name="FuturaBlack WGL4 BT" size="52.0" />
+      </font>
+      <effect>
+         <Reflection />
+      </effect>
+   </Text>
 
 </AnchorPane>

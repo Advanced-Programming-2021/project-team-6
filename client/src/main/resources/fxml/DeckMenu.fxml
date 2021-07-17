@@ -23,23 +23,23 @@
             <Glow level="1.0" />
          </effect>
         </Text>
-        <ScrollPane fx:id="mainDeck" layoutX="75.0" layoutY="34.0" pannable="true" prefHeight="150" prefWidth="711.0" vbarPolicy="ALWAYS">
+        <ScrollPane fx:id="mainDeck" layoutX="75.0" layoutY="34.0" pannable="true" prefHeight="150" prefWidth="711.0" vbarPolicy="ALWAYS" style="-fx-background-color: rgba(255,255,255,0.5); -fx-background: rgba(255,255,255,0.5);">
          <effect>
             <DropShadow radius="43.365" width="154.46" />
          </effect></ScrollPane>
-        <ScrollPane fx:id="sideDeck" layoutX="75.0" layoutY="195.0" prefHeight="150" prefWidth="711.0">
+        <ScrollPane fx:id="sideDeck" layoutX="75.0" layoutY="195.0" prefHeight="150" prefWidth="711.0" style="-fx-background-color: rgba(255,255,255,0.5); -fx-background: rgba(255,255,255,0.5);">
          <effect>
             <DropShadow radius="33.235" width="113.94" />
          </effect></ScrollPane>
-        <ScrollPane fx:id="inactiveCards" layoutX="813.0" layoutY="26.0" prefHeight="487.0" prefWidth="342.0">
+        <ScrollPane fx:id="inactiveCards" layoutX="813.0" layoutY="26.0" prefHeight="487.0" prefWidth="342.0 " style="-fx-background-color: rgba(255,255,255,0.5); -fx-background: rgba(255,255,255,0.5);">
          <effect>
             <DropShadow blurType="GAUSSIAN" radius="55.28" width="202.12" />
          </effect></ScrollPane>
-        <ScrollPane fx:id="decks" layoutX="75.0" layoutY="360.0" minWidth="350" prefHeight="160" prefWidth="711.0">
+        <ScrollPane fx:id="decks" layoutX="75.0" layoutY="360.0" minWidth="350" prefHeight="160" prefWidth="711.0" style="-fx-background-color: rgba(255,255,255,0.5); -fx-background: rgba(255,255,255,0.5);">
          <effect>
             <DropShadow radius="33.235" width="113.94" />
          </effect></ScrollPane>
-        <HBox layoutX="14.0" layoutY="544.0" prefHeight="83.0" prefWidth="742.0">
+        <HBox layoutX="14.0" layoutY="544.0" prefHeight="83.0" prefWidth="742.0 ">
             <effect>
                 <Reflection />
             </effect>
